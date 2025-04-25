@@ -24,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInputActions = new PlayerInputActions();
         animator = GetComponent<Animator>();
+
+        // Set the default starting direction to down
+         lastMovementDirection = Vector2.down;
     }
 
     private void OnEnable()
@@ -38,6 +41,10 @@ public class PlayerMovement : MonoBehaviour
         playerInputActions.Movement.Move.performed -= OnMovePerformed;
         playerInputActions.Movement.Move.canceled -= OnMoveCanceled;
         playerInputActions.Movement.Disable();
+    }
+        private void Start()
+    {
+        UpdateAnimator(); // Ensure the animator reflects the starting direction
     }
 
     private void FixedUpdate()
