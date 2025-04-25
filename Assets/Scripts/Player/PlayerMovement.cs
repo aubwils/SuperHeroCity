@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerInputActions = new PlayerInputActions();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
 
         // Set the default starting direction to down
          lastMovementDirection = Vector2.down;
@@ -44,12 +44,17 @@ public class PlayerMovement : MonoBehaviour
     }
         private void Start()
     {
-        UpdateAnimator(); // Ensure the animator reflects the starting direction
+        //UpdateAnimator(); // Ensure the animator reflects the starting direction
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+    }
+
+    public Vector2 GetMovementInput()
+    {
+        return movementInput; // Ensure this is always up-to-date
     }
 
     private void OnMovePerformed(InputAction.CallbackContext ctx)
@@ -62,13 +67,13 @@ public class PlayerMovement : MonoBehaviour
             lastMovementDirection = movementInput;
         }
 
-        UpdateAnimator(); // Update animation parameters
+       //UpdateAnimator(); // Update animation parameters
     }
 
     private void OnMoveCanceled(InputAction.CallbackContext ctx)
     {
         movementInput = Vector2.zero; // Reset input
-        UpdateAnimator(); // Reset animation parameters
+        //UpdateAnimator(); // Reset animation parameters
     }
 
     private void MovePlayer()
@@ -76,13 +81,23 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(rb.position + movementInput * speed * Time.fixedDeltaTime);
     }
 
-    private void UpdateAnimator()
+    // private void UpdateAnimator()
+    // {
+    //     // Use the last movement direction when the player is not moving
+    //     Vector2 directionToAnimate = movementInput != Vector2.zero ? movementInput : lastMovementDirection;
+
+    //     animator.SetFloat(MoveXHash, directionToAnimate.x);
+    //     animator.SetFloat(MoveYHash, directionToAnimate.y);
+    //     animator.SetBool(IsMovingHash, movementInput != Vector2.zero);
+    // }
+
+    public void UpdateAnimatorMovementDirection()
     {
-        // Use the last movement direction when the player is not moving
+        Vector2 movementInput = GetMovementInput();
         Vector2 directionToAnimate = movementInput != Vector2.zero ? movementInput : lastMovementDirection;
 
-        animator.SetFloat(MoveXHash, directionToAnimate.x);
-        animator.SetFloat(MoveYHash, directionToAnimate.y);
-        animator.SetBool(IsMovingHash, movementInput != Vector2.zero);
+        animator.SetFloat("MoveX", directionToAnimate.x);
+        animator.SetFloat("MoveY", directionToAnimate.y);
     }
+
 }
