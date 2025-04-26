@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Dash_Down
+  m_Name: Player_H_Dash_Right
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 1892945782, guid: 5d681cc06a26c4f8087abb1a2c144e4d, type: 3}
+      value: {fileID: 1301879316, guid: 5d681cc06a26c4f8087abb1a2c144e4d, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,7 +44,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 1892945782, guid: 5d681cc06a26c4f8087abb1a2c144e4d, type: 3}
+    - {fileID: 1301879316, guid: 5d681cc06a26c4f8087abb1a2c144e4d, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

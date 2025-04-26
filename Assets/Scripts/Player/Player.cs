@@ -5,9 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     #region Components
+    [SerializeField] private Animator heroAnimator;
+    [SerializeField] private Animator seceretAnimator;
     public Animator animator {get; private set;}
     public PlayerStateMachine stateMachine {get; private set;}
     public PlayerMovement playerMovement {get; private set;} 
+
+    [SerializeField] private GameObject seceretIdentityVisuals;
+    [SerializeField] private GameObject heroIdentityVisuals;
     #endregion
 
     #region Player Stats
@@ -28,12 +33,15 @@ public class Player : MonoBehaviour
     {
         stateMachine = new PlayerStateMachine();
         playerMovement = GetComponent<PlayerMovement>();
-        animator = GetComponentInChildren<Animator>();
 
         idleState = new PlayerIdleState(stateMachine, this, "IsIdle");
         moveState = new PlayerMoveState(stateMachine, this, "IsMoving");
         dashState = new PlayerDashState(stateMachine, this, "IsDashing");
         transformationState = new PlayerTransformationState(stateMachine, this, "IsTransforming");
+
+        animator = isHero ? heroAnimator : seceretAnimator; // Set the animator based on the player's identity
+        heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
+        seceretIdentityVisuals.SetActive(!isHero); // Show secret identity visuals if isHero is false
     }
 
     private void Start()
@@ -60,7 +68,6 @@ public class Player : MonoBehaviour
     {
         Debug.Log("OnTransformationAnimationComplete called");
         ToggleHeroIdentity();
-        animator.SetBool("IsTransforming", false);
         stateMachine.ChangeState(idleState);
     }
     public void StartTransformation()
@@ -77,14 +84,19 @@ public class Player : MonoBehaviour
        if (isHero)
         {
             isHero = false;
-            animator.SetBool("IsHero", false);
+            seceretIdentityVisuals.SetActive(true);
+            heroIdentityVisuals.SetActive(false);
+            animator = seceretAnimator;
         }
         else
         {
             isHero = true;
-            animator.SetBool("IsHero", true);
+            seceretIdentityVisuals.SetActive(false);
+            heroIdentityVisuals.SetActive(true);
+            animator = heroAnimator;
         }
     }
+
 
      public bool GetPlayerIdentity()
     {

@@ -21,19 +21,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movementInput;
     private Vector2 lastMovementDirection; // Store the last non-zero movement direction
     private Rigidbody2D rb;
-    private Animator animator;
     private Player player;
-
-    // Hashed animator parameter names
-    private static readonly int MoveXHash = Animator.StringToHash("MoveX");
-    private static readonly int MoveYHash = Animator.StringToHash("MoveY");
-    private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerInputActions = new PlayerInputActions();
-        animator = GetComponentInChildren<Animator>();
         player = GetComponent<Player>();
 
         // Set the default starting direction to down
@@ -113,8 +106,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movementInput = GetMovementInput();
         Vector2 directionToAnimate = movementInput != Vector2.zero ? movementInput : lastMovementDirection;
 
-        animator.SetFloat("MoveX", directionToAnimate.x);
-        animator.SetFloat("MoveY", directionToAnimate.y);
+        player.animator.SetFloat("MoveX", directionToAnimate.x);
+        player.animator.SetFloat("MoveY", directionToAnimate.y);
     }
 
     private void OnDashPerformed(InputAction.CallbackContext ctx)
