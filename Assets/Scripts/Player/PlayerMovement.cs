@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
      [Header("Movement Settings")]
     [SerializeField] private float speed = 5f; 
+    [SerializeField] private bool canMove = true; // Whether the player can move
 
     [Header("Dash Settings")]
     public float dashDistance = 5f; // How far the player dashes
@@ -69,10 +70,15 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (player.stateMachine.currentState is PlayerMoveState)
+        if (canMove && player.stateMachine.currentState is PlayerMoveState)
             {
                 MovePlayer();
             }    
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 
     public Vector2 GetMovementInput()
@@ -114,6 +120,9 @@ public class PlayerMovement : MonoBehaviour
     private void OnDashPerformed(InputAction.CallbackContext ctx)
     { 
         if (!canDash) return; // Check if dashing is allowed
+        if (!(player.stateMachine.currentState is PlayerMoveState || player.stateMachine.currentState is PlayerIdleState))
+        return; // Only allow dash if in MoveState or IdleState
+
        
         player.stateMachine.ChangeState(player.dashState);
         canDash = false; // Disable dashing until cooldown is over

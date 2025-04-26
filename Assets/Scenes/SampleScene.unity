@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  canMove: 1
   dashDistance: 5
   dashSpeed: 20
   dashDuration: 0.2
@@ -216,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1a7869171434d7ca9e8b9823be93fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHero: 0
 --- !u!70 &96530811
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -354,6 +356,7 @@ GameObject:
   - component: {fileID: 2142156122}
   - component: {fileID: 2142156124}
   - component: {fileID: 2142156123}
+  - component: {fileID: 2142156125}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -449,6 +452,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &2142156125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142156121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944eebadd42834867862be6cb400e0cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
