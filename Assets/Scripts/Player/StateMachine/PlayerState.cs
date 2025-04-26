@@ -31,7 +31,12 @@ public class PlayerState
     
     public virtual void Update() 
     {
-         Debug.Log("Updating state: " + animBoolName);
+     
+    }
+
+    public virtual void FixedUpdate() 
+    {
+     
     }
     
 }

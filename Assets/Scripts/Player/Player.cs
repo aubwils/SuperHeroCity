@@ -10,9 +10,14 @@ public class Player : MonoBehaviour
     public PlayerMovement playerMovement {get; private set;} 
     #endregion
 
+
+
     #region States
     public PlayerIdleState idleState {get; private set;}
     public PlayerMoveState moveState {get; private set;}
+    public PlayerDashState dashState {get; private set;}
+
+
     #endregion
 
    private void Awake()
@@ -23,6 +28,7 @@ public class Player : MonoBehaviour
 
         idleState = new PlayerIdleState(stateMachine, this, "IsIdle");
         moveState = new PlayerMoveState(stateMachine, this, "IsMoving");
+        dashState = new PlayerDashState(stateMachine, this, "IsDashing");
     }
 
     private void Start()
@@ -32,5 +38,10 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
+    }
+
+     private void FixedUpdate()
+    {
+        stateMachine.currentState.FixedUpdate();
     }
 }

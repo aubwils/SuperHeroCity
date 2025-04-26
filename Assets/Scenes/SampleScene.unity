@@ -155,6 +155,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  dashDistance: 5
+  dashSpeed: 20
+  dashDuration: 0.2
+  dashCooldown: 1
+  dashCooldownTimer: 0
+  canDash: 1
 --- !u!50 &96530806
 Rigidbody2D:
   serializedVersion: 4
