@@ -44,3 +44,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Canopy
+    uniqueID: 4238528241
+    locked: 0
+  - name: UI
+    uniqueID: 930045393
+    locked: 0
