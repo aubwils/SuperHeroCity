@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6332013223794586508}
   - component: {fileID: 3239072740365537357}
   - component: {fileID: 5978237508522371286}
+  - component: {fileID: 1236275270195992583}
+  - component: {fileID: 7778847298126762665}
   m_Layer: 0
   m_Name: TEMP_Tree
   m_TagString: Untagged
@@ -84,7 +86,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!70 &5978237508522371286
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -114,9 +116,58 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012954018, y: -0.83630836}
-  m_Size: {x: 1.6451528, y: 1.2046238}
+  m_Offset: {x: 0.040632248, y: 2.8310685}
+  m_Size: {x: 2.918355, y: 4.1638784}
+  m_Direction: 0
+--- !u!114 &1236275270195992583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3071582513784548672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a700df7b778414bbcf2d8d13f6a169, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transparencyAmount: 0.8
+  fadeTime: 0.4
+--- !u!70 &7778847298126762665
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3071582513784548672}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.059240796, y: -0.7534558}
+  m_Size: {x: 1.3451165, y: 0.90119874}
   m_Direction: 1
