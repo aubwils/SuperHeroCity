@@ -36,13 +36,25 @@ public class PlayerDashState : PlayerState
 
         if (dashTimer > 0f)
         {
-            // Move the player in the dash direction
-            player.transform.Translate(dashDirection * player.playerMovement.dashSpeed * Time.fixedDeltaTime);
+            Vector2 moveAmount = dashDirection * player.playerMovement.dashSpeed * Time.fixedDeltaTime;
+            Vector2 targetPosition = (Vector2)player.transform.position + moveAmount;
+
+            // Check if dash would hit something
+            RaycastHit2D hit = Physics2D.Raycast(player.transform.position, dashDirection, moveAmount.magnitude, player.playerMovement.collisionMask);
+
+            if (hit.collider != null)
+            {
+                // We hit something! Move only up to the point of contact
+                targetPosition = hit.point;
+                dashTimer = 0f; // End dash immediately because we hit a wall
+            }
+
+            player.transform.position = targetPosition;
+
             dashTimer -= Time.fixedDeltaTime;
         }
         else
         {
-            // Transition back to idle state after the dash
             stateMachine.ChangeState(player.idleState);
         }
     }

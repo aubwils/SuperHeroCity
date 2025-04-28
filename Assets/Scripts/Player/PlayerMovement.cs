@@ -16,6 +16,10 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldown = 1f;  // Cooldown time between dashes
     public float dashCooldownTimer = 0f; // Timer for the cooldown
     public bool canDash = true; // Whether the player can dash  
+    [Header("Collision Settings")]
+    public LayerMask collisionMask; // Layer mask for collision detection right now for dashing
+
+
 
     private PlayerInputActions playerInputActions;
     private Vector2 movementInput;
