@@ -8,9 +8,9 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private EnemyFSMState[] states;
 
     public EnemyFSMState currentState {get; private set;}
-    public Transform PlayerTarget { get; set; }
 
-
+    private Transform player;
+ 
     private void Start()
     {
         ChangeState(initialState);
@@ -39,6 +39,11 @@ public class EnemyBrain : MonoBehaviour
             }
         }
         return null;
+    }
+
+       public void UpdatePlayerTarget(Transform newPlayer)
+    {
+        player = newPlayer;
     }
 
 }

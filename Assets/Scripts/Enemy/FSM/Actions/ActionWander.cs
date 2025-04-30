@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActionWander : EnemyFSMAction
 {
     [Header("Wandering Settings")]
-    [SerializeField] private float speed = 1.5f; // Speed of the wandering movement
+    [SerializeField] private float speed = 2f; // Speed of the wandering movement
     [SerializeField] private float wanderTimer = 5f; // Time interval for changing direction
     [SerializeField] private Vector2 moveRange; // Range for random movement
 
