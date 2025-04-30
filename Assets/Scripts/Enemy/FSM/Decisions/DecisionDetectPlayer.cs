@@ -26,11 +26,11 @@ public class DecisionDetectPlayer : EnemyFSMDecision
         if (detectedPlayers != null)
         {
             Debug.Log($"Player detected: {detectedPlayers.name}");
-            enemyBrain.UpdatePlayerTarget(detectedPlayers.transform);
+            enemyBrain.PlayerTarget = detectedPlayers.transform;
             return true;
         }
-        Debug.Log("No player detected");
-            enemyBrain.UpdatePlayerTarget(null);
+        
+            enemyBrain.PlayerTarget = null;
             return false;
     }
 

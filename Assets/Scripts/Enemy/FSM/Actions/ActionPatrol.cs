@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActionPatrol : EnemyFSMAction
 {
     [Header("Patrol Settings")]
-    [SerializeField] private float speed;
+    [SerializeField] private float speed = 1.3f;
         
     private Waypoint waypoint;
     private int waypointIndex;
