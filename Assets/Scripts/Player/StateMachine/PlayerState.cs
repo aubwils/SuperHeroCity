@@ -18,14 +18,14 @@ public class PlayerState
     
     public virtual void Enter() 
     {
-        // Debug.Log("Entering state: " + animBoolName);
+        Debug.Log("Entering state: " + animBoolName);
         player.animator.SetBool(animBoolName, true);
         
     }
     
     public virtual void Exit() 
     {
-        // Debug.Log("Exiting state: " + animBoolName);
+        Debug.Log("Exiting state: " + animBoolName);
         player.animator.SetBool(animBoolName, false);
     }
     
