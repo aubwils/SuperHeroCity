@@ -6,8 +6,6 @@ public class EnemyBrain : MonoBehaviour
 {
     [SerializeField] private string initialState; // PatrolState
     [SerializeField] private EnemyFSMState[] states;
-    private Dictionary<string, EnemyFSMState> stateDictionary;
-
 
     public EnemyFSMState currentState {get; private set;}
     public Transform PlayerTarget { get; set; }
@@ -15,11 +13,6 @@ public class EnemyBrain : MonoBehaviour
 
     private void Start()
     {
-        stateDictionary = new Dictionary<string, EnemyFSMState>();
-        foreach (var state in states)
-        {
-            stateDictionary[state.ID] = state;
-        }
         ChangeState(initialState);
     }
 
@@ -30,29 +23,22 @@ public class EnemyBrain : MonoBehaviour
 
     public void ChangeState(string newStateID)
     {
-        if (currentState != null && currentState.ID == newStateID) return; // Avoid redundant state changes
-
         EnemyFSMState newState = GetState(newStateID);
-        if (newState == null) return;
-
-        Debug.Log($"Changing state from {currentState?.ID} to {newStateID}");
+        if(newState == null) return;
+        
         currentState = newState;
     }
 
     private EnemyFSMState GetState(string stateID)
     {
-        if (stateDictionary.TryGetValue(stateID, out var state))
+        for (int i = 0; i < states.Length; i++)
         {
-            return state;
+            if(states[i].ID == stateID)
+            {
+                return states[i];
+            }
         }
-        Debug.LogWarning($"State {stateID} not found!");
         return null;
-    }
-
-    public void SetPlayerTarget(Transform target)
-    {
-        PlayerTarget = target;
-        Debug.Log($"Player target updated: {target?.name}");
     }
 
 }

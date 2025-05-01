@@ -10,13 +10,12 @@ public class ActionPatrol : EnemyFSMAction
     private Waypoint waypoint;
     private int waypointIndex;
     private Vector3 nextPosition;
-    private Rigidbody2D rb;
 
     private void Start()
     {
         waypoint = GetComponent<Waypoint>();
-        rb = GetComponent<Rigidbody2D>();
     }
+
 
     public override void Act()
     {
@@ -25,9 +24,7 @@ public class ActionPatrol : EnemyFSMAction
 
     private void FollowPath()
     {
-        Vector3 direction = GetNextPosition() - transform.position;
-        rb.velocity = direction.normalized * speed;
-
+        transform.position = Vector3.MoveTowards(transform.position, GetNextPosition(), speed * Time.deltaTime);
         if (Vector3.Distance(transform.position, GetNextPosition()) <= 0.1f)
         {
             UpdateNextPosition();

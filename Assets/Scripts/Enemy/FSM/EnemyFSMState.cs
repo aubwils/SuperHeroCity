@@ -16,12 +16,9 @@ public class EnemyFSMState
 
     private void ExecuteActions()
     {
-        foreach (var action in Actions)
+        for (int i = 0; i < Actions.Length; i++)
         {
-            if (action.IsActive)
-            {
-                action.Act();
-            }
+            Actions[i].Act();
         }
     }
 
