@@ -45,6 +45,7 @@ public class EnemyBrain : MonoBehaviour
         {
             return state;
         }
+        Debug.LogWarning($"State {stateID} not found!");
         return null;
     }
 
