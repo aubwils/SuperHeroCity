@@ -28,6 +28,7 @@ public class ActionChase : EnemyFSMAction
         if (directionToPlayer.magnitude > chaseDistance)
         {
             rb.velocity = directionToPlayer.normalized * chaseSpeed;
+            Debug.DrawLine(transform.position, enemyBrain.PlayerTarget.position, Color.red);  
         }
         else
         {

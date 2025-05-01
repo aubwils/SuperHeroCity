@@ -50,8 +50,11 @@ public class EnemyBrain : MonoBehaviour
 
     public void SetPlayerTarget(Transform target)
     {
-        PlayerTarget = target;
-        Debug.Log($"Player target updated: {target?.name}");
+        if (PlayerTarget != target)
+        {
+            PlayerTarget = target;
+            Debug.Log($"Player target updated: {target?.name}");
+        }
     }
 
 }
