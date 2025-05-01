@@ -25,6 +25,7 @@ public class ActionWander : EnemyFSMAction
         if (Vector3.Distance(transform.position, movePosition) > 0.5f)
         {
             transform.Translate(movement); // Move the enemy towards the new position
+                    Debug.Log($"Moving towards: {movePosition}");
 
         }
 
@@ -32,6 +33,7 @@ public class ActionWander : EnemyFSMAction
         {
             GetNewDestination();
             timer = wanderTimer;
+                    Debug.Log($"New destination: {movePosition}");
 
         }
 
@@ -42,6 +44,7 @@ public class ActionWander : EnemyFSMAction
         float randomX = Random.Range(-moveRange.x, moveRange.x);
         float randomY = Random.Range(-moveRange.y, moveRange.y);
         movePosition = transform.position + new Vector3(randomX, randomY);
+            Debug.Log($"Generated new destination: {movePosition}");
 
     }
 
