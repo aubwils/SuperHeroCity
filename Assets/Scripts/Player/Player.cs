@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject seceretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
+    [HideInInspector] public CapsuleCollider2D playerCollider;
+
     #endregion
 
     #region Player Stats
@@ -31,6 +33,8 @@ public class Player : MonoBehaviour
 
    private void Awake()
     {
+            playerCollider = GetComponent<CapsuleCollider2D>();
+
         stateMachine = new PlayerStateMachine();
         playerMovement = GetComponent<PlayerMovement>();
 
