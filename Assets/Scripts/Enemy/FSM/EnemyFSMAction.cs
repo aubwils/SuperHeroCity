@@ -4,5 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyFSMAction : MonoBehaviour
 {
- public abstract void Act();
+    public bool IsActive { get; set; } = true; // Default to active
+
+    public abstract void Act();
 }
