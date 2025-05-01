@@ -22,16 +22,16 @@ public class DecisionDetectPlayer : EnemyFSMDecision
 
     private bool DetectPlayer()
     {
-        Collider2D detectedPlayers = Physics2D.OverlapCircle(enemyBrain.transform.position, detectionRangeRadius, playerLayer);
-        if (detectedPlayers != null)
+        Collider2D detectedPlayer = Physics2D.OverlapCircle(enemyBrain.transform.position, detectionRangeRadius, playerLayer);
+        if (detectedPlayer != null)
         {
-            Debug.Log($"Player detected: {detectedPlayers.name}");
-            enemyBrain.PlayerTarget = detectedPlayers.transform;
+            Debug.Log($"Player detected: {detectedPlayer.name}");
+            enemyBrain.SetPlayerTarget(detectedPlayer.transform);
             return true;
         }
-        
-            enemyBrain.PlayerTarget = null;
-            return false;
+
+        enemyBrain.SetPlayerTarget(null);
+        return false;
     }
 
     private void OnDrawGizmosSelected()
