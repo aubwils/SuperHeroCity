@@ -22,15 +22,15 @@ public class DecisionDetectPlayer : EnemyFSMDecision
 
     private bool DetectPlayer()
     {
+         if(enemyBrain.PlayerTarget == null) return false;
+
         Collider2D detectedPlayers = Physics2D.OverlapCircle(enemyBrain.transform.position, detectionRangeRadius, playerLayer);
         if (detectedPlayers != null)
         {
-            Debug.Log($"Player detected: {detectedPlayers.name}");
             enemyBrain.PlayerTarget = detectedPlayers.transform;
             return true;
         }
         
-            enemyBrain.PlayerTarget = null;
             return false;
     }
 
