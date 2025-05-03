@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState {get; private set;}
     public PlayerDashState dashState {get; private set;}
     public PlayerTransformationState transformationState {get; private set;}
+    public PlayerPrimaryAttackState primaryAttackState {get; private set;}
 
 
     #endregion
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
         moveState = new PlayerMoveState(stateMachine, this, "IsMoving");
         dashState = new PlayerDashState(stateMachine, this, "IsDashing");
         transformationState = new PlayerTransformationState(stateMachine, this, "IsTransforming");
+        primaryAttackState = new PlayerPrimaryAttackState(stateMachine, this, "IsAttacking");
 
         animator = isHero ? heroAnimator : seceretAnimator; // Set the animator based on the player's identity
         heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
@@ -55,12 +57,6 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
-
-        // Temporary testing: Press L to transform
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            StartTransformation();
-        }
     }
 
      private void FixedUpdate()
@@ -68,22 +64,9 @@ public class Player : MonoBehaviour
         stateMachine.currentState.FixedUpdate();
     }
 
-    public void OnTransformationAnimationComplete()
-    {
-        Debug.Log("OnTransformationAnimationComplete called");
-        ToggleHeroIdentity();
-        stateMachine.ChangeState(idleState);
-    }
-    public void StartTransformation()
-    {
-        // Only allow if not already transforming
-        if (stateMachine.currentState is PlayerTransformationState)
-            return;
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
-        stateMachine.ChangeState(transformationState); // Change to transformation state
-    }
-
-    private void ToggleHeroIdentity()
+    public void ToggleHeroIdentity()
     {
        if (isHero)
         {

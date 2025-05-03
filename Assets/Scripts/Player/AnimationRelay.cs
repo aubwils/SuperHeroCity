@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//only use for quick prototypeing...
 public class AnimationRelay : MonoBehaviour
 {
     private Player player;

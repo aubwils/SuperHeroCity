@@ -9,6 +9,8 @@ public class PlayerState
 
     private string animBoolName;
 
+    protected bool animationTriggerCalled;
+
     public PlayerState(PlayerStateMachine stateMachine, Player player, string animBoolName)
     {
         this.stateMachine = stateMachine;
@@ -20,6 +22,7 @@ public class PlayerState
     {
         // Debug.Log("Entering state: " + animBoolName);
         player.animator.SetBool(animBoolName, true);
+        animationTriggerCalled = false;
         
     }
     
@@ -37,6 +40,11 @@ public class PlayerState
     public virtual void FixedUpdate() 
     {
      
+    }
+
+    public virtual void AnimationFinishTrigger() 
+    {
+        animationTriggerCalled = true;
     }
     
 }

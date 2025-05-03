@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : PlayerState
+public class PlayerMoveState : PlayerGroundedState
 {
     private Vector2 movementInput;
     private Vector2 lastMovementDirection; // Store the last non-zero movement direction

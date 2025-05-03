@@ -13,16 +13,25 @@ public class PlayerTransformationState : PlayerState
     {
         base.Enter();
         player.playerMovement.SetCanMove(false);
+        Debug.Log("Transformation State Enter");
     }
 
     public override void Update()
     {
         base.Update();
+        if(animationTriggerCalled)
+        {
+            player.ToggleHeroIdentity();
+            player.playerMovement.SetCanMove(true);
+            Debug.Log("Tigger Called");
+            stateMachine.ChangeState(player.idleState);
+        }
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.playerMovement.SetCanMove(true);
+        Debug.Log("Transformation State Exit");
+
     }
 }
