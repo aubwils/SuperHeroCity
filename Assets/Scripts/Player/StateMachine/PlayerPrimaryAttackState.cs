@@ -8,6 +8,8 @@ public class PlayerPrimaryAttackState : PlayerState
 
     private float lastTimeAttacked;
     private float comboWindow = 2;
+
+
      
       public PlayerPrimaryAttackState(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName)
     {
@@ -21,6 +23,15 @@ public class PlayerPrimaryAttackState : PlayerState
             comboCounter = 0;
         
         player.animator.SetInteger("ComboCounter", comboCounter);
+
+        // #region Come Back to in Future
+        // // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
+        // // Was in Player and Player PrimaryAttackState scripts
+        // // Vector2 moveDir = player.playerMovement.GetLastMovementDirection();
+        // // Player.AttackMovementData pushData = player.attackMovement[comboCounter];
+        // // player.StartCoroutine(player.ApplyAttackPush(moveDir, pushData.pushDistance, pushData.pushDuration));
+        // #region EndRegion
+
     }
 
     public override void Exit()

@@ -22,6 +22,19 @@ public class Player : MonoBehaviour
     public bool isBusy {get; private set;}
     #endregion
 
+    // #region Come Back to in Future
+    // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
+    // Was in Player and Player PrimaryAttackState scripts
+    // [System.Serializable]
+    // public struct AttackMovementData
+    // {
+    //     public float pushDistance;
+    //     public float pushDuration;
+    // }
+    // public AttackMovementData[] attackMovement;
+    // #endregion
+  
+
 
     #region States
     public PlayerIdleState idleState {get; private set;}
@@ -32,6 +45,8 @@ public class Player : MonoBehaviour
 
 
     #endregion
+
+        
 
    private void Awake()
     {
@@ -99,5 +114,25 @@ public class Player : MonoBehaviour
         Debug.Log("Player is no longer busy.");
         isBusy = false;
     }
+
+    // #region Come Back to in Future
+    // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
+    // Was in Player and Player PrimaryAttackState scripts
+    // public IEnumerator ApplyAttackPush(Vector2 direction, float distance, float duration)
+    // {
+    //     float elapsed = 0f;
+    //     Vector2 startPos = playerMovement.GetRigidbody().position;
+    //     Vector2 targetPos = startPos + direction.normalized * distance;
+
+    //     while (elapsed < duration)
+    //     {
+    //         elapsed += Time.deltaTime;
+    //         Vector2 newPos = Vector2.Lerp(startPos, targetPos, elapsed / duration);
+    //         playerMovement.GetRigidbody().MovePosition(newPos);
+    //         yield return null;
+    //     }
+    // }
+    //
+
 
 }

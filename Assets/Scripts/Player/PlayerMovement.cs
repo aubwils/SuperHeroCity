@@ -133,4 +133,9 @@ public class PlayerMovement : MonoBehaviour
         return lastMovementDirection;
     }
 
+    public Rigidbody2D GetRigidbody()
+    {
+        return rb;
+    }
+
 }
