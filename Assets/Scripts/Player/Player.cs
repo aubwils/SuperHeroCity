@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     #region Player Stats
     [SerializeField] private bool isHero = false;
+    public bool isBusy {get; private set;}
     #endregion
 
 
@@ -88,6 +89,15 @@ public class Player : MonoBehaviour
      public bool GetPlayerIdentity()
     {
         return isHero; // Return the current identity of the player
+    }
+
+    public IEnumerator BusyFor(float duration)
+    {
+        isBusy = true;
+        Debug.Log("Player is busy for " + duration + " seconds.");
+        yield return new WaitForSeconds(duration);
+        Debug.Log("Player is no longer busy.");
+        isBusy = false;
     }
 
 }

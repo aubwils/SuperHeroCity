@@ -11,7 +11,7 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Idle State Enter");
+        //Debug.Log("Idle State Enter");
     }
 
     public override void Update()
@@ -33,7 +33,7 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Idle State Exit");
+        //Debug.Log("Idle State Exit");
     }
 
 

@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (canMove && player.stateMachine.currentState is PlayerMoveState)
+        if (canMove && !player.isBusy && player.stateMachine.currentState is PlayerMoveState)
             {
                 MovePlayer();
             }    
