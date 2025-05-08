@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySimpleWandererIdleState : EnemyState
+public class EnemySimpleWandererIdleState : EnemySimpleWandererBaseState
 {
-    private EnemySimpleWandererBrain specificEnemyBrain;
 
-   public EnemySimpleWandererIdleState(EnemyBrain enemyBrainBase, EnemyStateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain enemyBrain) : base(stateMachine, enemyBrain, animBoolName)
+     public EnemySimpleWandererIdleState(EnemyBrain enemyBrainBase, EnemyStateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain enemyBrain) : base(enemyBrainBase, stateMachine, animBoolName, enemyBrain)
    {
-        this.specificEnemyBrain = enemyBrain;
+    
    }
 
    public override void Enter()
    {
        base.Enter();
+       specificEnemyBrain.rb.velocity = Vector2.zero;
        stateTimer = specificEnemyBrain.IdleDuration;;
        Debug.Log("Idle");
    }

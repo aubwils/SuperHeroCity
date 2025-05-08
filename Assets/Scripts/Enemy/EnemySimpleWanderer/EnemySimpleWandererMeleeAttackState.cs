@@ -14,15 +14,22 @@ public class EnemySimpleWandererMeleeAttackState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        specificEnemyBrain.rb.velocity = Vector2.zero;
+        Debug.Log("Attacking Player");
     }
 
     public override void Exit()
     {
         base.Exit();
+        Debug.Log("Exiting Attack State");
     }
 
     public override void Update()
     {
         base.Update();
+        if (!specificEnemyBrain.IsPlayerInAttackRange())
+        {
+            stateMachine.ChangeState(specificEnemyBrain.chaseState);
+        }  
     }
 }

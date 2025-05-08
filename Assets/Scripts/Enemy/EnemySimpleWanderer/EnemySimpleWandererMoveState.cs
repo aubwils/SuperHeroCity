@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySimpleWandererMoveState : EnemyState
+public class EnemySimpleWandererMoveState : EnemySimpleWandererBaseState
 {
-    private EnemySimpleWandererBrain specificEnemyBrain;
     private Vector2 moveDirection;
 
-    public EnemySimpleWandererMoveState(EnemyBrain enemyBrainBase, EnemyStateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain enemyBrain) : base(stateMachine, enemyBrain, animBoolName)
-   {
-        this.specificEnemyBrain = enemyBrain;
-   }
-   public override void Enter()
-   {
-       base.Enter();
+    public EnemySimpleWandererMoveState(EnemyBrain enemyBrainBase, EnemyStateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain enemyBrain) : base(enemyBrainBase, stateMachine, animBoolName, enemyBrain)
+    {
+
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
         stateTimer = specificEnemyBrain.RandomWanderTime;
 
         // Pick a random cardinal direction
@@ -22,7 +22,7 @@ public class EnemySimpleWandererMoveState : EnemyState
 
         specificEnemyBrain.SetFacingDirection(moveDirection);
         Debug.Log("Moving in direction: " + moveDirection);
-   }
+    }
     public override void Exit()
     {
          base.Exit();
@@ -41,7 +41,7 @@ public class EnemySimpleWandererMoveState : EnemyState
     }
         public void Move()
     {
-        specificEnemyBrain.rb.velocity = moveDirection * specificEnemyBrain.MoveSpeed;
+        specificEnemyBrain.rb.velocity = moveDirection * specificEnemyBrain.currentMoveSpeed;
         specificEnemyBrain.animator.SetFloat("MoveX", moveDirection.x);
         specificEnemyBrain.animator.SetFloat("MoveY", moveDirection.y);
     }
