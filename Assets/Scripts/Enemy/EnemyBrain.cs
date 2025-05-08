@@ -15,14 +15,19 @@ public class EnemyBrain : MonoBehaviour
     #region Enemy Stats
     [SerializeField] private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
+      [SerializeField] private float chaseSpeed = 4.0f;
+    public float ChaseSpeed => chaseSpeed;
+    public float currentMoveSpeed;
     #endregion
 
     #region Enemy Collision Checks
     [SerializeField] private float obstacleCheckDistance = 0.5f;
+    [SerializeField] private float playerDetectRange = 3.0f;
     [SerializeField] private float attackRange = 1.0f;
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
+    public Transform PlayerTarget { get; private set; }
 
     #endregion
         
@@ -32,6 +37,7 @@ public class EnemyBrain : MonoBehaviour
         stateMachine = new EnemyStateMachine();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        currentMoveSpeed = moveSpeed;
 
     }
 
@@ -47,24 +53,6 @@ public class EnemyBrain : MonoBehaviour
 
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
-    public bool IsObstacleAhead()
-    {
-        return Physics2D.Raycast(transform.position, facingDirection.normalized, obstacleCheckDistance, obstacleLayer);
-    }
-
-    public bool IsPlayerInAttackRange()
-    {
-        return Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + (Vector3)facingDirection.normalized * obstacleCheckDistance);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
 
     public void SetFacingDirection(Vector2 dir)
     {
@@ -72,4 +60,42 @@ public class EnemyBrain : MonoBehaviour
             facingDirection = dir.normalized;
     }
 
+    #region Collision Checks
+        public bool IsObstacleAhead()
+        {
+            return Physics2D.Raycast(transform.position, facingDirection.normalized, obstacleCheckDistance, obstacleLayer);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, transform.position + (Vector3)facingDirection.normalized * obstacleCheckDistance);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, playerDetectRange);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+        }
+
+
+        public virtual bool IsPlayerInSight()
+        {
+            Collider2D hit = Physics2D.OverlapCircle(transform.position, playerDetectRange, playerLayer);
+            if (hit != null && hit.CompareTag("Player"))
+            {
+                PlayerTarget = hit.transform;
+                return true;
+            }
+
+            PlayerTarget = null;
+            return false;
+        }
+
+        public virtual bool IsPlayerInAttackRange()
+        {
+            Collider2D hit = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
+            return hit != null;
+        }
+    #endregion
 }
