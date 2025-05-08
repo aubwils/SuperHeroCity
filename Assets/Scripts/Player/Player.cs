@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 
    private void Awake()
     {
-            playerCollider = GetComponent<CapsuleCollider2D>();
+        playerCollider = GetComponent<CapsuleCollider2D>();
 
         stateMachine = new PlayerStateMachine();
         playerMovement = GetComponent<PlayerMovement>();

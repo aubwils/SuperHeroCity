@@ -12,6 +12,11 @@ public class EnemyBrain : MonoBehaviour
     
     #endregion
 
+    #region Enemy Stats
+    [SerializeField] private float moveSpeed = 2.0f;
+    public float MoveSpeed => moveSpeed;
+    #endregion
+
     #region Enemy Collision Checks
     [SerializeField] private float obstacleCheckDistance = 0.5f;
     [SerializeField] private float attackRange = 1.0f;
@@ -20,16 +25,9 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
 
     #endregion
-
-    #region States
-
-
-
-    #endregion
-
         
 
-   private void Awake()
+   public virtual void Awake()
     {
         stateMachine = new EnemyStateMachine();
         animator = GetComponentInChildren<Animator>();
@@ -37,19 +35,15 @@ public class EnemyBrain : MonoBehaviour
 
     }
 
-    private void Start()
+    public virtual void Start()
     {
 
     }
-    private void Update()
+    public virtual void Update()
     {
-
+        stateMachine.currentState.Update();
     }
 
-     private void FixedUpdate()
-    {
-        
-    }
 
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
