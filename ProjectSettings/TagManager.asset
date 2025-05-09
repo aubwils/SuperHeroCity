@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Effects
+    uniqueID: 4246949655
+    locked: 0
   - name: Canopy
     uniqueID: 4238528241
     locked: 0

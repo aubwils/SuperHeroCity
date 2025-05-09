@@ -9,6 +9,8 @@ public class EnemyBrain : MonoBehaviour
     public Animator animator {get; private set;}
     public Rigidbody2D rb {get; private set;}
     public EnemyStateMachine stateMachine {get; private set;}
+    [SerializeField] public EnemyEffectIcons effectIcons;
+
     
     #endregion
 
@@ -21,6 +23,7 @@ public class EnemyBrain : MonoBehaviour
     public float currentMoveSpeed;
     #endregion
 
+
     #region Enemy Collision Checks
     [Header("Collision Checks Settings")]
     [SerializeField] private float obstacleCheckDistance = 0.5f;
@@ -31,6 +34,7 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
     public Transform PlayerTarget { get; private set; }
+
     [Header("Memory Settings")]
     [HideInInspector] public Vector2? lastKnownPlayerPosition = null;
     private float timeSinceLastSeen = 0f;
