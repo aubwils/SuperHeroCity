@@ -14,14 +14,14 @@ public class EnemySimpleWandererMeleeAttackState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        specificEnemyBrain.rb.velocity = Vector2.zero;
+        specificEnemyBrain.StopMovement();
         Debug.Log("Attacking Player");
     }
 
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Exiting Attack State");
+        specificEnemyBrain.lastAttackTime = Time.time;
     }
 
     public override void Update()

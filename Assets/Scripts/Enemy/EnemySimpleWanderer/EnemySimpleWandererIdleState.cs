@@ -13,7 +13,7 @@ public class EnemySimpleWandererIdleState : EnemySimpleWandererBaseState
    public override void Enter()
    {
        base.Enter();
-       specificEnemyBrain.rb.velocity = Vector2.zero;
+        specificEnemyBrain.StopMovement();
        stateTimer = specificEnemyBrain.IdleDuration;;
        Debug.Log("Idle");
    }

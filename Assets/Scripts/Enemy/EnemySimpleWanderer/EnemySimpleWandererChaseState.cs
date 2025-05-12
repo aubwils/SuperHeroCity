@@ -14,6 +14,7 @@ public class EnemySimpleWandererChaseState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        specificEnemyBrain.effectIcons.ShowAlertEffectIcon();
         specificEnemyBrain.currentMoveSpeed = specificEnemyBrain.ChaseSpeed;
         Debug.Log("Chasing Player");
     }
@@ -21,6 +22,7 @@ public class EnemySimpleWandererChaseState : EnemyState
     public override void Exit()
     {
         base.Exit();
+        specificEnemyBrain.effectIcons.HideEffectIcon();
         specificEnemyBrain.currentMoveSpeed = specificEnemyBrain.MoveSpeed;
         Debug.Log("Exiting Chase State");
     }
@@ -28,7 +30,7 @@ public class EnemySimpleWandererChaseState : EnemyState
     public override void Update()
     {
         base.Update();
-        if (specificEnemyBrain.IsPlayerInAttackRange())
+        if (specificEnemyBrain.IsPlayerInAttackRange() && CanAttack())
         {
             stateMachine.ChangeState(specificEnemyBrain.meleeAttackState);
             return;
@@ -55,6 +57,7 @@ public class EnemySimpleWandererChaseState : EnemyState
     {
         if (!specificEnemyBrain.lastKnownPlayerPosition.HasValue)
             stateMachine.ChangeState(specificEnemyBrain.confusedState);
+           
 
         Vector2 playerLastKnownPosition = specificEnemyBrain.lastKnownPlayerPosition.Value;
         MoveToward(playerLastKnownPosition);
@@ -63,7 +66,7 @@ public class EnemySimpleWandererChaseState : EnemyState
         if (distance < 0.1f)
         {
             specificEnemyBrain.lastKnownPlayerPosition = null;
-            specificEnemyBrain.rb.velocity = Vector2.zero; // stop after reaching it
+            specificEnemyBrain.rb.velocity = Vector2.zero; 
             Debug.Log("Reached last known position, lost player");
             stateMachine.ChangeState(specificEnemyBrain.confusedState);
         }
@@ -75,9 +78,20 @@ public class EnemySimpleWandererChaseState : EnemyState
 
         specificEnemyBrain.SetFacingDirection(direction);
         specificEnemyBrain.rb.velocity = direction * specificEnemyBrain.currentMoveSpeed;
+        specificEnemyBrain.attackCheck.localPosition = direction * specificEnemyBrain.attackDistanceOffset; // distance from center
         specificEnemyBrain.animator.SetFloat("MoveX", direction.x);
         specificEnemyBrain.animator.SetFloat("MoveY", direction.y);
     }
+  
+    private bool CanAttack()
+    {
+        if(Time.time >= specificEnemyBrain.lastAttackTime + specificEnemyBrain.attackCooldown)
+        {
+            specificEnemyBrain.lastAttackTime = Time.time;
+            return true;
+        }
 
+        return false;
+    }
 
 }

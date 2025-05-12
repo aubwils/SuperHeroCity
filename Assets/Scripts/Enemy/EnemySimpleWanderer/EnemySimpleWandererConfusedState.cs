@@ -14,7 +14,6 @@ public class EnemySimpleWandererConfusedState : EnemySimpleWandererIdleState
     {
         base.Enter();
         stateTimer = 1.5f;
-        specificEnemyBrain.rb.velocity = Vector2.zero;
         specificEnemyBrain.effectIcons.ShowConfusedEffectIcon();
     }
         public override void Exit()
@@ -24,11 +23,7 @@ public class EnemySimpleWandererConfusedState : EnemySimpleWandererIdleState
         }   
         public override void Update()
         {
-            base.Update();
-            if(stateTimer < 0)
-            {
-                stateMachine.ChangeState(specificEnemyBrain.moveState);
-            }
+
         }
 
 
