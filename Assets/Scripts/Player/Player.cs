@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : CombatCharacterBrain
 {
     #region Components
     [SerializeField] private Animator heroAnimator;
     [SerializeField] private Animator seceretAnimator;
-    public Animator animator {get; private set;}
+    
     public PlayerStateMachine stateMachine {get; private set;}
     public PlayerMovement playerMovement {get; private set;} 
-    public CharacterFX characterFX {get; private set;}
 
     [SerializeField] private GameObject seceretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
-    [HideInInspector] public CapsuleCollider2D playerCollider;
 
     #endregion
 
@@ -23,10 +21,7 @@ public class Player : MonoBehaviour
     public bool isBusy {get; private set;}
     #endregion
 
-    [Header("Attack Settings")]
-    public Transform attackCheck;
-    public float attackCheckRadius;
-    public float attackDamage;
+
 
 
 
@@ -50,30 +45,26 @@ public class Player : MonoBehaviour
     public PlayerDashState dashState {get; private set;}
     public PlayerTransformationState transformationState {get; private set;}
     public PlayerPrimaryAttackState primaryAttackState {get; private set;}
-
-
     #endregion
 
         
 
-   private void Awake()
+    public override void Awake()
     {
-        playerCollider = GetComponent<CapsuleCollider2D>();
+        base.Awake(); 
 
         stateMachine = new PlayerStateMachine();
-        playerMovement = GetComponent<PlayerMovement>();
-
         idleState = new PlayerIdleState(stateMachine, this, "IsIdle");
         moveState = new PlayerMoveState(stateMachine, this, "IsMoving");
         dashState = new PlayerDashState(stateMachine, this, "IsDashing");
         transformationState = new PlayerTransformationState(stateMachine, this, "IsTransforming");
         primaryAttackState = new PlayerPrimaryAttackState(stateMachine, this, "IsAttacking");
 
+        playerMovement = GetComponent<PlayerMovement>();
+
         animator = isHero ? heroAnimator : seceretAnimator; // Set the animator based on the player's identity
         heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
         seceretIdentityVisuals.SetActive(!isHero); // Show secret identity visuals if isHero is false
-
-        characterFX = GetComponentInChildren<CharacterFX>();
 
     }
 
@@ -145,18 +136,5 @@ public class Player : MonoBehaviour
     // }
     //
 
-        private void OnDrawGizmosSelected()
-        {
-            // Draw attack range
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
-        }
 
-
-    public void TakeDamage(float damage)
-    {
-        // Implement damage logic here
-        Debug.Log("Player took damage: " + damage);
-        characterFX.StartCoroutine("FlashFX");
-    }
 }

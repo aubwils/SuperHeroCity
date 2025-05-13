@@ -12,7 +12,7 @@ public class EnemyAnimationTriggers : MonoBehaviour
     }
    private void AnimationTriggerAttack()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(enemyBrain.attackCheck.position, enemyBrain.attackCheckRange);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(enemyBrain.attackCheck.position, enemyBrain.attackCheckRadius);
         foreach (Collider2D hit in colliders)
         {
             Player player = hit.GetComponent<Player>();
