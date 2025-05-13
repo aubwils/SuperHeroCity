@@ -10,6 +10,8 @@ public class EnemyBrain : MonoBehaviour
     public Rigidbody2D rb {get; private set;}
     public EnemyStateMachine stateMachine {get; private set;}
     [SerializeField] public EnemyEffectIcons effectIcons;
+        public CharacterFX characterFX {get; private set;}
+
 
     
     #endregion
@@ -24,6 +26,7 @@ public class EnemyBrain : MonoBehaviour
     [Header("Enemy Attack Settings")]
     public float attackCooldown = 1.0f;
     [HideInInspector] public float lastAttackTime;
+    public float attackDamage;
     #endregion
 
 
@@ -34,7 +37,7 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private float playerDetectRange = 3.0f;
     public Transform attackCheck;
     public float attackDistanceOffset = 0.25f; // distance from center
-    [SerializeField] private float attackCheckRange = 1.0f;
+    public float attackCheckRange = 1.0f;
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
@@ -61,6 +64,7 @@ public class EnemyBrain : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = moveSpeed;
+        characterFX = GetComponentInChildren<CharacterFX>();
 
     }
 
@@ -92,6 +96,8 @@ public class EnemyBrain : MonoBehaviour
     {
         // Implement damage logic here
         Debug.Log("Enemy took damage: " + damage);
+        characterFX.StartCoroutine("FlashFX");
+
     }
 
     #region Collision Checks

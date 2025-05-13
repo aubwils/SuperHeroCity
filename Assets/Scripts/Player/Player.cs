@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public Animator animator {get; private set;}
     public PlayerStateMachine stateMachine {get; private set;}
     public PlayerMovement playerMovement {get; private set;} 
+    public CharacterFX characterFX {get; private set;}
 
     [SerializeField] private GameObject seceretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
@@ -71,6 +72,9 @@ public class Player : MonoBehaviour
         animator = isHero ? heroAnimator : seceretAnimator; // Set the animator based on the player's identity
         heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
         seceretIdentityVisuals.SetActive(!isHero); // Show secret identity visuals if isHero is false
+
+        characterFX = GetComponentInChildren<CharacterFX>();
+
     }
 
     private void Start()
@@ -148,4 +152,11 @@ public class Player : MonoBehaviour
             Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
         }
 
+
+    public void TakeDamage(float damage)
+    {
+        // Implement damage logic here
+        Debug.Log("Player took damage: " + damage);
+        characterFX.StartCoroutine("FlashFX");
+    }
 }
