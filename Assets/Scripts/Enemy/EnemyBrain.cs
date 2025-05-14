@@ -5,35 +5,58 @@ using UnityEngine;
 public class EnemyBrain : CombatCharacterBrain
 {
 
-    public EnemyStateMachine stateMachine {get; set;}
+    #region Components
+    public EnemyStateMachine stateMachine {get; private set;}
     [SerializeField] public EnemyEffectIcons effectIcons;    
+    #endregion
 
-    [Header("Enemy Movement")]
+    #region Enemy Stats
+    [Header("Enemy Move Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
     [SerializeField] private float chaseSpeed = 4.0f;
     public float ChaseSpeed => chaseSpeed;
+    public float currentMoveSpeed;
 
     [Header("Enemy Attack Settings")]
     public float attackCooldown = 1.0f;
     [HideInInspector] public float lastAttackTime;
+    #endregion
+
 
     #region Enemy Collision Checks
     [Header("Collision Checks Settings")]
     [SerializeField] private float obstacleCheckDistance = 0.5f;
-    public float playerDetectRange = 3.0f;
+    [SerializeField] private float fieldOfViewAngle = 90f; // in degrees
+    [SerializeField] private float playerDetectRange = 3.0f;
+
+    public float attackDistanceOffset = 0.25f; // distance from center
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
     public Transform PlayerTarget { get; private set; }
 
-    [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
+    [Header("Memory Settings")]
+    [HideInInspector] public Vector2? lastKnownPlayerPosition = null;
+    private float timeSinceLastSeen = 0f;
+    public float TimeSinceLastSeen
+    {
+        get => timeSinceLastSeen;
+        set => timeSinceLastSeen = value;
+    }
+    [SerializeField] private float memoryDuration = 2f; // seconds to "remember" player
+    public float MemoryDuration => memoryDuration;
+
+
     #endregion
         
 
    public override void Awake()
     {
         base.Awake(); 
+
         stateMachine = new EnemyStateMachine();
+        currentMoveSpeed = moveSpeed;
 
     }
 
@@ -78,6 +101,13 @@ public class EnemyBrain : CombatCharacterBrain
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, playerDetectRange);
 
+            // Draw field of view
+            Vector3 leftBoundary = Quaternion.Euler(0, 0, -fieldOfViewAngle / 2f) * facingDirection; 
+            Vector3 rightBoundary = Quaternion.Euler(0, 0, fieldOfViewAngle / 2f) * facingDirection;
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(transform.position, transform.position + leftBoundary * playerDetectRange);
+            Gizmos.DrawLine(transform.position, transform.position + rightBoundary * playerDetectRange);
+
         }
 
 
@@ -89,12 +119,17 @@ public class EnemyBrain : CombatCharacterBrain
                 Vector2 directionToPlayer = (hit.transform.position - transform.position).normalized;
                 float angle = Vector2.Angle(facingDirection, directionToPlayer);
 
+                if (fieldOfViewAngle >= 360f || angle <= fieldOfViewAngle / 2f)
+                {
                     RaycastHit2D ray = Physics2D.Raycast(transform.position, directionToPlayer, playerDetectRange, obstacleLayer);
                     if (ray.collider == null)
                     {
                         PlayerTarget = hit.transform;
+                        lastKnownPlayerPosition = hit.transform.position;
+                        timeSinceLastSeen = 0f;
                         return true;
                     }
+                }
             }
 
             PlayerTarget = null;
