@@ -16,8 +16,10 @@ public class EnemySimpleAnimationTriggers : MonoBehaviour
     Collider2D[] colliders = Physics2D.OverlapCircleAll(enemyBrain.meleeAttackCheck.position, enemyBrain.attackCheckRange);
     foreach (var collider in colliders)
     {
-    if (collider.GetComponent<Player>() !=null)
-    collider.GetComponent<Player>().TakeDamage();
+          if (collider.TryGetComponent(out Player player))
+          {
+              player.TakeDamage(enemyBrain.transform.position,enemyBrain.GetKnockbackForce(),enemyBrain.GetKnockbackDuration());
+          }
     }
   }
 }

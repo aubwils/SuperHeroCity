@@ -39,6 +39,12 @@ public class EnemyBrain : MonoBehaviour
 
     public Transform PlayerTarget { get; private set; }
     #endregion
+
+    [Header("Combat Settings")]
+    [SerializeField] private float knockbackForce = 2f;
+    [SerializeField] private float knockbackDuration = 0.2f;
+    public bool isKnockbacked { get; private set; }
+
         
 
    public virtual void Awake()
@@ -121,10 +127,35 @@ public class EnemyBrain : MonoBehaviour
 
     public void OnAnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
-    public void TakeDamage()
-        {
-            characterFX.StartCoroutine("FlashFX");
-            Debug.Log(gameObject.name + " took damage!");
-        }
+    public void TakeDamage(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
+    {
+        characterFX.StartCoroutine("FlashFX");
+        Debug.Log(gameObject.name + " took damage!");
+        ApplyKnockback(knockbackSource, knockbackForce, knockbackDuration);
+    }
+
+    public void ApplyKnockback(Vector2 sourcePosition, float force, float duration)
+    {
+        if (isKnockbacked) return;
+
+        Vector2 direction = (transform.position - (Vector3)sourcePosition).normalized;
+        StartCoroutine(KnockbackRoutine(direction, force, duration));
+    }
+
+    private IEnumerator KnockbackRoutine(Vector2 direction, float force, float duration)
+    {
+        isKnockbacked = true;
+
+        rb.velocity = direction * force;
+
+        yield return new WaitForSeconds(duration);
+
+        rb.velocity = Vector2.zero;
+        isKnockbacked = false;
+    }
+
+    public float GetKnockbackForce() => knockbackForce;
+    public float GetKnockbackDuration() => knockbackDuration;
+
 
 }

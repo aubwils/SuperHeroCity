@@ -34,7 +34,8 @@ public class PlayerState
     
     public virtual void Update() 
     {
-     
+         if (player.isKnockbacked) return;
+
     }
 
     public virtual void FixedUpdate() 

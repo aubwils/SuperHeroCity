@@ -27,6 +27,11 @@ public class Player : MonoBehaviour
     public bool isBusy {get; private set;}
     #endregion
 
+    [Header("Combat Settings")]
+    [SerializeField] private float knockbackForce = 3f;
+    [SerializeField] private float knockbackDuration = 0.2f;
+    public bool isKnockbacked { get; private set; } // Use this to block inputs/states
+
     // #region Come Back to in Future
     // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
     // Was in Player and Player PrimaryAttackState scripts
@@ -154,9 +159,34 @@ public class Player : MonoBehaviour
              Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
         }
 
-         public void TakeDamage()
+        public void TakeDamage(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
         {
             characterFX.StartCoroutine("FlashFX");
-           Debug.Log(gameObject.name + " took damage!");
+            Debug.Log(gameObject.name + " took damage!");
+            ApplyKnockback(knockbackSource, knockbackForce, knockbackDuration);
         }
+
+        public void ApplyKnockback(Vector2 sourcePosition, float force, float duration)
+        {
+            if (isKnockbacked || isBusy) return;
+
+            Vector2 direction = (transform.position - (Vector3)sourcePosition).normalized;
+            StartCoroutine(KnockbackRoutine(direction, force, duration));
+        }
+
+        private IEnumerator KnockbackRoutine(Vector2 direction, float force, float duration)
+        {
+            isKnockbacked = true;
+
+            Vector2 knockbackVelocity = direction * force;
+            playerMovement.GetRigidbody().velocity = knockbackVelocity;
+
+            yield return new WaitForSeconds(duration);
+
+            playerMovement.GetRigidbody().velocity = Vector2.zero;
+            isKnockbacked = false;
+        }
+
+        public float GetKnockbackForce() => knockbackForce;
+        public float GetKnockbackDuration() => knockbackDuration;
 }

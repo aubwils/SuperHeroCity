@@ -16,8 +16,12 @@ public class PlayerAnimationTriggers : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.meleeAttackCheck.position, player.attackCheckRange);
         foreach (var collider in colliders)
         {
-        if (collider.GetComponent<EnemyBrain>() !=null)
-        collider.GetComponent<EnemyBrain>().TakeDamage();
+
+            if (collider.TryGetComponent(out EnemyBrain enemy))
+            {
+                Vector2 knockbackDirection = player.playerMovement.GetLastMovementDirection();
+                enemy.TakeDamage(player.transform.position, player.GetKnockbackForce(), player.GetKnockbackDuration()); 
+            }
         }
     }
 }

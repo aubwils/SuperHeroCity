@@ -36,6 +36,8 @@ public class EnemyState
     public virtual void Update() 
     {
       stateTimer -= Time.deltaTime;
+      if (enemyBrain.isKnockbacked) return;
+
     }
 
 
