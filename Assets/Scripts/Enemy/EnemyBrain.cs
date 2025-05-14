@@ -13,7 +13,6 @@ public class EnemyBrain : MonoBehaviour
     #endregion
 
     #region Enemy Stats
-    [Header("Enemy Stats Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
       [SerializeField] private float chaseSpeed = 4.0f;
@@ -22,7 +21,6 @@ public class EnemyBrain : MonoBehaviour
     #endregion
 
     #region Enemy Collision Checks
-    [Header("Collision Checks Settings")]
     [SerializeField] private float obstacleCheckDistance = 0.5f;
     [SerializeField] private float fieldOfViewAngle = 90f; // in degrees
     [SerializeField] private float playerDetectRange = 3.0f;
@@ -31,17 +29,6 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
     public Transform PlayerTarget { get; private set; }
-    [Header("Memory Settings")]
-    [HideInInspector] public Vector2? lastKnownPlayerPosition = null;
-    private float timeSinceLastSeen = 0f;
-    public float TimeSinceLastSeen
-    {
-        get => timeSinceLastSeen;
-        set => timeSinceLastSeen = value;
-    }
-    [SerializeField] private float memoryDuration = 2f; // seconds to "remember" player
-    public float MemoryDuration => memoryDuration;
-
 
     #endregion
         
@@ -109,16 +96,17 @@ public class EnemyBrain : MonoBehaviour
             if (hit != null && hit.CompareTag("Player"))
             {
                 Vector2 directionToPlayer = (hit.transform.position - transform.position).normalized;
+
+                // Compare directionToPlayer with facingDirection using dot product
                 float angle = Vector2.Angle(facingDirection, directionToPlayer);
 
-                if (fieldOfViewAngle >= 360f || angle <= fieldOfViewAngle / 2f)
+                if (angle <= fieldOfViewAngle / 2f)
                 {
+                    // Optional: check for obstacles
                     RaycastHit2D ray = Physics2D.Raycast(transform.position, directionToPlayer, playerDetectRange, obstacleLayer);
-                    if (ray.collider == null)
+                    if (ray.collider == null) // nothing blocking line of sight
                     {
                         PlayerTarget = hit.transform;
-                        lastKnownPlayerPosition = hit.transform.position;
-                        timeSinceLastSeen = 0f;
                         return true;
                     }
                 }

@@ -33,14 +33,12 @@ public class EnemySimpleWandererChaseState : EnemyState
             stateMachine.ChangeState(specificEnemyBrain.meleeAttackState);
             return;
         }  
-        if (specificEnemyBrain.PlayerTarget != null && specificEnemyBrain.IsPlayerInSight()){
-            ChasePlayer();
-        }
-        else
+        if (!specificEnemyBrain.IsPlayerInSight())
         {
-            specificEnemyBrain.TimeSinceLastSeen += Time.deltaTime;
+            stateMachine.ChangeState(specificEnemyBrain.idleState);
+            return;
         }
-        ChaseLastKnownPosition();
+        ChasePlayer();
     }
 
     private void ChasePlayer()
@@ -48,36 +46,12 @@ public class EnemySimpleWandererChaseState : EnemyState
         if (specificEnemyBrain.PlayerTarget == null)
             return;
 
-        MoveToward(specificEnemyBrain.PlayerTarget.position);
-    }
-
-    private void ChaseLastKnownPosition()
-    {
-        if (!specificEnemyBrain.lastKnownPlayerPosition.HasValue)
-            stateMachine.ChangeState(specificEnemyBrain.idleState);
-
-        Vector2 targetPos = specificEnemyBrain.lastKnownPlayerPosition.Value;
-        MoveToward(targetPos);
-
-        float distance = Vector2.Distance(specificEnemyBrain.transform.position, targetPos);
-        if (distance < 0.1f)
-        {
-            specificEnemyBrain.lastKnownPlayerPosition = null;
-            specificEnemyBrain.rb.velocity = Vector2.zero; // stop after reaching it
-            Debug.Log("Reached last known position, lost player");
-            stateMachine.ChangeState(specificEnemyBrain.idleState);
-        }
-    }
-
-    private void MoveToward(Vector2 targetPosition)
-    {
-        Vector2 direction = (targetPosition - (Vector2)specificEnemyBrain.transform.position).normalized;
-
+        Vector2 direction = (specificEnemyBrain.PlayerTarget.position - specificEnemyBrain.transform.position).normalized;
         specificEnemyBrain.SetFacingDirection(direction);
+
         specificEnemyBrain.rb.velocity = direction * specificEnemyBrain.currentMoveSpeed;
+
         specificEnemyBrain.animator.SetFloat("MoveX", direction.x);
         specificEnemyBrain.animator.SetFloat("MoveY", direction.y);
     }
-
-
 }
