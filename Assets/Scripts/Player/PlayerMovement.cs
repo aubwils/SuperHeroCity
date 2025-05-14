@@ -66,7 +66,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     private void FixedUpdate()
-    {
+    {        
+        if (player.isKnockbacked || player.isBusy) return;
+
         if (canMove && !player.isBusy && player.stateMachine.currentState is PlayerMoveState)
             {
                 MovePlayer();
@@ -101,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+
         rb.MovePosition(rb.position + movementInput * speed * Time.fixedDeltaTime);
         player.UpdateAttackCheckPosition(lastMovementDirection);
     }
