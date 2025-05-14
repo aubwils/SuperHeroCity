@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         rb.MovePosition(rb.position + movementInput * speed * Time.fixedDeltaTime);
+        player.UpdateAttackCheckPosition(lastMovementDirection);
     }
 
 
@@ -137,5 +138,5 @@ public class PlayerMovement : MonoBehaviour
     {
         return rb;
     }
-
+    
 }

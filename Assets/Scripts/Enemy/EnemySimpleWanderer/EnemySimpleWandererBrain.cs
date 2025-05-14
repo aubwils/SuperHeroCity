@@ -21,6 +21,8 @@ public class EnemySimpleWandererBrain : EnemyBrain
     public float RandomWanderTime => Random.Range(minWanderTime, maxWanderTime);
     #endregion
 
+    
+
 
     public override void Awake()
     {

@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    public float attackCheckRange = 1.0f;
+    public float attackCheckOffset = .25f;
+    public Transform meleeAttackCheck;
+
     #region Player Stats
     [SerializeField] private bool isHero = false;
     public bool isBusy {get; private set;}
@@ -134,5 +138,22 @@ public class Player : MonoBehaviour
     // }
     //
 
+        public void UpdateAttackCheckPosition(Vector2 direction)
+        {
+            Vector2 offset = direction.normalized * attackCheckOffset;
+            meleeAttackCheck.localPosition = offset;
+        }
 
+         private void OnDrawGizmosSelected()
+        {
+
+
+            Gizmos.color = Color.red;
+             Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
+        }
+
+         public void TakeDamage()
+        {
+           Debug.Log(gameObject.name + " took damage!");
+        }
 }

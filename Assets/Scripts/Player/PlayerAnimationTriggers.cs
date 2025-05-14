@@ -11,4 +11,13 @@ public class PlayerAnimationTriggers : MonoBehaviour
         player.AnimationTrigger();
     }
 
+    private void OnAnimationAttackTrigger()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.meleeAttackCheck.position, player.attackCheckRange);
+        foreach (var collider in colliders)
+        {
+        if (collider.GetComponent<EnemyBrain>() !=null)
+        collider.GetComponent<EnemyBrain>().TakeDamage();
+        }
+    }
 }

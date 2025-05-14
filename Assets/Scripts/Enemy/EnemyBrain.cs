@@ -13,6 +13,7 @@ public class EnemyBrain : MonoBehaviour
     #endregion
 
     #region Enemy Stats
+    [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
       [SerializeField] private float chaseSpeed = 4.0f;
@@ -21,14 +22,20 @@ public class EnemyBrain : MonoBehaviour
     #endregion
 
     #region Enemy Collision Checks
+    [Header("Collision Checks")]
     [SerializeField] private float obstacleCheckDistance = 0.5f;
     [SerializeField] private float playerDetectRange = 3.0f;
-    [SerializeField] private float attackRange = 1.0f;
+
+    public float attackCheckRange = .5f;
+    public float attackCheckOffset = .25f;
+    public Transform meleeAttackCheck;
+
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
-    public Transform PlayerTarget { get; private set; }
 
+    [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
+
+    public Transform PlayerTarget { get; private set; }
     #endregion
         
 
@@ -57,7 +64,10 @@ public class EnemyBrain : MonoBehaviour
     public void SetFacingDirection(Vector2 dir)
     {
         if (dir != Vector2.zero)
+        {
             facingDirection = dir.normalized;
+            UpdateAttackCheckPosition();
+        }
     }
 
     #region Collision Checks
@@ -75,7 +85,7 @@ public class EnemyBrain : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, playerDetectRange);
 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attackRange);
+             Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
         }
 
 
@@ -94,8 +104,22 @@ public class EnemyBrain : MonoBehaviour
 
         public virtual bool IsPlayerInAttackRange()
         {
-            Collider2D hit = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
+            Collider2D hit = Physics2D.OverlapCircle(meleeAttackCheck.position, attackCheckRange, playerLayer);
             return hit != null;
         }
+
+        public void UpdateAttackCheckPosition()
+        {
+            Vector2 offset = facingDirection.normalized * attackCheckOffset;
+            meleeAttackCheck.localPosition = offset;
+        }
     #endregion
+
+    public void OnAnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    public void TakeDamage()
+        {
+            Debug.Log(gameObject.name + " took damage!");
+        }
+
 }

@@ -27,7 +27,7 @@ public class EnemySimpleWandererMeleeAttackState : EnemyState
     public override void Update()
     {
         base.Update();
-        if (!specificEnemyBrain.IsPlayerInAttackRange())
+        if (animationTriggerCalled)
         {
             stateMachine.ChangeState(specificEnemyBrain.chaseState);
         }  
