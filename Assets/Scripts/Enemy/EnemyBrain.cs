@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBrain : CombatCharacterBrain
+public class EnemyBrain : MonoBehaviour
 {
 
     #region Components
+    public Animator animator {get; private set;}
+    public Rigidbody2D rb {get; private set;}
     public EnemyStateMachine stateMachine {get; private set;}
-    [SerializeField] public EnemyEffectIcons effectIcons;    
+    [SerializeField] public EnemyEffectIcons effectIcons;
+        public CharacterFX characterFX {get; private set;}
+
+
+    
     #endregion
 
     #region Enemy Stats
@@ -17,10 +23,10 @@ public class EnemyBrain : CombatCharacterBrain
     [SerializeField] private float chaseSpeed = 4.0f;
     public float ChaseSpeed => chaseSpeed;
     public float currentMoveSpeed;
-
     [Header("Enemy Attack Settings")]
     public float attackCooldown = 1.0f;
     [HideInInspector] public float lastAttackTime;
+    public float attackDamage;
     #endregion
 
 
@@ -29,8 +35,9 @@ public class EnemyBrain : CombatCharacterBrain
     [SerializeField] private float obstacleCheckDistance = 0.5f;
     [SerializeField] private float fieldOfViewAngle = 90f; // in degrees
     [SerializeField] private float playerDetectRange = 3.0f;
-
+    public Transform attackCheck;
     public float attackDistanceOffset = 0.25f; // distance from center
+    public float attackCheckRange = 1.0f;
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
@@ -51,12 +58,13 @@ public class EnemyBrain : CombatCharacterBrain
     #endregion
         
 
-   public override void Awake()
+   public virtual void Awake()
     {
-        base.Awake(); 
-
         stateMachine = new EnemyStateMachine();
+        animator = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = moveSpeed;
+        characterFX = GetComponentInChildren<CharacterFX>();
 
     }
 
@@ -84,15 +92,22 @@ public class EnemyBrain : CombatCharacterBrain
         rb.velocity = Vector2.zero;
     }
 
+    public void TakeDamage(float damage)
+    {
+        // Implement damage logic here
+        Debug.Log("Enemy took damage: " + damage);
+        characterFX.StartCoroutine("FlashFX");
+
+    }
+
     #region Collision Checks
         public bool IsObstacleAhead()
         {
             return Physics2D.Raycast(transform.position, facingDirection.normalized, obstacleCheckDistance, obstacleLayer);
         }
 
-        protected override void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
         {
-            base.OnDrawGizmosSelected();
             // Draw the obstacle check ray
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(transform.position, transform.position + (Vector3)facingDirection.normalized * obstacleCheckDistance);
@@ -108,6 +123,9 @@ public class EnemyBrain : CombatCharacterBrain
             Gizmos.DrawLine(transform.position, transform.position + leftBoundary * playerDetectRange);
             Gizmos.DrawLine(transform.position, transform.position + rightBoundary * playerDetectRange);
 
+            // Draw attack range
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(attackCheck.position, attackCheckRange);
         }
 
 
@@ -138,7 +156,7 @@ public class EnemyBrain : CombatCharacterBrain
 
         public virtual bool IsPlayerInAttackRange()
         {
-            Collider2D hit = Physics2D.OverlapCircle(attackCheck.position, attackCheckRadius, playerLayer);
+            Collider2D hit = Physics2D.OverlapCircle(attackCheck.position, attackCheckRange, playerLayer);
             return hit != null;
         }
     #endregion

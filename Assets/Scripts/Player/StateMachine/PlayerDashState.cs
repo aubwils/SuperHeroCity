@@ -26,7 +26,7 @@ public class PlayerDashState : PlayerState
 
         // Use Collider2D.Cast to check for obstacles along the dash path
         RaycastHit2D[] hits = new RaycastHit2D[1]; // Only need the first hit
-        int hitCount = player.characterCollider.Cast(dashDirection, hits, dashDistance);
+        int hitCount = player.playerCollider.Cast(dashDirection, hits, dashDistance);
 
         if (hitCount > 0)
         {
