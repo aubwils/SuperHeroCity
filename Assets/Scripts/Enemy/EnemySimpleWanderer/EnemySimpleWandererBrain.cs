@@ -9,6 +9,7 @@ public class EnemySimpleWandererBrain : EnemyBrain
     public EnemySimpleWandererMoveState moveState {get; private set;}   
     public EnemySimpleWandererChaseState chaseState {get; private set;}   
     public EnemySimpleWandererMeleeAttackState meleeAttackState {get; private set;}   
+    public EnemySimpleWandererRecoveryState recoveryState {get; private set;}
     #endregion
 
     #region Wanderer Settings
@@ -31,6 +32,7 @@ public class EnemySimpleWandererBrain : EnemyBrain
         moveState = new EnemySimpleWandererMoveState( this, stateMachine, "IsMoving", this);
         chaseState = new EnemySimpleWandererChaseState( this, stateMachine, "IsChasing", this);
         meleeAttackState = new EnemySimpleWandererMeleeAttackState( this, stateMachine, "IsAttacking", this);
+        recoveryState = new EnemySimpleWandererRecoveryState( this, stateMachine, "IsIdle", this);
     }
 
     public override void Start()

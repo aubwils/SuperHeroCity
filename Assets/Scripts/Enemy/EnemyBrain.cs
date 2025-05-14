@@ -32,6 +32,7 @@ public class EnemyBrain : MonoBehaviour
     public float attackCheckRange = .5f;
     public float attackCheckOffset = .25f;
     public Transform meleeAttackCheck;
+    public float timeBetweenAttacks = 1f;
 
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;

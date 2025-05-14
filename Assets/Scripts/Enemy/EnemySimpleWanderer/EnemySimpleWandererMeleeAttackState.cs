@@ -29,7 +29,7 @@ public class EnemySimpleWandererMeleeAttackState : EnemyState
         base.Update();
         if (animationTriggerCalled)
         {
-            stateMachine.ChangeState(specificEnemyBrain.chaseState);
+            stateMachine.ChangeState(specificEnemyBrain.recoveryState);
         }  
     }
 }
