@@ -7,7 +7,7 @@ public class CharacterFX : MonoBehaviour
     private SpriteRenderer sr;
 
     [Header("Flash FX")]
-    [SerializeField] private float flashDuration = 0.2f;
+    [SerializeField] private float flashDuration = 0.15f;
     [SerializeField] private Material hitMaterial;
     private Material origionalMaterial;
 
