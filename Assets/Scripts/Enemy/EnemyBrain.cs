@@ -15,15 +15,12 @@ public class EnemyBrain : MonoBehaviour
     #endregion
 
     #region Enemy Stats
-    [Header("Enemy Move Settings")]
+    [Header("Enemy Stats Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
-    [SerializeField] private float chaseSpeed = 4.0f;
+      [SerializeField] private float chaseSpeed = 4.0f;
     public float ChaseSpeed => chaseSpeed;
     public float currentMoveSpeed;
-    [Header("Enemy Attack Settings")]
-    public float attackCooldown = 1.0f;
-    [HideInInspector] public float lastAttackTime;
     #endregion
 
 
@@ -32,9 +29,7 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private float obstacleCheckDistance = 0.5f;
     [SerializeField] private float fieldOfViewAngle = 90f; // in degrees
     [SerializeField] private float playerDetectRange = 3.0f;
-    public Transform attackCheck;
-    public float attackDistanceOffset = 0.25f; // distance from center
-    [SerializeField] private float attackCheckRange = 1.0f;
+    [SerializeField] private float attackRange = 1.0f;
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
@@ -83,17 +78,6 @@ public class EnemyBrain : MonoBehaviour
             facingDirection = dir.normalized;
     }
 
-    public void StopMovement()
-    {
-        rb.velocity = Vector2.zero;
-    }
-
-    public void TakeDamage(float damage)
-    {
-        // Implement damage logic here
-        Debug.Log("Enemy took damage: " + damage);
-    }
-
     #region Collision Checks
         public bool IsObstacleAhead()
         {
@@ -119,7 +103,7 @@ public class EnemyBrain : MonoBehaviour
 
             // Draw attack range
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackCheck.position, attackCheckRange);
+            Gizmos.DrawWireSphere(transform.position, attackRange);
         }
 
 
@@ -150,7 +134,7 @@ public class EnemyBrain : MonoBehaviour
 
         public virtual bool IsPlayerInAttackRange()
         {
-            Collider2D hit = Physics2D.OverlapCircle(attackCheck.position, attackCheckRange, playerLayer);
+            Collider2D hit = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
             return hit != null;
         }
     #endregion

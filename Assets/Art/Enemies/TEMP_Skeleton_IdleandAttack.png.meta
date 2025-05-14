@@ -1738,8 +1738,8 @@ TextureImporter:
       name: TEMP_Skeleton_IdleandAttack_78
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 224
+        y: 32
         width: 16
         height: 32
       alignment: 9
@@ -1759,8 +1759,8 @@ TextureImporter:
       name: TEMP_Skeleton_IdleandAttack_79
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 240
+        y: 32
         width: 16
         height: 32
       alignment: 9
@@ -1780,7 +1780,7 @@ TextureImporter:
       name: TEMP_Skeleton_IdleandAttack_80
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 0
         width: 16
         height: 32
@@ -1801,7 +1801,7 @@ TextureImporter:
       name: TEMP_Skeleton_IdleandAttack_81
       rect:
         serializedVersion: 2
-        x: 48
+        x: 16
         y: 0
         width: 16
         height: 32
@@ -1822,7 +1822,7 @@ TextureImporter:
       name: TEMP_Skeleton_IdleandAttack_82
       rect:
         serializedVersion: 2
-        x: 64
+        x: 32
         y: 0
         width: 16
         height: 32
@@ -1843,7 +1843,7 @@ TextureImporter:
       name: TEMP_Skeleton_IdleandAttack_83
       rect:
         serializedVersion: 2
-        x: 80
+        x: 48
         y: 0
         width: 16
         height: 32
@@ -1864,6 +1864,48 @@ TextureImporter:
       name: TEMP_Skeleton_IdleandAttack_84
       rect:
         serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1fa588d76c3a425d840729fefbbcc85
+      internalID: 2061433374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TEMP_Skeleton_IdleandAttack_85
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d77832b3867bc47ca882a305b4a616a9
+      internalID: -1594868160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TEMP_Skeleton_IdleandAttack_86
+      rect:
+        serializedVersion: 2
         x: 96
         y: 0
         width: 16
@@ -1875,14 +1917,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc65477181d9148b5b033180becbc38f
-      internalID: -1879657562
+      spriteID: 7c449ddfe550d41918a7295c8472aac7
+      internalID: -604297400
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TEMP_Skeleton_IdleandAttack_85
+      name: TEMP_Skeleton_IdleandAttack_87
       rect:
         serializedVersion: 2
         x: 112
@@ -1896,14 +1938,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0112b5fc41ad745e498cf24fb1b512b9
-      internalID: -1440068101
+      spriteID: 5d37b83b41f4b4e84b05334a41e0ff0d
+      internalID: 770259877
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TEMP_Skeleton_IdleandAttack_86
+      name: TEMP_Skeleton_IdleandAttack_88
       rect:
         serializedVersion: 2
         x: 128
@@ -1917,14 +1959,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 032a5ee7578894cb697be0d2da7206b6
-      internalID: 1086893382
+      spriteID: 4cc72d6262258444eb5bd1bcdd9fcb5a
+      internalID: 499301337
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TEMP_Skeleton_IdleandAttack_87
+      name: TEMP_Skeleton_IdleandAttack_89
       rect:
         serializedVersion: 2
         x: 144
@@ -1938,14 +1980,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0afb8abd244e6497e810711c55fa98d5
-      internalID: 2073673137
+      spriteID: ac4df01db7f524d37907bdb7a6b588e2
+      internalID: 1854515744
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TEMP_Skeleton_IdleandAttack_88
+      name: TEMP_Skeleton_IdleandAttack_90
       rect:
         serializedVersion: 2
         x: 160
@@ -1959,14 +2001,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4f18d4c7dec7409d99366228bbb01f6
-      internalID: -770254019
+      spriteID: ec1287c38e1284aaf968e8b90e692a6e
+      internalID: 497775525
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TEMP_Skeleton_IdleandAttack_89
+      name: TEMP_Skeleton_IdleandAttack_91
       rect:
         serializedVersion: 2
         x: 176
@@ -1980,14 +2022,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d78901b4b43b4e2db1bc36d238f2d4a
-      internalID: -59240097
+      spriteID: 3c337557619a24dcfbf9ea4503541e52
+      internalID: -1299502934
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TEMP_Skeleton_IdleandAttack_90
+      name: TEMP_Skeleton_IdleandAttack_92
       rect:
         serializedVersion: 2
         x: 192
@@ -2001,14 +2043,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3df8aadae1ae847c6870c07c6cfb2bd1
-      internalID: -505058639
+      spriteID: 7f27ad97fadac45ce9586f275c984086
+      internalID: 934571399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TEMP_Skeleton_IdleandAttack_91
+      name: TEMP_Skeleton_IdleandAttack_93
       rect:
         serializedVersion: 2
         x: 208
@@ -2022,8 +2064,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dfbdfe7242dd34de2b1988766cdafaaf
-      internalID: -1581141463
+      spriteID: e80ec618590514fcab274a866ae619a5
+      internalID: -1496044161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TEMP_Skeleton_IdleandAttack_94
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5eecb7bef00b8415fbd8e8bb2dd1374e
+      internalID: 1680956295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TEMP_Skeleton_IdleandAttack_95
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2899de541d07471aa6c2098da4f64b5
+      internalID: 1535074455
       vertices: []
       indices: 
       edges: []
@@ -2122,15 +2206,19 @@ TextureImporter:
       TEMP_Skeleton_IdleandAttack_81: 843740178
       TEMP_Skeleton_IdleandAttack_82: -1843194523
       TEMP_Skeleton_IdleandAttack_83: 75155130
-      TEMP_Skeleton_IdleandAttack_84: -1879657562
-      TEMP_Skeleton_IdleandAttack_85: -1440068101
-      TEMP_Skeleton_IdleandAttack_86: 1086893382
-      TEMP_Skeleton_IdleandAttack_87: 2073673137
-      TEMP_Skeleton_IdleandAttack_88: -770254019
-      TEMP_Skeleton_IdleandAttack_89: -59240097
+      TEMP_Skeleton_IdleandAttack_84: 2061433374
+      TEMP_Skeleton_IdleandAttack_85: -1594868160
+      TEMP_Skeleton_IdleandAttack_86: -604297400
+      TEMP_Skeleton_IdleandAttack_87: 770259877
+      TEMP_Skeleton_IdleandAttack_88: 499301337
+      TEMP_Skeleton_IdleandAttack_89: 1854515744
       TEMP_Skeleton_IdleandAttack_9: 1285392727
-      TEMP_Skeleton_IdleandAttack_90: -505058639
-      TEMP_Skeleton_IdleandAttack_91: -1581141463
+      TEMP_Skeleton_IdleandAttack_90: 497775525
+      TEMP_Skeleton_IdleandAttack_91: -1299502934
+      TEMP_Skeleton_IdleandAttack_92: 934571399
+      TEMP_Skeleton_IdleandAttack_93: -1496044161
+      TEMP_Skeleton_IdleandAttack_94: 1680956295
+      TEMP_Skeleton_IdleandAttack_95: 1535074455
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

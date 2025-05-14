@@ -43,6 +43,5 @@ public class EnemyState
     {
         animationTriggerCalled = true;
     }
-
     
 }

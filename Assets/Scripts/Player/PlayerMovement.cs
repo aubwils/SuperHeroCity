@@ -109,7 +109,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 movementInput = GetMovementInput();
         Vector2 directionToAnimate = movementInput != Vector2.zero ? movementInput : lastMovementDirection;
-        player.attackCheck.localPosition = lastMovementDirection * 1f; // distance from center
 
         player.animator.SetFloat("MoveX", directionToAnimate.x);
         player.animator.SetFloat("MoveY", directionToAnimate.y);

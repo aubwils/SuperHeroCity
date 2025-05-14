@@ -35,15 +35,13 @@ public class EnemySimpleWandererMoveState : EnemySimpleWandererBaseState
         Move();
         if (stateTimer < 0)
         {
-            specificEnemyBrain.StopMovement();
+            specificEnemyBrain.rb.velocity = Vector2.zero;
             stateMachine.ChangeState(specificEnemyBrain.idleState);
         }
     }
         public void Move()
     {
         specificEnemyBrain.rb.velocity = moveDirection * specificEnemyBrain.currentMoveSpeed;
-        specificEnemyBrain.attackCheck.localPosition = moveDirection * specificEnemyBrain.attackDistanceOffset; // distance from center
-
         specificEnemyBrain.animator.SetFloat("MoveX", moveDirection.x);
         specificEnemyBrain.animator.SetFloat("MoveY", moveDirection.y);
     }

@@ -22,13 +22,6 @@ public class Player : MonoBehaviour
     public bool isBusy {get; private set;}
     #endregion
 
-    [Header("Attack Settings")]
-    public Transform attackCheck;
-    public float attackCheckRadius;
-    public float attackDamage;
-
-
-
     // #region Come Back to in Future
     // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
     // Was in Player and Player PrimaryAttackState scripts
@@ -141,11 +134,5 @@ public class Player : MonoBehaviour
     // }
     //
 
-        private void OnDrawGizmosSelected()
-        {
-            // Draw attack range
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
-        }
 
 }
