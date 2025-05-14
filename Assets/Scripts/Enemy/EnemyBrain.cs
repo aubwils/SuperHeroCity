@@ -9,6 +9,8 @@ public class EnemyBrain : MonoBehaviour
     public Animator animator {get; private set;}
     public Rigidbody2D rb {get; private set;}
     public EnemyStateMachine stateMachine {get; private set;}
+        public CharacterFX characterFX {get; private set;}
+
     
     #endregion
 
@@ -45,6 +47,8 @@ public class EnemyBrain : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = moveSpeed;
+        characterFX = GetComponent<CharacterFX>();
+
 
     }
 
@@ -119,6 +123,7 @@ public class EnemyBrain : MonoBehaviour
 
     public void TakeDamage()
         {
+            characterFX.StartCoroutine("FlashFX");
             Debug.Log(gameObject.name + " took damage!");
         }
 
