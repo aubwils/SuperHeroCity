@@ -20,7 +20,8 @@ public class PlayerAnimationTriggers : MonoBehaviour
             if (collider.TryGetComponent(out EnemyBrain enemy))
             {
                 Vector2 knockbackDirection = player.playerMovement.GetLastMovementDirection();
-                enemy.TakeDamage(player.transform.position, player.GetKnockbackForce(), player.GetKnockbackDuration()); 
+                enemy.TakeDamage(player.transform.position, player.GetKnockbackForce(), player.GetKnockbackDuration());
+                collider.GetComponent<CharacterStats>().TakeDamage(player.characterStats.damage); 
             }
         }
     }

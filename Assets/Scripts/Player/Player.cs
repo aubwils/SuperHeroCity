@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public PlayerStateMachine stateMachine {get; private set;}
     public PlayerMovement playerMovement {get; private set;} 
     public CharacterFX characterFX {get; private set;}
+    public CharacterStats characterStats {get; private set;}
 
     [SerializeField] private GameObject seceretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
@@ -65,6 +66,7 @@ public class Player : MonoBehaviour
         stateMachine = new PlayerStateMachine();
         playerMovement = GetComponent<PlayerMovement>();
         characterFX = GetComponent<CharacterFX>();
+        characterStats = GetComponent<CharacterStats>();
 
         idleState = new PlayerIdleState(stateMachine, this, "IsIdle");
         moveState = new PlayerMoveState(stateMachine, this, "IsMoving");

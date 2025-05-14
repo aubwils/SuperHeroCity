@@ -9,7 +9,8 @@ public class EnemyBrain : MonoBehaviour
     public Animator animator {get; private set;}
     public Rigidbody2D rb {get; private set;}
     public EnemyStateMachine stateMachine {get; private set;}
-        public CharacterFX characterFX {get; private set;}
+    public CharacterFX characterFX {get; private set;}
+    public CharacterStats characterStats {get; private set;}
 
     
     #endregion
@@ -54,6 +55,8 @@ public class EnemyBrain : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         currentMoveSpeed = moveSpeed;
         characterFX = GetComponent<CharacterFX>();
+        characterStats = GetComponent<CharacterStats>();
+
 
 
     }
