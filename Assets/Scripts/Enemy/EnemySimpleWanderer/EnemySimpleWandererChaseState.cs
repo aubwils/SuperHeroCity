@@ -54,18 +54,18 @@ public class EnemySimpleWandererChaseState : EnemyState
     private void ChaseLastKnownPosition()
     {
         if (!specificEnemyBrain.lastKnownPlayerPosition.HasValue)
-            stateMachine.ChangeState(specificEnemyBrain.confusedState);
+            stateMachine.ChangeState(specificEnemyBrain.idleState);
 
-        Vector2 playerLastKnownPosition = specificEnemyBrain.lastKnownPlayerPosition.Value;
-        MoveToward(playerLastKnownPosition);
+        Vector2 targetPos = specificEnemyBrain.lastKnownPlayerPosition.Value;
+        MoveToward(targetPos);
 
-        float distance = Vector2.Distance(specificEnemyBrain.transform.position, playerLastKnownPosition);
+        float distance = Vector2.Distance(specificEnemyBrain.transform.position, targetPos);
         if (distance < 0.1f)
         {
             specificEnemyBrain.lastKnownPlayerPosition = null;
             specificEnemyBrain.rb.velocity = Vector2.zero; // stop after reaching it
             Debug.Log("Reached last known position, lost player");
-            stateMachine.ChangeState(specificEnemyBrain.confusedState);
+            stateMachine.ChangeState(specificEnemyBrain.idleState);
         }
     }
 
