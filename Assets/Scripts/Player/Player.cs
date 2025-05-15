@@ -122,9 +122,9 @@ public class Player : MonoBehaviour
     public IEnumerator BusyFor(float duration)
     {
         isBusy = true;
-        Debug.Log("Player is busy for " + duration + " seconds.");
+       // Debug.Log("Player is busy for " + duration + " seconds.");
         yield return new WaitForSeconds(duration);
-        Debug.Log("Player is no longer busy.");
+       // Debug.Log("Player is no longer busy.");
         isBusy = false;
     }
 
@@ -161,7 +161,7 @@ public class Player : MonoBehaviour
              Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
         }
 
-        public void TakeDamage(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
+        public void TakeDamageEffect(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
         {
             characterFX.StartCoroutine("FlashFX");
             Debug.Log(gameObject.name + " took damage!");

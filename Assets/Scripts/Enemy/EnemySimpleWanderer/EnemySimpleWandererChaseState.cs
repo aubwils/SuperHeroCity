@@ -15,14 +15,14 @@ public class EnemySimpleWandererChaseState : EnemyState
     {
         base.Enter();
         specificEnemyBrain.currentMoveSpeed = specificEnemyBrain.ChaseSpeed;
-        Debug.Log("Chasing Player");
+       // Debug.Log("Chasing Player");
     }
 
     public override void Exit()
     {
         base.Exit();
         specificEnemyBrain.currentMoveSpeed = specificEnemyBrain.MoveSpeed;
-        Debug.Log("Exiting Chase State");
+        //Debug.Log("Exiting Chase State");
     }
 
     public override void Update()

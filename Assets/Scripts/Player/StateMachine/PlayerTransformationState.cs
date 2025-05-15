@@ -13,7 +13,7 @@ public class PlayerTransformationState : PlayerState
     {
         base.Enter();
         player.playerMovement.SetCanMove(false);
-        Debug.Log("Transformation State Enter");
+        //Debug.Log("Transformation State Enter");
     }
 
     public override void Update()
@@ -23,7 +23,7 @@ public class PlayerTransformationState : PlayerState
         {
             player.ToggleHeroIdentity();
             player.playerMovement.SetCanMove(true);
-            Debug.Log("Tigger Called");
+            //Debug.Log("Tigger Called");
             stateMachine.ChangeState(player.idleState);
         }
     }
@@ -31,7 +31,7 @@ public class PlayerTransformationState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Transformation State Exit");
+        //Debug.Log("Transformation State Exit");
 
     }
 }

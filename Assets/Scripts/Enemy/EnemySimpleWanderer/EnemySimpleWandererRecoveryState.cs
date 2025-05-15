@@ -15,7 +15,7 @@ public class EnemySimpleWandererRecoveryState : EnemyState
     {
         base.Enter();
         stateTimer = specificEnemyBrain.timeBetweenAttacks;
-        Debug.Log("Entering Recovery State");
+        //Debug.Log("Entering Recovery State");
     }
 
     public override void Exit()

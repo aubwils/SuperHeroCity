@@ -21,12 +21,12 @@ public class EnemySimpleWandererMoveState : EnemySimpleWandererBaseState
         moveDirection = directions[Random.Range(0, directions.Length)];
 
         specificEnemyBrain.SetFacingDirection(moveDirection);
-        Debug.Log("Moving in direction: " + moveDirection);
+       // Debug.Log("Moving in direction: " + moveDirection);
     }
     public override void Exit()
     {
          base.Exit();
-         Debug.Log("Exiting Move State");
+       //  Debug.Log("Exiting Move State");
     }   
     public override void Update()
     {

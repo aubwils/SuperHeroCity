@@ -15,13 +15,13 @@ public class EnemySimpleWandererMeleeAttackState : EnemyState
     {
         base.Enter();
         specificEnemyBrain.rb.velocity = Vector2.zero;
-        Debug.Log("Attacking Player");
+        //Debug.Log("Attacking Player");
     }
 
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Exiting Attack State");
+        //Debug.Log("Exiting Attack State");
     }
 
     public override void Update()
@@ -29,7 +29,7 @@ public class EnemySimpleWandererMeleeAttackState : EnemyState
         base.Update();
         if (animationTriggerCalled)
         {
-            stateMachine.ChangeState(specificEnemyBrain.recoveryState);
+            stateMachine.ChangeState(specificEnemyBrain.recoveryState); //might nto need once have invincibility...
         }  
     }
 }

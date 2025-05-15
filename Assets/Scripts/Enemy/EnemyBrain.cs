@@ -131,7 +131,7 @@ public class EnemyBrain : MonoBehaviour
 
     public void OnAnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
-    public void TakeDamage(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
+    public void TakeDamageEffect(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
     {
         characterFX.StartCoroutine("FlashFX");
         Debug.Log(gameObject.name + " took damage!");

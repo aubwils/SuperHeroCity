@@ -15,12 +15,12 @@ public class EnemySimpleWandererIdleState : EnemySimpleWandererBaseState
        base.Enter();
        specificEnemyBrain.rb.velocity = Vector2.zero;
        stateTimer = specificEnemyBrain.IdleDuration;;
-       Debug.Log("Idle");
+       //Debug.Log("Idle");
    }
     public override void Exit()
     {
          base.Exit();
-         Debug.Log("Exiting Idle State");
+        // Debug.Log("Exiting Idle State");
     }   
     public override void Update()
     {

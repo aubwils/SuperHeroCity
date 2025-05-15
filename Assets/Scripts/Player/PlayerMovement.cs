@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         player.stateMachine.ChangeState(player.dashState);
         canDash = false; // Disable dashing until cooldown is over
         dashCooldownTimer = dashCooldown; // Reset cooldown timer
-        Debug.Log("Player started dashing");
+        //Debug.Log("Player started dashing");
        
     }
 
