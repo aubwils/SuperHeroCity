@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
     public PlayerDashState dashState {get; private set;}
     public PlayerTransformationState transformationState {get; private set;}
     public PlayerPrimaryAttackState primaryAttackState {get; private set;}
+    public PlayerDeathState deathState {get; private set;}
 
 
     #endregion
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour
         dashState = new PlayerDashState(stateMachine, this, "IsDashing");
         transformationState = new PlayerTransformationState(stateMachine, this, "IsTransforming");
         primaryAttackState = new PlayerPrimaryAttackState(stateMachine, this, "IsAttacking");
+        deathState = new PlayerDeathState(stateMachine, this, "IsDead");
 
         animator = isHero ? heroAnimator : seceretAnimator; // Set the animator based on the player's identity
         heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
