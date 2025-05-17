@@ -2,36 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : CharacterBrain
 {
     #region Components
     [SerializeField] private Animator heroAnimator;
     [SerializeField] private Animator seceretAnimator;
-    public Animator animator {get; private set;}
-    public PlayerStateMachine stateMachine {get; private set;}
     public PlayerMovement playerMovement {get; private set;} 
-    public CharacterFX characterFX {get; private set;}
-    public CharacterStats characterStats {get; private set;}
+
 
     [SerializeField] private GameObject seceretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
-    [HideInInspector] public CapsuleCollider2D playerCollider;
 
     #endregion
-
-    public float attackCheckRange = 1.0f;
-    public float attackCheckOffset = .25f;
-    public Transform meleeAttackCheck;
 
     #region Player Stats
     [SerializeField] private bool isHero = false;
-    public bool isBusy {get; private set;}
     #endregion
 
-    [Header("Combat Settings")]
-    [SerializeField] private float knockbackForce = 3f;
-    [SerializeField] private float knockbackDuration = 0.2f;
-    public bool isKnockbacked { get; private set; } // Use this to block inputs/states
+
 
     // #region Come Back to in Future
     // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
@@ -60,42 +48,38 @@ public class Player : MonoBehaviour
 
         
 
-   private void Awake()
+   protected override void Awake()
     {
-        playerCollider = GetComponent<CapsuleCollider2D>();
-
-        stateMachine = new PlayerStateMachine();
+        base.Awake();
         playerMovement = GetComponent<PlayerMovement>();
-        characterFX = GetComponent<CharacterFX>();
-        characterStats = GetComponent<CharacterStats>();
 
-        idleState = new PlayerIdleState(stateMachine, this, "IsIdle");
-        moveState = new PlayerMoveState(stateMachine, this, "IsMoving");
-        dashState = new PlayerDashState(stateMachine, this, "IsDashing");
-        transformationState = new PlayerTransformationState(stateMachine, this, "IsTransforming");
-        primaryAttackState = new PlayerPrimaryAttackState(stateMachine, this, "IsAttacking");
-        deathState = new PlayerDeathState(stateMachine, this, "IsDead");
+        idleState = new PlayerIdleState(this, stateMachine, "IsIdle");
+        moveState = new PlayerMoveState(this, stateMachine, "IsMoving");
+        dashState = new PlayerDashState(this, stateMachine, "IsDashing");
+        transformationState = new PlayerTransformationState(this, stateMachine, "IsTransforming");
+        primaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, "IsAttacking");
+        deathState = new PlayerDeathState(this, stateMachine, "IsDead");
 
         animator = isHero ? heroAnimator : seceretAnimator; // Set the animator based on the player's identity
         heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
         seceretIdentityVisuals.SetActive(!isHero); // Show secret identity visuals if isHero is false
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         stateMachine.Initialize(idleState);
     }
-    private void Update()
+    protected override void Update()
     {
-        stateMachine.currentState.Update();
+        base.Update();
     }
 
-     private void FixedUpdate()
+    protected override void FixedUpdate()
     {
-        stateMachine.currentState.FixedUpdate();
+        base.FixedUpdate();
     }
 
-    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
     public void ToggleHeroIdentity()
     {
@@ -120,77 +104,10 @@ public class Player : MonoBehaviour
     {
         return isHero; // Return the current identity of the player
     }
-
-    public IEnumerator BusyFor(float duration)
+    public override void CallAnimationFinishTrigger()
     {
-        isBusy = true;
-       // Debug.Log("Player is busy for " + duration + " seconds.");
-        yield return new WaitForSeconds(duration);
-       // Debug.Log("Player is no longer busy.");
-        isBusy = false;
+        base.CallAnimationFinishTrigger();
     }
 
-    // #region Come Back to in Future
-    // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
-    // Was in Player and Player PrimaryAttackState scripts
-    // public IEnumerator ApplyAttackPush(Vector2 direction, float distance, float duration)
-    // {
-    //     float elapsed = 0f;
-    //     Vector2 startPos = playerMovement.GetRigidbody().position;
-    //     Vector2 targetPos = startPos + direction.normalized * distance;
-
-    //     while (elapsed < duration)
-    //     {
-    //         elapsed += Time.deltaTime;
-    //         Vector2 newPos = Vector2.Lerp(startPos, targetPos, elapsed / duration);
-    //         playerMovement.GetRigidbody().MovePosition(newPos);
-    //         yield return null;
-    //     }
-    // }
-    //
-
-        public void UpdateAttackCheckPosition(Vector2 direction)
-        {
-            Vector2 offset = direction.normalized * attackCheckOffset;
-            meleeAttackCheck.localPosition = offset;
-        }
-
-         private void OnDrawGizmosSelected()
-        {
-
-
-            Gizmos.color = Color.red;
-             Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
-        }
-
-        public void TakeDamageEffect(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
-        {
-            characterFX.StartCoroutine("FlashFX");
-            Debug.Log(gameObject.name + " took damage!");
-            ApplyKnockback(knockbackSource, knockbackForce, knockbackDuration);
-        }
-
-        public void ApplyKnockback(Vector2 sourcePosition, float force, float duration)
-        {
-            if (isKnockbacked || isBusy) return;
-
-            Vector2 direction = (transform.position - (Vector3)sourcePosition).normalized;
-            StartCoroutine(KnockbackRoutine(direction, force, duration));
-        }
-
-        private IEnumerator KnockbackRoutine(Vector2 direction, float force, float duration)
-        {
-            isKnockbacked = true;
-
-            Vector2 knockbackVelocity = direction * force;
-            playerMovement.GetRigidbody().velocity = knockbackVelocity;
-
-            yield return new WaitForSeconds(duration);
-
-            playerMovement.GetRigidbody().velocity = Vector2.zero;
-            isKnockbacked = false;
-        }
-
-        public float GetKnockbackForce() => knockbackForce;
-        public float GetKnockbackDuration() => knockbackDuration;
+  
 }

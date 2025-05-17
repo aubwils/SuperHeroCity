@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     {        
         if (player.isKnockbacked || player.isBusy) return;
 
-        if (canMove && !player.isBusy && player.stateMachine.currentState is PlayerMoveState)
+        if (canMove && !player.isBusy && player.StateMachine.currentState is PlayerMoveState)
             {
                 MovePlayer();
             }    
@@ -121,11 +121,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnDashPerformed(InputAction.CallbackContext ctx)
     { 
         if (!canDash) return; // Check if dashing is allowed
-        if (!(player.stateMachine.currentState is PlayerMoveState || player.stateMachine.currentState is PlayerIdleState))
+        if (!(player.StateMachine.currentState is PlayerMoveState || player.StateMachine.currentState is PlayerIdleState))
         return; // Only allow dash if in MoveState or IdleState
 
        
-        player.stateMachine.ChangeState(player.dashState);
+        player.StateMachine.ChangeState(player.dashState);
         canDash = false; // Disable dashing until cooldown is over
         dashCooldownTimer = dashCooldown; // Reset cooldown timer
         //Debug.Log("Player started dashing");

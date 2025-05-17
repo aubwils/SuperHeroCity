@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDeathState : PlayerState
 {
-    public PlayerDeathState(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName)
+    public PlayerDeathState(Player player, StateMachine stateMachine,  string animBoolName) : base(player, stateMachine,  animBoolName)
     {
     }
 
@@ -28,9 +28,9 @@ public class PlayerDeathState : PlayerState
 
     }
 
-    public override void AnimationFinishTrigger()
+    public override void CallAnimationFinishTrigger()
     {
-        base.AnimationFinishTrigger();
+        base.CallAnimationFinishTrigger();
     }
 
 

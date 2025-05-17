@@ -6,9 +6,10 @@ public class EnemySimpleWandererMoveState : EnemySimpleWandererBaseState
 {
     private Vector2 moveDirection;
 
-    public EnemySimpleWandererMoveState(EnemyBrain enemyBrainBase, EnemyStateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain enemyBrain) : base(enemyBrainBase, stateMachine, animBoolName, enemyBrain)
+    public EnemySimpleWandererMoveState(EnemyBrain enemyBrain, StateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain specificEnemyBrain)
+        : base(enemyBrain, stateMachine, animBoolName, specificEnemyBrain)
     {
-
+   
     }
 
     public override void Enter()

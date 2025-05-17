@@ -2,48 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyState
+public class EnemyState : EntityState
 {
-  protected EnemyStateMachine stateMachine;
     protected EnemyBrain enemyBrain;
 
-    private string animBoolName;
-    protected float stateTimer;
-
-    protected bool animationTriggerCalled;
-
-    public EnemyState(EnemyStateMachine stateMachine, EnemyBrain enemyBrain, string animBoolName)
+    public EnemyState(EnemyBrain enemyBrain, StateMachine stateMachine,  string animBoolName) : base(stateMachine, animBoolName)
     {
-        this.stateMachine = stateMachine;
         this.enemyBrain = enemyBrain;
-        this.animBoolName = animBoolName;
+
+        animator = enemyBrain.animator;
     }
     
-    public virtual void Enter() 
+    public override void Enter() 
     {
-        // Debug.Log("Entering state: " + animBoolName);
-        enemyBrain.animator.SetBool(animBoolName, true);
-        animationTriggerCalled = false;
-        
+        base.Enter();
     }
     
-    public virtual void Exit() 
+    public override void Update() 
     {
-        // Debug.Log("Exiting state: " + animBoolName);
-        enemyBrain.animator.SetBool(animBoolName, false);
+        base.Update();  
+        if (enemyBrain.isKnockbacked) return;
     }
     
-    public virtual void Update() 
+    public override void Exit() 
     {
-      stateTimer -= Time.deltaTime;
-      if (enemyBrain.isKnockbacked) return;
-
+        base.Exit();
     }
+    
 
-
-    public virtual void AnimationFinishTrigger() 
-    {
-        animationTriggerCalled = true;
-    }
     
 }

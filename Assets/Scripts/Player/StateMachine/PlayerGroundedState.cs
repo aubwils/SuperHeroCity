@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
 {
-    public PlayerGroundedState(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName)
+    public PlayerGroundedState(Player player, StateMachine stateMachine,  string animBoolName) : base(player, stateMachine,  animBoolName)
     {
-        
     }
 
     public override void Enter()

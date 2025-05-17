@@ -6,10 +6,11 @@ public class EnemySimpleWandererMeleeAttackState : EnemyState
 {
     private EnemySimpleWandererBrain specificEnemyBrain;
 
-    public EnemySimpleWandererMeleeAttackState(EnemyBrain enemyBrainBase, EnemyStateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain enemyBrain) : base(stateMachine, enemyBrain, animBoolName)
-   {
-        this.specificEnemyBrain = enemyBrain;
-   }
+    public EnemySimpleWandererMeleeAttackState(EnemyBrain enemyBrain, StateMachine stateMachine, string animBoolName, EnemySimpleWandererBrain specificEnemyBrain)
+        : base(enemyBrain, stateMachine, animBoolName)
+    {
+        this.specificEnemyBrain = specificEnemyBrain;
+    }
 
     public override void Enter()
     {

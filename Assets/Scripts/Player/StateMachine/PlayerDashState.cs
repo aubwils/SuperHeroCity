@@ -8,8 +8,10 @@ public class PlayerDashState : PlayerState
     private Vector2 dashDirection;
     private Vector2 dashTarget;
 
-    public PlayerDashState(PlayerStateMachine stateMachine, Player player, string animBoolName) 
-        : base(stateMachine, player, animBoolName) { }
+    public PlayerDashState(Player player, StateMachine stateMachine,  string animBoolName)
+    : base(player, stateMachine, animBoolName)
+    {
+    }
 
    public override void Enter()
     {
@@ -26,7 +28,7 @@ public class PlayerDashState : PlayerState
 
         // Use Collider2D.Cast to check for obstacles along the dash path
         RaycastHit2D[] hits = new RaycastHit2D[1]; // Only need the first hit
-        int hitCount = player.playerCollider.Cast(dashDirection, hits, dashDistance);
+        int hitCount = player.myCollider.Cast(dashDirection, hits, dashDistance);
 
         if (hitCount > 0)
         {

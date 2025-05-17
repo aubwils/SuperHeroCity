@@ -7,10 +7,10 @@ public class PlayerMoveState : PlayerGroundedState
     private Vector2 movementInput;
     private Vector2 lastMovementDirection; // Store the last non-zero movement direction
 
-    public PlayerMoveState(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName)
+    public PlayerMoveState(Player player, StateMachine stateMachine,  string animBoolName) : base(player, stateMachine,  animBoolName)
     {
-        
     }
+    
 
     public override void Enter()
     {

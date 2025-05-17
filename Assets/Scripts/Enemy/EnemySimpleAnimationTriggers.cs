@@ -5,10 +5,10 @@ using UnityEngine;
 public class EnemySimpleAnimationTriggers : MonoBehaviour
 {
   private EnemyBrain enemyBrain => GetComponentInParent<EnemyBrain>();
-
-  private void OnAnimationFinishTrigger()
+//can i do enity brain? then only have 1 animation trigger scrit? or a base?
+  private void CallAnimationFinishTrigger()
   {
-    enemyBrain.OnAnimationFinishTrigger();
+    enemyBrain.CallAnimationFinishTrigger();
   }
 
   private void OnAnimationAttackTrigger()

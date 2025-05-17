@@ -6,9 +6,9 @@ public class PlayerAnimationTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
 
-    private void AnimationTrigger()
+    private void CallAnimationFinishTrigger()
     {
-        player.AnimationTrigger();
+        player.CallAnimationFinishTrigger();
     }
 
     private void OnAnimationAttackTrigger()

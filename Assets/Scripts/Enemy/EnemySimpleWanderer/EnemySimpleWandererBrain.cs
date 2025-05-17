@@ -25,7 +25,7 @@ public class EnemySimpleWandererBrain : EnemyBrain
     
 
 
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         idleState = new EnemySimpleWandererIdleState( this, stateMachine, "IsIdle", this);
@@ -35,12 +35,12 @@ public class EnemySimpleWandererBrain : EnemyBrain
         recoveryState = new EnemySimpleWandererRecoveryState( this, stateMachine, "IsIdle", this);
     }
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
         stateMachine.Initialize(idleState);
     }
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
     }

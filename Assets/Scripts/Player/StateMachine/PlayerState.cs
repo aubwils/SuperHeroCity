@@ -2,50 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState 
+public abstract class PlayerState : EntityState
 {
-    protected PlayerStateMachine stateMachine;
     protected Player player;
+    //protected PlayerInputActions playerInputActions; 
 
-    private string animBoolName;
 
-    protected bool animationTriggerCalled;
 
-    public PlayerState(PlayerStateMachine stateMachine, Player player, string animBoolName)
+    public PlayerState(Player player, StateMachine stateMachine,  string animBoolName) : base(stateMachine, animBoolName)
     {
-        this.stateMachine = stateMachine;
         this.player = player;
-        this.animBoolName = animBoolName;
+        animator = player.animator;
+        //playerInputActions = player.playerInputActions;
     }
     
-    public virtual void Enter() 
+    public override void Enter() 
     {
-        // Debug.Log("Entering state: " + animBoolName);
-        player.animator.SetBool(animBoolName, true);
-        animationTriggerCalled = false;
-        
+        base.Enter();
     }
-    
-    public virtual void Exit() 
+
+    public override void Update() 
     {
-        // Debug.Log("Exiting state: " + animBoolName);
-        player.animator.SetBool(animBoolName, false);
-    }
-    
-    public virtual void Update() 
-    {
+        base.Update();
          if (player.isKnockbacked) return;
+    }   
 
-    }
-
-    public virtual void FixedUpdate() 
+    public override void FixedUpdate() 
     {
-     
+        base.FixedUpdate();
     }
-
-    public virtual void AnimationFinishTrigger() 
+        
+    public override void Exit() 
     {
-        animationTriggerCalled = true;
+        base.Exit();
     }
+    
+
     
 }

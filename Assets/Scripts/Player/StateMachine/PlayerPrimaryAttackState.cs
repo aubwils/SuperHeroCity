@@ -11,9 +11,8 @@ public class PlayerPrimaryAttackState : PlayerState
 
 
      
-      public PlayerPrimaryAttackState(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName)
+      public PlayerPrimaryAttackState(Player player, StateMachine stateMachine,  string animBoolName) : base(player, stateMachine,  animBoolName)
     {
-        
     }
 
     public override void Enter()
