@@ -38,8 +38,8 @@ public class CharacterStats : MonoBehaviour
             return;
         }
 
-        currentHealth -= offenseStats.damage.GetValue();
-        Debug.Log("Took damage: " + offenseStats.damage.GetValue() + ", Current Health: " + currentHealth);
+        currentHealth -= damage;
+        Debug.Log("Took damage: " + damage + ", Current Health: " + currentHealth);
         if (currentHealth <= 0)
         {
             Die();

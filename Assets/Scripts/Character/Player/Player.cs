@@ -32,21 +32,6 @@ public class Player : CharacterBrain
     #endregion
 
 
-
-    // #region Come Back to in Future
-    // Attack Movement Data for pushing the player during attack. Felt weird in testing will look at again once we have real attack animations
-    // Was in Player and Player PrimaryAttackState scripts
-    // [System.Serializable]
-    // public struct AttackMovementData
-    // {
-    //     public float pushDistance;
-    //     public float pushDuration;
-    // }
-    // public AttackMovementData[] attackMovement;
-    // #endregion
-  
-
-
     #region States
     public PlayerIdleState idleState {get; private set;}
     public PlayerMoveState moveState {get; private set;}
