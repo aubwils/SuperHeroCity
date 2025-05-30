@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+public class CharacterStats : MonoBehaviour, IDamageable
 {
 
     public Stat maxHealth;
@@ -28,14 +28,14 @@ public class CharacterStats : MonoBehaviour
     }
 
 
-    public virtual void TakeDamage(int damage)
+    public virtual bool TakeDamage(int damage)
     {
-        if (isDead) return;
+        if (isDead) return false;
 
         if (AttackEvaded())
         {
             Debug.Log($" {gameObject.name} Attack Evaded!");
-            return;
+            return false;
         }
 
         currentHealth -= damage;
@@ -43,7 +43,9 @@ public class CharacterStats : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+            return true;
         }
+        return true;
     }
 
     protected virtual void Die()
@@ -64,7 +66,12 @@ public class CharacterStats : MonoBehaviour
         float baseEvasion = defenseStats.evasion.GetValue();
         float bonusEvasion = majorStats.dexterity.GetValue() * 0.5f; //  0.5% Evasion per point of dexterity
 
-        return baseEvasion + bonusEvasion;
+        float totalEvasion = baseEvasion + bonusEvasion;
+        float evasionCap = 75f; // Evasion cap at 75%
+
+        float finalEvasion = Mathf.Clamp(totalEvasion, 0f, evasionCap); // Clamp to ensure it doesn't exceed the cap
+
+        return finalEvasion;
     }
 
     private bool AttackEvaded() => Random.Range(0, 100) < GetEvasion();

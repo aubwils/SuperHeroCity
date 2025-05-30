@@ -13,9 +13,9 @@ public class EnemyStats :  CharacterStats
         enemyBrain = GetComponent<EnemyBrain>();
     }
 
-    public override void TakeDamage(int damage)
+    public override bool TakeDamage(int damage)
     {
-       base.TakeDamage(damage);
+       return base.TakeDamage(damage);
     }
 
     protected override void Die()
