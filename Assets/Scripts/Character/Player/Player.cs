@@ -18,34 +18,34 @@ public class Player : CharacterBrain
         }
     }
 
-    
-    public PlayerMovement playerMovement { get; private set; } 
+
+    public PlayerMovement playerMovement { get; private set; }
 
 
     [SerializeField] private GameObject secretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
 
     #endregion
- 
+
     #region Player Stats
     [SerializeField] private bool isHero = false;
     #endregion
 
 
     #region States
-    public PlayerIdleState idleState {get; private set;}
-    public PlayerMoveState moveState {get; private set;}
-    public PlayerDashState dashState {get; private set;}
-    public PlayerTransformationState transformationState {get; private set;}
-    public PlayerPrimaryAttackState primaryAttackState {get; private set;}
-    public PlayerDeathState deathState {get; private set;}
+    public PlayerIdleState idleState { get; private set; }
+    public PlayerMoveState moveState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
+    public PlayerTransformationState transformationState { get; private set; }
+    public PlayerPrimaryAttackState primaryAttackState { get; private set; }
+    public PlayerDeathState deathState { get; private set; }
 
 
     #endregion
 
-        
 
-   protected override void Awake()
+
+    protected override void Awake()
     {
         base.Awake();
         playerMovement = GetComponent<PlayerMovement>();
@@ -96,7 +96,7 @@ public class Player : CharacterBrain
     }
 
 
-     public bool GetPlayerIdentity()
+    public bool GetPlayerIdentity()
     {
         return isHero; // Return the current identity of the player
     }
@@ -105,5 +105,4 @@ public class Player : CharacterBrain
         base.CallAnimationFinishTrigger();
     }
 
-  
 }

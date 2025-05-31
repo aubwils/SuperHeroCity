@@ -39,6 +39,7 @@ public class CharacterStats : MonoBehaviour, IDamageable
         }
 
         currentHealth -= damage;
+        DamageTextSpawnerManager.Instance.SpawnDamageText(damage, transform);
         Debug.Log("Took damage: " + damage + ", Current Health: " + currentHealth);
         if (currentHealth <= 0)
         {
