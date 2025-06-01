@@ -14,10 +14,16 @@ public class DamageTextSpawnerManager : MonoBehaviour
         Instance = this;
     }
 
-    public void SpawnDamageText(int damageAmount, Transform parentTransform)
+    public void SpawnDamageText(int damageAmount, Transform parentTransform, bool isCrit = false)
     {
         DamageText text = Instantiate(damageTextPrefab, parentTransform);
-       text.transform.position += Vector3.right *0.5f; 
-        text.SetDamageText(damageAmount, parentTransform);
+
+        float randomOffset = Random.Range(-0.5f, 0.5f);
+        text.transform.position += Vector3.right * randomOffset;
+
+        Color color = isCrit ? Color.yellow : Color.white;
+
+
+        text.SetDamageText(damageAmount, parentTransform, color);
     }
 }
