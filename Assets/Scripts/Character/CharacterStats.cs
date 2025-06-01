@@ -21,10 +21,10 @@ public class CharacterStats : MonoBehaviour, IDamageable
 
     }
 
-    public virtual void DoDamage(CharacterStats targetStats)
+    public virtual bool DoDamage(CharacterStats targetStats)
     {
         int totalDamage = offenseStats.damage.GetValue() + majorStats.strength.GetValue();
-        targetStats.TakeDamage(totalDamage);
+        return targetStats.TakeDamage(totalDamage);
     }
 
 

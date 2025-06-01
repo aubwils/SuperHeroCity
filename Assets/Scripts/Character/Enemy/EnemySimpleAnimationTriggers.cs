@@ -22,10 +22,14 @@ public class EnemySimpleAnimationTriggers : MonoBehaviour
         {
           if (player.TryGetComponent(out CharacterStats playerCharacterStats))
           {
-            enemyBrain.characterStats.DoDamage(playerCharacterStats);
-            player.TakeDamageEffect(enemyBrain.transform.position, enemyBrain.GetKnockbackForce(), enemyBrain.GetKnockbackDuration());
+            bool wasHit = enemyBrain.characterStats.DoDamage(playerCharacterStats);
+            if (wasHit)
+            {
+              player.TakeDamageEffect(enemyBrain.transform.position, enemyBrain.GetKnockbackForce(), enemyBrain.GetKnockbackDuration());
+            }
           }
           // collider.GetComponent<CharacterStats>().TakeDamage(enemyBrain.characterStats.damage.GetValue());
+
         }
       }
     }

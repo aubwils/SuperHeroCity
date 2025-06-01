@@ -22,12 +22,12 @@ public class PlayerAnimationTriggers : MonoBehaviour
                 {
                     if (enemy.TryGetComponent(out CharacterStats enemyCharacterStats))
                     {
-                        player.characterStats.DoDamage(enemyCharacterStats);
-                        Vector2 knockbackDirection = player.playerMovement.GetLastMovementDirection();
-                        enemy.TakeDamageEffect(player.transform.position, player.GetKnockbackForce(), player.GetKnockbackDuration());
+                       bool wasHit = player.characterStats.DoDamage(enemyCharacterStats);
+                        if (wasHit)
+                        {
+                            enemy.TakeDamageEffect(player.transform.position, player.GetKnockbackForce(), player.GetKnockbackDuration());
+                        }
                     }
-
-
                 }
             }
         }

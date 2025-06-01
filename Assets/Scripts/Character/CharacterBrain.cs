@@ -80,7 +80,6 @@ public class CharacterBrain : MonoBehaviour
     public void TakeDamageEffect(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
     {
         characterFX.StartCoroutine("FlashFX");
-        Debug.Log(gameObject.name + " took damage!");
         ApplyKnockback(knockbackSource, knockbackForce, knockbackDuration);
     }
 
