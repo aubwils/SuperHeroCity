@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//thinking for all enemies if all have idle, chase, attack states then made a enemy base idle, chase, attack states and inherit from it?
 public class EnemySimpleWandererChaseState : EnemyState
 {
     private EnemySimpleWandererBrain specificEnemyBrain;
@@ -15,6 +15,10 @@ public class EnemySimpleWandererChaseState : EnemyState
     {
         base.Enter();
         specificEnemyBrain.currentMoveSpeed = specificEnemyBrain.ChaseSpeed;
+
+        if (specificEnemyBrain.PlayerTarget == null)
+            specificEnemyBrain.SetPlayerTarget(specificEnemyBrain.GetPlayerReference());
+
        // Debug.Log("Chasing Player");
     }
 

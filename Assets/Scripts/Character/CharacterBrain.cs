@@ -73,8 +73,8 @@ public class CharacterBrain : MonoBehaviour
 
     protected virtual void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
+        // Gizmos.color = Color.red;
+        // Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
     }
 
     public void TakeDamageEffect(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)

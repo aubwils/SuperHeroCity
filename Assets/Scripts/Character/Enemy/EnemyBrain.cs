@@ -9,7 +9,7 @@ public class EnemyBrain : CharacterBrain
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
-      [SerializeField] private float chaseSpeed = 4.0f;
+    [SerializeField] private float chaseSpeed = 4.0f;
     public float ChaseSpeed => chaseSpeed;
     public float currentMoveSpeed;
     #endregion
@@ -21,8 +21,8 @@ public class EnemyBrain : CharacterBrain
 
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask playerLayer;
-    public Transform PlayerTarget { get; private set; }
-   
+    public Transform PlayerTarget { get; protected set; }
+
     [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
 
     #endregion
@@ -30,9 +30,9 @@ public class EnemyBrain : CharacterBrain
     [Header("Combat Settings")]
     public float timeBetweenAttacks = 1f;
 
-        
 
-   protected override void Awake()
+
+    protected override void Awake()
     {
         base.Awake();
         currentMoveSpeed = moveSpeed;
@@ -65,13 +65,13 @@ public class EnemyBrain : CharacterBrain
     protected override void OnDrawGizmosSelected()
     {
         base.OnDrawGizmosSelected();
-        
+
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + (Vector3)facingDirection.normalized * obstacleCheckDistance);
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, playerDetectRange);
- 
+
     }
 
 
@@ -92,6 +92,28 @@ public class EnemyBrain : CharacterBrain
     {
         Collider2D hit = Physics2D.OverlapCircle(meleeAttackCheck.position, attackCheckRange, playerLayer);
         return hit != null;
+    }
+
+
+    public virtual void TryEnterChaseState(Transform PlayerTarget)
+    {
+
+    }
+
+
+    public Transform GetPlayerReference()
+    {
+        if (PlayerTarget == null)
+        {
+            IsPlayerInSight();
+        }
+
+        return PlayerTarget;
+    }
+
+    public void SetPlayerTarget(Transform player)
+    {
+        PlayerTarget = player;
     }
 
     #endregion

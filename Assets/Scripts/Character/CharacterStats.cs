@@ -27,6 +27,24 @@ public class CharacterStats : MonoBehaviour, IDamageable
         return targetStats.TakeDamage(totalDamage);
     }
 
+    // public void PreformAttack()
+    // {
+    //     foreach (var target in GetDetectedColliders())
+    //     {
+    //         Idamageable damageable = target.GetComponent<IDamageable>();
+
+    //         if (damageable != null)
+    //             continue;
+
+    //         bool targerGotHit = damageable.TakeDamage(GetPhisicalDamage(), transform);
+                
+    //         if (targerGotHit)
+    //         {
+    //          vfx.CreateOnhitVFX(target.transform);
+    //         }
+    //     }
+    // }
+
 
     public virtual bool TakeDamage(int damage)
     {
@@ -52,6 +70,26 @@ public class CharacterStats : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         isDead = true;
+    }
+
+    public float GetPhisicalDamage()
+    {
+        float baseDamage = offenseStats.damage.GetValue();
+        float bonusDamage = majorStats.strength.GetValue();
+        float totalBaseDamage = baseDamage + bonusDamage;
+
+        float baseCritChance = offenseStats.critChance.GetValue();
+        float bonusCritChance = majorStats.dexterity.GetValue() * 0.3f; // +0.3% Crit Chance per point of dexterity 
+        float totalCritChance = baseCritChance + bonusCritChance;
+
+        float baseCritPower = offenseStats.critPower.GetValue();
+        float bonusCritPower = majorStats.strength.GetValue() * 0.5f; // +0.5% Crit Damage per point of strength
+        float totalCritPower = (baseCritPower + bonusCritPower) / 100f; // Convert to a multiplier
+
+        bool isCrit = Random.Range(0, 100) < totalCritChance;
+        float finalDamage = isCrit ? totalBaseDamage * totalCritPower : totalBaseDamage;
+
+        return finalDamage;
     }
 
     public float GetMaxHealth()
