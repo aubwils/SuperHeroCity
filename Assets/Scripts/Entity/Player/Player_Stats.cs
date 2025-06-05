@@ -13,14 +13,4 @@ public class Player_Stats : Entity_Stats
         
     }
 
-    public override bool TakeDamage(int damage)
-    {
-       return base.TakeDamage(damage);
-    }
-
-    protected override void Die()
-    {
-        base.Die();
-        playerBrain.StateMachine.ChangeState(playerBrain.deathState);
-    }
 }

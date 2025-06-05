@@ -15,10 +15,8 @@ public class Entity_Brain : MonoBehaviour
 
     #endregion
 
-    [Header("Knockback Settings")]
-    [SerializeField] protected float knockbackForce = 3f;
-    [SerializeField] protected float knockbackDuration = 0.2f;
-    public bool isKnockbacked { get; private set; }
+    private Coroutine knockbackCoroutine;
+    private bool isKnockbacked = false;
   
     [Header("Combat Settings")]
     public float attackCheckRange = 1.0f;
@@ -77,25 +75,20 @@ public class Entity_Brain : MonoBehaviour
         // Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
     }
 
-    public void TakeDamageEffect(Vector2 knockbackSource, float knockbackForce, float knockbackDuration)
+ 
+    public void ReciveKnockback(Vector2 knockback, float duration)
     {
-        entityFX.StartCoroutine("FlashFX");
-        ApplyKnockback(knockbackSource, knockbackForce, knockbackDuration);
+        if (knockbackCoroutine != null)
+            StopCoroutine(knockbackCoroutine);
+
+        knockbackCoroutine = StartCoroutine(KnockbackRoutine(knockback, duration));
     }
 
-    public void ApplyKnockback(Vector2 sourcePosition, float force, float duration)
-    {
-        if (isKnockbacked || isBusy) return;
-
-        Vector2 direction = (transform.position - (Vector3)sourcePosition).normalized;
-        StartCoroutine(KnockbackRoutine(direction, force, duration));
-    }
-
-    protected virtual IEnumerator KnockbackRoutine(Vector2 direction, float force, float duration)
+    protected virtual IEnumerator KnockbackRoutine(Vector2 knockbackDirection, float duration)
     {
         isKnockbacked = true;
 
-        rb.velocity = direction * force;
+        rb.velocity = knockbackDirection;
 
         yield return new WaitForSeconds(duration);
 
@@ -104,6 +97,6 @@ public class Entity_Brain : MonoBehaviour
     }
 
 
-    public float GetKnockbackForce() => knockbackForce;
-    public float GetKnockbackDuration() => knockbackDuration;
+    public bool GetKnockbackStatus() => isKnockbacked;
+    // public float GetKnockbackDuration() => knockbackDuration;
 }

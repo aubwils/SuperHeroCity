@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3384375112551516984}
   - component: {fileID: 8872730263441430126}
   - component: {fileID: 2852451690230217202}
+  - component: {fileID: 4335453004549195812}
   m_Layer: 7
   m_Name: Enemy_Simple_Skeleton
   m_TagString: Enemy
@@ -60,7 +61,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5930377323201452730}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -20.59, y: 6.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -143,15 +144,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632354973e2fd41e0a1001704cd3716f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  chaseSpeed: 4
-  currentMoveSpeed: 0
-  obstacleCheckDistance: 0.5
-  playerDetectRange: 3
+  knockbackForce: 1
+  knockbackDuration: 0.2
   attackCheckRange: 0.5
   attackCheckOffset: 0.75
   meleeAttackCheck: {fileID: 7745282389540443606}
-  timeBetweenAttacks: 1
+  moveSpeed: 2
+  chaseSpeed: 3
+  currentMoveSpeed: 0
+  obstacleCheckDistance: 0.5
+  playerDetectRange: 3
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 16
@@ -159,8 +161,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   facingDirection: {x: 0, y: -1}
-  knockbackForce: 2
-  knockbackDuration: 0.3
+  timeBetweenAttacks: 1
   idleDuration: 2
   minWanderTime: 1
   maxWanderTime: 3
@@ -176,8 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5fde1dc546846a99c4660ef8c8b988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashDuration: 0.2
-  hitMaterial: {fileID: 2100000, guid: bc501d9971c1641f39f426f391aae3bc, type: 2}
+  OnDamageMaterial: {fileID: 2100000, guid: bc501d9971c1641f39f426f391aae3bc, type: 2}
+  OnDamageVFXDuration: 0.2
 --- !u!114 &2852451690230217202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,17 +191,95 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a69627a3f11142c1847a91ed40088a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strength:
-    baseValue: 2
-    modifiers: 
-  damage:
-    baseValue: 5
-    modifiers: 
   maxHealth:
-    baseValue: 30
+    baseValue: 100
     modifiers: 
+  isDead: 0
+  majorStats:
+    strength:
+      baseValue: 0
+      modifiers: 
+    dexterity:
+      baseValue: 0
+      modifiers: 
+    intelligence:
+      baseValue: 0
+      modifiers: 
+    constitution:
+      baseValue: 0
+      modifiers: 
+  offenseStats:
+    damage:
+      baseValue: 2
+      modifiers: 
+    critPower:
+      baseValue: 0
+      modifiers: 
+    critChance:
+      baseValue: 0
+      modifiers: 
+    fireDamage:
+      baseValue: 0
+      modifiers: 
+    iceDamage:
+      baseValue: 0
+      modifiers: 
+    lightningDamage:
+      baseValue: 0
+      modifiers: 
+    poisonDamage:
+      baseValue: 0
+      modifiers: 
+    holyDamage:
+      baseValue: 0
+      modifiers: 
+    darkDamage:
+      baseValue: 0
+      modifiers: 
+  defenseStats:
+    armor:
+      baseValue: 0
+      modifiers: 
+    evasion:
+      baseValue: 0
+      modifiers: 
+    suspisionResistance:
+      baseValue: 0
+      modifiers: 
+    fireResistance:
+      baseValue: 0
+      modifiers: 
+    iceResistance:
+      baseValue: 0
+      modifiers: 
+    lightningResistance:
+      baseValue: 0
+      modifiers: 
+    poisonResistance:
+      baseValue: 0
+      modifiers: 
+    holyResistance:
+      baseValue: 0
+      modifiers: 
+    darkResistance:
+      baseValue: 0
+      modifiers: 
   currentHealth: 0
   enemyDeathEffectPrefab: {fileID: 7296406221015522678, guid: a89689c790d354e9e87ea1aeb2728199, type: 3}
+--- !u!114 &4335453004549195812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930377323201452730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797b293a2615f4e7588a2eb491ef2a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
 --- !u!1 &7944463168955823913
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,8 +290,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1502308272275735530}
   - component: {fileID: 7868938536040339224}
-  - component: {fileID: 7367316582437013339}
   - component: {fileID: 2978591733955128963}
+  - component: {fileID: 3308809299575709334}
   m_Layer: 0
   m_Name: Enemy_Visuals
   m_TagString: Untagged
@@ -287,18 +366,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &7367316582437013339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7944463168955823913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464dd34bd734e4c65ae2ca306a645ce4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &2978591733955128963
 Animator:
   serializedVersion: 5
@@ -320,3 +387,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3308809299575709334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944463168955823913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ef6f832c59d4667944b1f3b67b6c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

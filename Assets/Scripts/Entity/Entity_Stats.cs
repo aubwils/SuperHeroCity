@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity_Stats : MonoBehaviour, IDamageable
+public class Entity_Stats : MonoBehaviour
 {
 
     public Stat maxHealth;
@@ -23,11 +23,12 @@ public class Entity_Stats : MonoBehaviour, IDamageable
 
     public virtual bool DoDamage(Entity_Stats targetStats)
     {
-        int totalDamage = offenseStats.damage.GetValue() + majorStats.strength.GetValue();
-        return targetStats.TakeDamage(totalDamage);
+        // int totalDamage = offenseStats.damage.GetValue() + majorStats.strength.GetValue();
+        // return targetStats.TakeDamage(totalDamage);
+        return false;
     }
 
-    // public void PreformAttack()
+    // public void PerformAttack()
     // {
     //     foreach (var target in GetDetectedColliders())
     //     {
@@ -46,31 +47,31 @@ public class Entity_Stats : MonoBehaviour, IDamageable
     // }
 
 
-    public virtual bool TakeDamage(int damage)
-    {
-        if (isDead) return false;
+    // public virtual bool TakeDamage(int damage, Transform damageSource)
+    // {
+    //     if (isDead) return false;
 
-        if (AttackEvaded())
-        {
-            Debug.Log($" {gameObject.name} Attack Evaded!");
-            return false;
-        }
+    //     if (AttackEvaded())
+    //     {
+    //         Debug.Log($" {gameObject.name} Attack Evaded!");
+    //         return false;
+    //     }
 
-        currentHealth -= damage;
-        DamageTextSpawnerManager.Instance.SpawnDamageText(damage, transform);
-        Debug.Log("Took damage: " + damage + ", Current Health: " + currentHealth);
-        if (currentHealth <= 0)
-        {
-            Die();
-            return true;
-        }
-        return true;
-    }
+    //     currentHealth -= damage;
+    //     DamageTextSpawnerManager.Instance.SpawnDamageText(damage, transform);
+    //     Debug.Log("Took damage: " + damage + ", Current Health: " + currentHealth);
+    //     if (currentHealth <= 0)
+    //     {
+    //         Die();
+    //         return true;
+    //     }
+    //     return true;
+    // }
 
-    protected virtual void Die()
-    {
-        isDead = true;
-    }
+    // protected virtual void Die()
+    // {
+    //     isDead = true;
+    // }
 
     public float GetPhisicalDamage()
     {
@@ -113,7 +114,6 @@ public class Entity_Stats : MonoBehaviour, IDamageable
         return finalEvasion;
     }
 
-    private bool AttackEvaded() => Random.Range(0, 100) < GetEvasion();
 
 
 

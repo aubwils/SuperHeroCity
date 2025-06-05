@@ -15,11 +15,11 @@ public class Entity_AnimationTriggers : MonoBehaviour
 
     private void CallAnimationFinishTrigger()
     {
-        entityBrain.CallAnimationFinishTrigger();
+        entityBrain?.CallAnimationFinishTrigger();
     }
 
     private void CallAnimationAttackTrigger()
     {
-        entityCombat.PreformAttack();
+        entityCombat?.PerformAttack();
     }
 }

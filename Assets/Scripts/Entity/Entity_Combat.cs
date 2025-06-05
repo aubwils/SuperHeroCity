@@ -11,15 +11,14 @@ public class Entity_Combat : MonoBehaviour
     [SerializeField] private float taragetCheckRadious = 1f;
     [SerializeField] private LayerMask targetLayerMask;
 
-    public void PreformAttack()
+    public void PerformAttack()
     {
 
         foreach (var collider in GetDetectedColliders())
         {
             if (collider.TryGetComponent(out IDamageable damageable))
             {
-                Entity_Health targetHealth = collider.GetComponent<Entity_Health>();
-                targetHealth?.TakeDamage(damage, transform); 
+                damageable.TakeDamage(damage, transform);
             }
         }
     }

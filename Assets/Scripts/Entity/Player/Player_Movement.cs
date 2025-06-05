@@ -67,7 +67,7 @@ public class Player_Movement : MonoBehaviour
     }
     private void FixedUpdate()
     {        
-        if (playerBrain.isKnockbacked || playerBrain.isBusy) return;
+        if (playerBrain.GetKnockbackStatus()) return;
 
         if (canMove && !playerBrain.isBusy && playerBrain.StateMachine.currentState is Player_MoveState)
             {

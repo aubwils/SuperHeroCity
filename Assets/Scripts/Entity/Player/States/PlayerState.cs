@@ -25,7 +25,7 @@ public abstract class PlayerState : EntityState
     public override void Update() 
     {
         base.Update();
-         if (playerBrain.isKnockbacked) return;
+         if (playerBrain.GetKnockbackStatus()) return;
     }   
 
     public override void FixedUpdate() 

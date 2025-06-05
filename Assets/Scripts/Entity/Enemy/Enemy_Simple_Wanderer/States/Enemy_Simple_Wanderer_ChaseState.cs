@@ -50,6 +50,8 @@ public class Enemy_Simple_Wanderer_ChaseState : EnemyState
         if (specificEnemyBrain.PlayerTarget == null)
             return;
 
+        if (specificEnemyBrain.GetKnockbackStatus()) return;
+
         Vector2 direction = (specificEnemyBrain.PlayerTarget.position - specificEnemyBrain.transform.position).normalized;
         specificEnemyBrain.SetFacingDirection(direction);
 
