@@ -45,13 +45,16 @@ public class EnemySimpleWandererBrain : EnemyBrain
         base.Update();
     }
 
-    public override void TryEnterChaseState(Transform PlayerTarget)
+    public override void TryEnterChaseState(Transform playerTarget)
     {
         if (stateMachine.currentState == chaseState || stateMachine.currentState == meleeAttackState)
             return; // already chasing or attacking
 
-        this.PlayerTarget = PlayerTarget;
-        stateMachine.ChangeState(chaseState);
+       if (IsPlayerInSight())
+        {
+            SetPlayerTarget(playerTarget);
+            stateMachine.ChangeState(chaseState);
+        }
     }
 
 }

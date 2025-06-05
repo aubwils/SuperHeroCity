@@ -6,20 +6,31 @@ public class CharacterFX : MonoBehaviour
 {
     private SpriteRenderer sr;
 
-    [Header("Flash FX")]
-    [SerializeField] private float flashDuration = 0.15f;
-    [SerializeField] private Material hitMaterial;
+    [Header("On Damage VFX")]
+    [SerializeField] private Material OnDamageMaterial;
+    [SerializeField] private float OnDamageVFXDuration = 0.2f;
     private Material origionalMaterial;
+    private Couroutine OnDamageVFXCoroutine;
 
-    private void Start()
+    private void Awake()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         origionalMaterial = sr.material;
     }
-    private IEnumerator FlashFX()
+
+    public void PlayOnDamageVFX()
+    {
+        if (OnDamageVFXCoroutine != null)
+        {
+            StopCoroutine(OnDamageVFXCoroutine);
+        }
+        OnDamageVFXCoroutine = StartCoroutine(OnDamageVFXCo());
+    }
+
+    private IEnumerator OnDamageVFXCo()
     {
         sr.material = hitMaterial;
-        yield return new WaitForSeconds(flashDuration);
+        yield return new WaitForSeconds(OnDamageVFXDuration);
         sr.material = origionalMaterial;
     }
 }

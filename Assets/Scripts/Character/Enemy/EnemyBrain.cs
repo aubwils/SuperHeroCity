@@ -19,11 +19,11 @@ public class EnemyBrain : CharacterBrain
     [SerializeField] private float obstacleCheckDistance = 0.5f;
     [SerializeField] private float playerDetectRange = 3.0f;
 
-    [SerializeField] private LayerMask obstacleLayer;
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] protected LayerMask obstacleLayer;
+    [SerializeField] protected LayerMask playerLayer;
     public Transform PlayerTarget { get; protected set; }
 
-    [SerializeField] private Vector2 facingDirection = Vector2.down; // or from movement input
+    [SerializeField] protected Vector2 facingDirection = Vector2.down; // or from movement input
 
     #endregion
 
@@ -95,7 +95,7 @@ public class EnemyBrain : CharacterBrain
     }
 
 
-    public virtual void TryEnterChaseState(Transform PlayerTarget)
+    public virtual void TryEnterChaseState(Transform playerTarget)
     {
 
     }
