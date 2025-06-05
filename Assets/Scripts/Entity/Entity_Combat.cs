@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Entity_Combat : MonoBehaviour
+{
+    public float damage = 10f;
+
+    [Header("Target detection")]
+    [SerializeField] private Transform targetCheck;
+    [SerializeField] private float taragetCheckRadious = 1f;
+    [SerializeField] private LayerMask targetLayerMask;
+
+    public void PreformAttack()
+    {
+
+        foreach (var collider in GetDetectedColliders())
+        {
+            if (collider.TryGetComponent(out IDamageable damageable))
+            {
+                Entity_Health targetHealth = collider.GetComponent<Entity_Health>();
+                targetHealth?.TakeDamage(damage, transform); 
+            }
+        }
+    }
+
+    private Collider2D[] GetDetectedColliders()
+    {
+        return Physics2D.OverlapCircleAll(targetCheck.position, taragetCheckRadious, targetLayerMask);
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(targetCheck.position, taragetCheckRadious);
+    }
+}
