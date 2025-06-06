@@ -74,7 +74,7 @@ public class Entity_Brain : MonoBehaviour
         // Gizmos.color = Color.red;
         // Gizmos.DrawWireSphere(meleeAttackCheck.position, attackCheckRange);       
     }
-
+   
  
     public void ReciveKnockback(Vector2 knockback, float duration)
     {

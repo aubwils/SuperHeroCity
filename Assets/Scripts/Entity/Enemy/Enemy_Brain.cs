@@ -27,9 +27,7 @@ public class Enemy_Brain : Entity_Brain
 
     #endregion
 
-    [Header("Combat Settings")]
-    public float timeBetweenAttacks = 1f;
-
+   
 
 
     protected override void Awake()
@@ -55,6 +53,7 @@ public class Enemy_Brain : Entity_Brain
             UpdateAttackCheckPosition(facingDirection);
         }
     }
+  
 
     #region Collision Checks
     public bool IsObstacleAhead()

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 8872730263441430126}
   - component: {fileID: 2852451690230217202}
   - component: {fileID: 4335453004549195812}
+  - component: {fileID: 1093997218010150405}
   m_Layer: 7
   m_Name: Enemy_Simple_Skeleton
   m_TagString: Enemy
@@ -144,8 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632354973e2fd41e0a1001704cd3716f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 1
-  knockbackDuration: 0.2
   attackCheckRange: 0.5
   attackCheckOffset: 0.75
   meleeAttackCheck: {fileID: 7745282389540443606}
@@ -265,7 +264,6 @@ MonoBehaviour:
       baseValue: 0
       modifiers: 
   currentHealth: 0
-  enemyDeathEffectPrefab: {fileID: 7296406221015522678, guid: a89689c790d354e9e87ea1aeb2728199, type: 3}
 --- !u!114 &4335453004549195812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +278,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP: 0
+  isDead: 0
+  knockbackDuration: 0.25
+  OnDamageKnockback: {x: 0.75, y: 2}
+  heavyDamageThreshold: 0.3
+  heavyKnockbackDuration: 0.3
+  onHeavyDamageKnockback: {x: 3, y: 3}
+  enemyDeathEffectPrefab: {fileID: 7296406221015522678, guid: a89689c790d354e9e87ea1aeb2728199, type: 3}
+--- !u!114 &1093997218010150405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930377323201452730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0f49243272f47a8a4c323b224cf0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  targetCheck: {fileID: 7745282389540443606}
+  taragetCheckRadious: 1
+  targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &7944463168955823913
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,8 +13,14 @@ public class Entity_Health : MonoBehaviour, IDamageable
     [SerializeField] protected bool isDead = false;
 
     [Header("Knockback Settings")]
-    [SerializeField] private float knockbackDuration = 0.5f;
-    [SerializeField] private Vector2 OnDamageKnockback = new Vector2(1.5f, 2.5f);
+    [SerializeField] private float knockbackDuration = 0.2f;
+    [SerializeField] private Vector2 OnDamageKnockback = new Vector2(0.75f, 1.5f);
+    [Space]
+    [Range(0, 1)]
+    [SerializeField] private float heavyDamageThreshold = .3f;
+    [SerializeField] private float heavyKnockbackDuration = 0.3f;
+    [SerializeField] private Vector2 onHeavyDamageKnockback = new Vector2(3f, 3f);
+
 
     public virtual void Awake()
     {
@@ -31,16 +37,16 @@ public class Entity_Health : MonoBehaviour, IDamageable
     public virtual bool TakeDamage(float damage, Transform damageSource)
     {
         if (isDead || AttackEvaded())
-        { 
+        {
             Debug.Log($"{gameObject.name} avoided damage (dead: {isDead}, evaded: {AttackEvaded()})");
             return false;
         }
 
-        Vector2 knockback = CalculateKnockback(damageSource);
+        float duration = CalculateDuration(damage);
+        Vector2 knockback = CalculateKnockback(damage, damageSource);
 
-Debug.Log($"{gameObject.name} taking {damage} damage from {damageSource.name}, knockback: {knockback}");
         entityVFX?.PlayOnDamageVFX();
-        entityBrain?.ReciveKnockback(knockback, knockbackDuration);
+        entityBrain?.ReciveKnockback(knockback, duration);
         ReduceHP(damage);
         DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(damage), transform);
 
@@ -65,12 +71,18 @@ Debug.Log($"{gameObject.name} taking {damage} damage from {damageSource.name}, k
 
     private bool AttackEvaded() => Random.Range(0, 100) < entityStats.GetEvasion();
 
-    private Vector2 CalculateKnockback(Transform damageSource)
+    private Vector2 CalculateKnockback(float damage, Transform damageSource)
     {
-        // Calculate direction from the damage source to this entity
+              // Calculate direction from the damage source to this entity
         Vector2 direction = (transform.position - damageSource.position).normalized;
         // Apply knockback force using the serialized OnDamageKnockback magnitude
-        Vector2 knockback = direction * OnDamageKnockback.magnitude;
+        Vector2 knockback = IsHeavyDamage(damage) ? direction * onHeavyDamageKnockback.magnitude : direction * OnDamageKnockback.magnitude;
         return knockback;
     }
+
+    private float CalculateDuration(float damage)
+    {
+        return IsHeavyDamage(damage) ? heavyKnockbackDuration : knockbackDuration;
+    }
+    private bool IsHeavyDamage(float damage) => damage / maxHP > heavyDamageThreshold; 
 }

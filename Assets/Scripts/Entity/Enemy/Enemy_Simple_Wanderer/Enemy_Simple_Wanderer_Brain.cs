@@ -9,7 +9,6 @@ public class Enemy_Simple_Wanderer_Brain : Enemy_Brain
     public Enemy_Simple_Wanderer_MoveState moveState { get; private set; }
     public Enemy_Simple_Wanderer_ChaseState chaseState { get; private set; }
     public Enemy_Simple_Wanderer_MeleeAttackState meleeAttackState { get; private set; }
-    public Enemy_Simple_Wanderer_RecoveryState recoveryState { get; private set; }
     #endregion
 
     #region Wanderer Settings
@@ -32,7 +31,6 @@ public class Enemy_Simple_Wanderer_Brain : Enemy_Brain
         moveState = new Enemy_Simple_Wanderer_MoveState(this, stateMachine, "IsMoving", this);
         chaseState = new Enemy_Simple_Wanderer_ChaseState(this, stateMachine, "IsChasing", this);
         meleeAttackState = new Enemy_Simple_Wanderer_MeleeAttackState(this, stateMachine, "IsAttacking", this);
-        recoveryState = new Enemy_Simple_Wanderer_RecoveryState(this, stateMachine, "IsIdle", this);
     }
 
     protected override void Start()

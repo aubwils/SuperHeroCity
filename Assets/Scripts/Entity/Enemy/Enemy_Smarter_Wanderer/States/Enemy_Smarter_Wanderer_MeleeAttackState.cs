@@ -30,7 +30,21 @@ public class Enemy_Smarter_Wanderer_MeleeAttackState : EnemyState
         base.Update();
         if (animationTriggerCalled)
         {
-            stateMachine.ChangeState(specificEnemyBrain.recoveryState); //might nto need once have invincibility...
+            if (specificEnemyBrain.IsPlayerInAttackRange())
+            {
+                // Player still in range, attack again
+                stateMachine.ChangeState(specificEnemyBrain.meleeAttackState);
+            }
+            else if (specificEnemyBrain.IsPlayerInSight())
+            {
+                // Player knocked back but still visible, chase
+                stateMachine.ChangeState(specificEnemyBrain.chaseState);
+            }
+            else
+            {
+                // Lost sight of player
+                stateMachine.ChangeState(specificEnemyBrain.idleState);
+            }
         }  
     }
 }

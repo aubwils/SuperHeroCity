@@ -13,7 +13,6 @@ public class Enemy_Smarter_Wanderer_Brain : Enemy_Brain
     public Enemy_Smarter_Wanderer_MoveState moveState { get; private set; }
     public Enemy_Smarter_Wanderer_ChaseState chaseState { get; private set; }
     public Enemy_Smarter_Wanderer_MeleeAttackState meleeAttackState { get; private set; }
-    public Enemy_Smarter_Wanderer_RecoveryState recoveryState { get; private set; }
     #endregion
 
     #region Wanderer Settings
@@ -33,7 +32,6 @@ public class Enemy_Smarter_Wanderer_Brain : Enemy_Brain
         moveState = new Enemy_Smarter_Wanderer_MoveState(this, stateMachine, "IsMoving", this);
         chaseState = new Enemy_Smarter_Wanderer_ChaseState(this, stateMachine, "IsChasing", this);
         meleeAttackState = new Enemy_Smarter_Wanderer_MeleeAttackState(this, stateMachine, "IsAttacking", this);
-        recoveryState = new Enemy_Smarter_Wanderer_RecoveryState(this, stateMachine, "IsIdle", this);
     }
 
     protected override void Start()
@@ -48,15 +46,15 @@ public class Enemy_Smarter_Wanderer_Brain : Enemy_Brain
 
     public override void TryEnterChaseState(Transform playerTarget)
     {
-        Debug.Log("TryEnterChaseState() called from damage!");
         
         if (stateMachine.currentState == chaseState || stateMachine.currentState == meleeAttackState)
-        {
-            Debug.Log("Already chasing or attacking, skipping");
             return;
-        }
 
         SetPlayerTarget(playerTarget);
+
+        Vector2 directionToPlayer = (playerTarget.position - transform.position).normalized;
+        SetFacingDirection(directionToPlayer); // This updates facingDirection
+
         stateMachine.ChangeState(chaseState);
     }
 
