@@ -2,33 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Brain : Entity_Brain
+public class Enemy_Brain : Entity_Brain, ICounterable
 {
 
-    #region Enemy Stats
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
     [SerializeField] private float chaseSpeed = 4.0f;
     public float ChaseSpeed => chaseSpeed;
     public float currentMoveSpeed;
-    #endregion
 
-    #region Enemy Collision Checks
     [Header("Collision Checks")]
     [SerializeField] private float obstacleCheckDistance = 0.5f;
     [SerializeField] private float playerDetectRange = 3.0f;
-
     [SerializeField] protected LayerMask obstacleLayer;
     [SerializeField] protected LayerMask playerLayer;
     public Transform PlayerTarget { get; protected set; }
+    [SerializeField] protected Vector2 facingDirection = Vector2.down; 
+    public Vector2 FacingDirection => facingDirection;
 
-    [SerializeField] protected Vector2 facingDirection = Vector2.down; // or from movement input
-
-    #endregion
-
-   
-
+    [Header("Stunned state details")]
+    public float stunnedDuration = 1f;
+    public Vector2 stunnedVelocity = new Vector2(1, 1); 
+    [SerializeField] protected bool canBeStunned = false; 
 
     protected override void Awake()
     {
@@ -43,6 +39,11 @@ public class Enemy_Brain : Entity_Brain
     protected override void Update()
     {
         base.Update();
+          if (Input.GetKeyDown(KeyCode.Y))
+        {
+            HandleCounterAttacks();
+        }
+    
     }
 
     public void SetFacingDirection(Vector2 dir)
@@ -53,7 +54,7 @@ public class Enemy_Brain : Entity_Brain
             UpdateAttackCheckPosition(facingDirection);
         }
     }
-  
+
 
     #region Collision Checks
     public bool IsObstacleAhead()
@@ -116,6 +117,14 @@ public class Enemy_Brain : Entity_Brain
     }
 
     #endregion
+    
 
+    public void EnableCounterWindow(bool enable) => canBeStunned = enable;
+
+    public virtual void HandleCounterAttacks()
+    {
+ 
+       
+    }
 
 }

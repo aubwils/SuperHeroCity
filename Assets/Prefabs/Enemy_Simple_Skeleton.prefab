@@ -53,7 +53,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5439486300991215047
 Transform:
   m_ObjectHideFlags: 0
@@ -160,7 +160,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   facingDirection: {x: 0, y: -1}
-  timeBetweenAttacks: 1
   idleDuration: 2
   minWanderTime: 1
   maxWanderTime: 3
@@ -276,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797b293a2615f4e7588a2eb491ef2a8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
+  maxHP: 35
   currentHP: 0
   isDead: 0
   knockbackDuration: 0.25
@@ -314,7 +313,7 @@ GameObject:
   - component: {fileID: 1502308272275735530}
   - component: {fileID: 7868938536040339224}
   - component: {fileID: 2978591733955128963}
-  - component: {fileID: 3308809299575709334}
+  - component: {fileID: 4729946532353740538}
   m_Layer: 0
   m_Name: Enemy_Visuals
   m_TagString: Untagged
@@ -410,7 +409,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3308809299575709334
+--- !u!114 &4729946532353740538
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -9,6 +9,7 @@ public class Enemy_Simple_Wanderer_Brain : Enemy_Brain
     public Enemy_Simple_Wanderer_MoveState moveState { get; private set; }
     public Enemy_Simple_Wanderer_ChaseState chaseState { get; private set; }
     public Enemy_Simple_Wanderer_MeleeAttackState meleeAttackState { get; private set; }
+    public Enemy_Simple_Wanderer_StunnedState stunnedState { get; private set; }
     #endregion
 
     #region Wanderer Settings
@@ -31,6 +32,7 @@ public class Enemy_Simple_Wanderer_Brain : Enemy_Brain
         moveState = new Enemy_Simple_Wanderer_MoveState(this, stateMachine, "IsMoving", this);
         chaseState = new Enemy_Simple_Wanderer_ChaseState(this, stateMachine, "IsChasing", this);
         meleeAttackState = new Enemy_Simple_Wanderer_MeleeAttackState(this, stateMachine, "IsAttacking", this);
+        stunnedState = new Enemy_Simple_Wanderer_StunnedState(this, stateMachine, "IsStunned", this);
     }
 
     protected override void Start()
@@ -48,11 +50,20 @@ public class Enemy_Simple_Wanderer_Brain : Enemy_Brain
         if (stateMachine.currentState == chaseState || stateMachine.currentState == meleeAttackState)
             return; // already chasing or attacking
 
-       if (IsPlayerInSight())
+        if (IsPlayerInSight())
         {
             SetPlayerTarget(playerTarget);
             stateMachine.ChangeState(chaseState);
         }
+    }
+    
+       public override void HandleCounterAttacks()
+    {
+        base.HandleCounterAttacks();
+
+        if (canBeStunned == false)
+            return;
+        stateMachine.ChangeState(stunnedState);
     }
 
 }
