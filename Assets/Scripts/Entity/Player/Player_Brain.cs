@@ -18,6 +18,7 @@ public class Player_Brain : Entity_Brain
         }
     }
 
+    public PlayerInputActions playerInputActions;
 
     public Player_Movement playerMovement { get; private set; }
 
@@ -39,6 +40,7 @@ public class Player_Brain : Entity_Brain
     public Player_TransformationState transformationState { get; private set; }
     public Player_PrimaryAttackState primaryAttackState { get; private set; }
     public Player_DeathState deathState { get; private set; }
+    public Player_CounterAttackState counterAttackState { get; private set; }
 
 
     #endregion
@@ -49,6 +51,7 @@ public class Player_Brain : Entity_Brain
     {
         base.Awake();
         playerMovement = GetComponent<Player_Movement>();
+        playerInputActions = new PlayerInputActions();
 
         idleState = new Player_IdleState(this, stateMachine, "IsIdle");
         moveState = new Player_MoveState(this, stateMachine, "IsMoving");
@@ -56,9 +59,22 @@ public class Player_Brain : Entity_Brain
         transformationState = new Player_TransformationState(this, stateMachine, "IsTransforming");
         primaryAttackState = new Player_PrimaryAttackState(this, stateMachine, "IsAttacking");
         deathState = new Player_DeathState(this, stateMachine, "IsDead");
+        counterAttackState = new Player_CounterAttackState(this, stateMachine, "TryCounterAttack");
 
         heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
         secretIdentityVisuals.SetActive(!isHero); // Show secret identity visuals if isHero is false
+    }
+
+    private void OnEnable()
+    {
+        playerInputActions.Player.Enable();
+        
+    }
+
+    private void OnDisable()
+    {
+        
+        playerInputActions.Player.Disable();
     }
 
     protected override void Start()

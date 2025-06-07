@@ -21,9 +21,13 @@ public class Player_GroundedState : PlayerState
     public override void Update()
     {
         base.Update();
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(playerBrain.playerInputActions.Player.Attack.WasPressedThisFrame())
         {
             stateMachine.ChangeState(playerBrain.primaryAttackState);
+        }
+        if(playerBrain.playerInputActions.Player.CounterAttack.WasPressedThisFrame())
+        {
+            stateMachine.ChangeState(playerBrain.counterAttackState);
         }
         // Temporary testing: Press L to transform
         if (Input.GetKeyDown(KeyCode.L))

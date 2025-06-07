@@ -18,6 +18,11 @@ public class Entity_AnimationTriggers : MonoBehaviour
         entityBrain?.CallAnimationFinishTrigger();
     }
 
+    private void CallAnimationDebug()
+    {
+       Debug.Log("Animation Playerd");
+    }
+
     private void CallAnimationAttackTrigger()
     {
         entityCombat?.PerformAttack();

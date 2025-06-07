@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy_Brain : Entity_Brain, ICounterable
 {
+    public bool CanBeCountered { get => canBeStunned;} 
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
@@ -123,7 +124,6 @@ public class Enemy_Brain : Entity_Brain, ICounterable
 
     public virtual void HandleCounterAttacks()
     {
- 
        
     }
 

@@ -21,7 +21,6 @@ public class Player_Movement : MonoBehaviour
 
 
 
-    private PlayerInputActions playerInputActions;
     private Vector2 movementInput;
     private Vector2 lastMovementDirection; // Store the last non-zero movement direction
     private Rigidbody2D rb;
@@ -30,28 +29,27 @@ public class Player_Movement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerInputActions = new PlayerInputActions();
         playerBrain = GetComponent<Player_Brain>();
 
         // Set the default starting direction to down
          lastMovementDirection = Vector2.down;
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        playerInputActions.Movement.Enable();
-        playerInputActions.Movement.Move.performed += OnMovePerformed;
-        playerInputActions.Movement.Move.canceled += OnMoveCanceled;
-        playerInputActions.Movement.Dash.performed += OnDashPerformed; 
+        playerBrain.playerInputActions.Player.Move.performed += OnMovePerformed;
+        playerBrain.playerInputActions.Player.Move.canceled += OnMoveCanceled;
+        playerBrain.playerInputActions.Player.Dash.performed += OnDashPerformed; 
+        playerBrain.playerInputActions.Player.Enable();
 
     }
 
     private void OnDisable()
     {
-        playerInputActions.Movement.Move.performed -= OnMovePerformed;
-        playerInputActions.Movement.Move.canceled -= OnMoveCanceled;
-        playerInputActions.Movement.Dash.performed -= OnDashPerformed; // Unsubscribe from Dash input
-        playerInputActions.Movement.Disable();
+        playerBrain.playerInputActions.Player.Move.performed -= OnMovePerformed;
+        playerBrain.playerInputActions.Player.Move.canceled -= OnMoveCanceled;
+        playerBrain.playerInputActions.Player.Dash.performed -= OnDashPerformed; // Unsubscribe from Dash input
+        playerBrain.playerInputActions.Player.Disable();
     }
     private void Update()
     {

@@ -48,10 +48,14 @@ public class Player_PrimaryAttackState : PlayerState
     public override void Update()
     {
         base.Update();
-        if(animationTriggerCalled)
+        if (animationTriggerCalled)
         {
             stateMachine.ChangeState(playerBrain.idleState);
         }
-}
+         if(playerBrain.playerInputActions.Player.CounterAttack.WasPressedThisFrame())
+        {
+            stateMachine.ChangeState(playerBrain.counterAttackState);
+        }
+    }
 }
 

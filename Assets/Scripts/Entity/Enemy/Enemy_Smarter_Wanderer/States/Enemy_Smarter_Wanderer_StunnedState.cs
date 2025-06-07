@@ -7,15 +7,21 @@ public class Enemy_Smarter_Wanderer_StunnedState : EnemyState
 
     private Enemy_Smarter_Wanderer_Brain specificEnemyBrain;
 
+    private Enemy_VFX enemyVFX;
+
     public Enemy_Smarter_Wanderer_StunnedState(Enemy_Brain enemyBrain, StateMachine stateMachine, string animBoolName, Enemy_Smarter_Wanderer_Brain specificEnemyBrain)
         : base(enemyBrain, stateMachine, animBoolName)
     {
         this.specificEnemyBrain = specificEnemyBrain;
+        enemyVFX = specificEnemyBrain.GetComponent<Enemy_VFX>();
+
     }
 
     public override void Enter()
     {
         base.Enter();
+        enemyVFX.EnableAttackAlert(false);
+        specificEnemyBrain.EnableCounterWindow(false);
         stateTimer = specificEnemyBrain.stunnedDuration;
 
         ApplyStunKnockback();

@@ -2,7 +2,7 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Movement",
+            "name": "Player",
             "id": "da7fa0fe-790a-4eca-a215-a499ccee7304",
             "actions": [
                 {
@@ -18,6 +18,24 @@
                     "name": "Dash",
                     "type": "Button",
                     "id": "5a9a3319-1f5f-4ec3-9801-ac3097892f61",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "b5b23050-0676-4e99-9820-b099df8eeccc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CounterAttack",
+                    "type": "Button",
+                    "id": "22a6efaf-89fc-41fd-aba1-6ea5dc0e4e38",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -138,11 +156,55 @@
                 {
                     "name": "",
                     "id": "13957812-53d3-47de-a9be-0e64201598ac",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard & Mouse",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b09e096f-5d14-4fd6-bb0e-1ea6b4f873e8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "453e4f2a-7b94-4d7f-b6be-07392239b047",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33530f78-7100-4c82-bbc6-28cf6e077ea2",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CounterAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b512ef75-61c5-4142-bcb2-487a35bc2315",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CounterAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
