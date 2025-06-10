@@ -68,12 +68,12 @@ public class Player_Brain : Entity_Brain
     private void OnEnable()
     {
         playerInputActions.Player.Enable();
-        
+
     }
 
     private void OnDisable()
     {
-        
+
         playerInputActions.Player.Disable();
     }
 
@@ -121,4 +121,8 @@ public class Player_Brain : Entity_Brain
         base.CallAnimationFinishTrigger();
     }
 
+    public override Vector2 GetFacingDirection()
+    {
+        return playerMovement.GetLastMovementDirection();
+    }
 }

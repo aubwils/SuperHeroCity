@@ -19,6 +19,11 @@ public class Entity_Combat : MonoBehaviour
             if (collider.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(damage, transform);
+                 if (TryGetComponent(out Entity_VFX vfx))
+                {
+                    Vector2 facingDir = GetComponent<Entity_Brain>().GetFacingDirection(); ;
+                    vfx.PlayHitVFX(facingDir);
+                }
             }
         }
     }

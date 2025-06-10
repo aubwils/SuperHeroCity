@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_Brain : Entity_Brain, ICounterable
 {
-    public bool CanBeCountered { get => canBeStunned;} 
+    public bool CanBeCountered { get => canBeStunned; }
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 2.0f;
@@ -19,13 +19,13 @@ public class Enemy_Brain : Entity_Brain, ICounterable
     [SerializeField] protected LayerMask obstacleLayer;
     [SerializeField] protected LayerMask playerLayer;
     public Transform PlayerTarget { get; protected set; }
-    [SerializeField] protected Vector2 facingDirection = Vector2.down; 
+    [SerializeField] protected Vector2 facingDirection = Vector2.down;
     public Vector2 FacingDirection => facingDirection;
 
     [Header("Stunned state details")]
     public float stunnedDuration = 1f;
-    public Vector2 stunnedVelocity = new Vector2(1, 1); 
-    [SerializeField] protected bool canBeStunned = false; 
+    public Vector2 stunnedVelocity = new Vector2(1, 1);
+    [SerializeField] protected bool canBeStunned = false;
 
     protected override void Awake()
     {
@@ -40,11 +40,11 @@ public class Enemy_Brain : Entity_Brain, ICounterable
     protected override void Update()
     {
         base.Update();
-          if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             HandleCounterAttacks();
         }
-    
+
     }
 
     public void SetFacingDirection(Vector2 dir)
@@ -118,13 +118,18 @@ public class Enemy_Brain : Entity_Brain, ICounterable
     }
 
     #endregion
-    
+
 
     public void EnableCounterWindow(bool enable) => canBeStunned = enable;
 
     public virtual void HandleCounterAttacks()
     {
-       
+
+    }
+
+    public override Vector2 GetFacingDirection()
+    {
+        return facingDirection;
     }
 
 }

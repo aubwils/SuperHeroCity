@@ -12,6 +12,11 @@ public class Entity_VFX : MonoBehaviour
     private Material origionalMaterial;
     private Coroutine OnDamageVFXCoroutine;
 
+    [Header("Hit VFX")]
+    [SerializeField] private GameObject hitVFXPrefab;
+    [SerializeField] private float hitVFXDuration = 0.3f;
+    [SerializeField] private float offsetDistance = 0.5f;
+
     private void Awake()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
@@ -32,5 +37,18 @@ public class Entity_VFX : MonoBehaviour
         sr.material = OnDamageMaterial;
         yield return new WaitForSeconds(OnDamageVFXDuration);
         sr.material = origionalMaterial;
+    }
+
+    public void PlayHitVFX(Vector2 facingDirection)
+    {
+        if (hitVFXPrefab == null) return;
+
+        Vector3 offset = (Vector3)(facingDirection.normalized * offsetDistance);
+        Vector3 spawnPosition = transform.position + offset;
+
+        GameObject hitVFX = Instantiate(hitVFXPrefab, spawnPosition, Quaternion.identity);
+        //FUTURE: look into using Object Pooling for hit VFX
+        Destroy(hitVFX, hitVFXDuration);
+        
     }
 }
