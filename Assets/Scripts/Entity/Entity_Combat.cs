@@ -11,15 +11,16 @@ public class Entity_Combat : MonoBehaviour
     [SerializeField] private float taragetCheckRadious = 1f;
     [SerializeField] private LayerMask targetLayerMask;
 
-    public void PerformAttack()
+    public virtual void PerformAttack()
     {
-
         foreach (var collider in GetDetectedColliders())
         {
+
             if (collider.TryGetComponent(out IDamageable damageable))
             {
+
                 damageable.TakeDamage(damage, transform);
-                 if (TryGetComponent(out Entity_VFX vfx))
+                if (TryGetComponent(out Entity_VFX vfx))
                 {
                     Vector2 facingDir = GetComponent<Entity_Brain>().GetFacingDirection(); ;
                     vfx.PlayHitVFX(facingDir);

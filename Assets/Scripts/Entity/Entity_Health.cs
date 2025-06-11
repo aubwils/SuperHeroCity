@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class Entity_Health : MonoBehaviour, IDamageable
 {
+    private Slider healthBar;
     private Entity_VFX entityVFX;
     private Entity_Stats entityStats;
     private Entity_Brain entityBrain;
@@ -27,11 +29,13 @@ public class Entity_Health : MonoBehaviour, IDamageable
         entityVFX = GetComponent<Entity_VFX>();
         entityStats = GetComponent<Entity_Stats>();
         entityBrain = GetComponent<Entity_Brain>();
+        healthBar = GetComponentInChildren<Slider>();
+        currentHP = maxHP;
+        UpdateHealthBar();
     }
 
     private void Start()
     {
-        currentHP = maxHP;
     }
 
     public virtual bool TakeDamage(float damage, Transform damageSource)
@@ -41,6 +45,8 @@ public class Entity_Health : MonoBehaviour, IDamageable
             Debug.Log($"{gameObject.name} avoided damage (dead: {isDead}, evaded: {AttackEvaded()})");
             return false;
         }
+
+        Debug.Log($"{gameObject.name} TOOK DAMAGE from {damageSource.name}");
 
         float duration = CalculateDuration(damage);
         Vector2 knockback = CalculateKnockback(damage, damageSource);
@@ -57,6 +63,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
     protected void ReduceHP(float damage)
     {
         currentHP -= damage;
+        UpdateHealthBar();
         if (currentHP < 0)
         {
             Die();
@@ -67,6 +74,19 @@ public class Entity_Health : MonoBehaviour, IDamageable
     {
         isDead = true;
         Debug.Log("Entity has died.");
+    }
+
+    private void UpdateHealthBar()
+    {
+        //to implement later when doing on screen UI. Player Will have a healthbar in the UI but not above their head. 
+        //Enemies will NOT have health bar on their heads.
+        //Boss enemies will have a health bar but possibly jsut at the top of the screen until defeated (similar to KH)
+        //OR Could have a item player can wear to allow for hero ro see other enemies health bar on their heads? can turn it on/off in settings or 
+        // unlock with a skill or item?
+        if (healthBar == null)
+            return;
+        
+        healthBar.value = currentHP / maxHP;
     }
 
     private bool AttackEvaded() => Random.Range(0, 100) < entityStats.GetEvasion();

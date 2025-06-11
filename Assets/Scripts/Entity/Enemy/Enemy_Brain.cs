@@ -27,6 +27,7 @@ public class Enemy_Brain : Entity_Brain, ICounterable
     public Vector2 stunnedVelocity = new Vector2(1, 1);
     [SerializeField] protected bool canBeStunned = false;
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -131,5 +132,6 @@ public class Enemy_Brain : Entity_Brain, ICounterable
     {
         return facingDirection;
     }
+   
 
 }

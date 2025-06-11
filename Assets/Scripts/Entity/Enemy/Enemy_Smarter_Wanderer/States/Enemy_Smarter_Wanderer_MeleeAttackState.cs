@@ -6,6 +6,7 @@ public class Enemy_Smarter_Wanderer_MeleeAttackState : EnemyState
 {
     private Enemy_Smarter_Wanderer_Brain specificEnemyBrain;
 
+
     public Enemy_Smarter_Wanderer_MeleeAttackState(Enemy_Brain enemyBrain, StateMachine stateMachine, string animBoolName, Enemy_Smarter_Wanderer_Brain specificEnemyBrain)
         : base(enemyBrain, stateMachine, animBoolName)
     {

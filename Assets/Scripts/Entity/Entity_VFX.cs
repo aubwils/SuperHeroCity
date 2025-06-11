@@ -13,8 +13,8 @@ public class Entity_VFX : MonoBehaviour
     private Coroutine OnDamageVFXCoroutine;
 
     [Header("Hit VFX")]
+    [SerializeField] private Color hitVFXColor = Color.white;
     [SerializeField] private GameObject hitVFXPrefab;
-    [SerializeField] private float hitVFXDuration = 0.3f;
     [SerializeField] private float offsetDistance = 0.5f;
 
     private void Awake()
@@ -48,7 +48,7 @@ public class Entity_VFX : MonoBehaviour
 
         GameObject hitVFX = Instantiate(hitVFXPrefab, spawnPosition, Quaternion.identity);
         //FUTURE: look into using Object Pooling for hit VFX
-        Destroy(hitVFX, hitVFXDuration);
+        hitVFX.GetComponentInChildren<SpriteRenderer>().color = hitVFXColor;
         
     }
 }

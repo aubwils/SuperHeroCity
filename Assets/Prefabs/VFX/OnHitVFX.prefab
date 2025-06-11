@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3314085159833873735}
   - component: {fileID: 547098338105936691}
   - component: {fileID: 8523653324188983954}
+  - component: {fileID: 9116840674666912100}
   m_Layer: 0
   m_Name: OnHitVFX
   m_TagString: Untagged
@@ -106,3 +107,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9116840674666912100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7908671705037834761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4492e5ef05d24038accf35b8d1ee65c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoDestroy: 1
+  autoDestroyDelay: 1
