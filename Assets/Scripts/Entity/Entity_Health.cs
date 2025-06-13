@@ -10,7 +10,6 @@ public class Entity_Health : MonoBehaviour, IDamageable
     private Entity_Stats entityStats;
     private Entity_Brain entityBrain;
 
-    [SerializeField] protected float maxHP = 100f;
     [SerializeField] public float currentHP;
     [SerializeField] protected bool isDead = false;
 
@@ -30,7 +29,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
         entityStats = GetComponent<Entity_Stats>();
         entityBrain = GetComponent<Entity_Brain>();
         healthBar = GetComponentInChildren<Slider>();
-        currentHP = maxHP;
+        currentHP = entityStats.GetMaxHealth(); ;
         UpdateHealthBar();
     }
 
@@ -86,7 +85,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
         if (healthBar == null)
             return;
         
-        healthBar.value = currentHP / maxHP;
+        healthBar.value = currentHP / entityStats.GetMaxHealth();
     }
 
     private bool AttackEvaded() => Random.Range(0, 100) < entityStats.GetEvasion();
@@ -104,5 +103,5 @@ public class Entity_Health : MonoBehaviour, IDamageable
     {
         return IsHeavyDamage(damage) ? heavyKnockbackDuration : knockbackDuration;
     }
-    private bool IsHeavyDamage(float damage) => damage / maxHP > heavyDamageThreshold; 
+    private bool IsHeavyDamage(float damage) => damage / entityStats.GetMaxHealth() > heavyDamageThreshold; 
 }

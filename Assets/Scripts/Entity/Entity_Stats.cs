@@ -28,51 +28,6 @@ public class Entity_Stats : MonoBehaviour
         return false;
     }
 
-    // public void PerformAttack()
-    // {
-    //     foreach (var target in GetDetectedColliders())
-    //     {
-    //         Idamageable damageable = target.GetComponent<IDamageable>();
-
-    //         if (damageable != null)
-    //             continue;
-
-    //         bool targerGotHit = damageable.TakeDamage(GetPhisicalDamage(), transform);
-                
-    //         if (targerGotHit)
-    //         {
-    //          vfx.CreateOnhitVFX(target.transform);
-    //         }
-    //     }
-    // }
-
-
-    // public virtual bool TakeDamage(int damage, Transform damageSource)
-    // {
-    //     if (isDead) return false;
-
-    //     if (AttackEvaded())
-    //     {
-    //         Debug.Log($" {gameObject.name} Attack Evaded!");
-    //         return false;
-    //     }
-
-    //     currentHealth -= damage;
-    //     DamageTextSpawnerManager.Instance.SpawnDamageText(damage, transform);
-    //     Debug.Log("Took damage: " + damage + ", Current Health: " + currentHealth);
-    //     if (currentHealth <= 0)
-    //     {
-    //         Die();
-    //         return true;
-    //     }
-    //     return true;
-    // }
-
-    // protected virtual void Die()
-    // {
-    //     isDead = true;
-    // }
-
     public float GetPhisicalDamage()
     {
         float baseDamage = offenseStats.damage.GetValue();

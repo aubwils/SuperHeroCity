@@ -16,5 +16,8 @@ public class MajorStats
     public Stat intelligence;
 
     [Tooltip("5 Max Health, 1 Armor per point")]
-    public Stat constitution;  
+    public Stat constitution;
+
+    // include wisdom and charisma later? could use charisma for suspision resistance and how much npcs like you more
+    // could use wisdom for 
 }

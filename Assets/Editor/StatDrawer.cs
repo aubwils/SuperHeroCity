@@ -28,13 +28,14 @@ public class StatDrawer : PropertyDrawer
         }
 
         int total = baseValue + modSum;
-        string displayLabel = $"{label.text} ({total})";
+        GUIContent tooltipLabel = new GUIContent($"{label.text} ({total})", label.tooltip);
+
 
         // Draw foldout
         property.isExpanded = EditorGUI.Foldout(
             new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight),
             property.isExpanded,
-            displayLabel,
+            tooltipLabel,
             true
         );
 

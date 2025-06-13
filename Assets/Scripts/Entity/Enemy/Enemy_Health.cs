@@ -10,15 +10,8 @@ public class Enemy_Health : Entity_Health
   public override bool TakeDamage(float damage, Transform damageSource)
   {
 
-  if (damageSource.GetComponent<Player_Brain>() != null)
-  {
-      Debug.Log("Enemy hit by player, attempting to chase!");
-      enemyBrain.TryEnterChaseState(damageSource);
-  }
-  else
-  {
-      Debug.LogWarning("damageSource is not the player");
-  }
+    if (damageSource.GetComponent<Player_Brain>() != null)
+        enemyBrain.TryEnterChaseState(damageSource);
 
     return base.TakeDamage(damage, damageSource);
   }
