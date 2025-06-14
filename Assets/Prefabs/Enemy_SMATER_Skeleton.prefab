@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth:
-    baseValue: 50
+    baseValue: 500
     modifiers: 
   isDead: 0
   majorStats:
@@ -495,6 +495,7 @@ MonoBehaviour:
   OnDamageVFXDuration: 0.3
   hitVFXColor: {r: 0.8679245, g: 0.08597365, b: 0.08597365, a: 1}
   hitVFXPrefab: {fileID: 7908671705037834761, guid: c8b2c05d0f8b74c1fac40136d58e9b75, type: 3}
+  critHitVFXPrefab: {fileID: 8718304954696748275, guid: d63b01987fe5f40329bfd40218be109e, type: 3}
   offsetDistance: 0.5
   attackAlert: {fileID: 6143093957836898207}
 --- !u!114 &5503448458362826698
@@ -509,7 +510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490039e1f98e04a0ea4c87dbaab95346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10.09
   targetCheck: {fileID: 621975052092686755}
   taragetCheckRadious: 1
   targetLayerMask:

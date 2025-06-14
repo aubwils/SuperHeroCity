@@ -15,6 +15,7 @@ public class Entity_VFX : MonoBehaviour
     [Header("Hit VFX")]
     [SerializeField] private Color hitVFXColor = Color.white;
     [SerializeField] private GameObject hitVFXPrefab;
+    [SerializeField] private GameObject critHitVFXPrefab;
     [SerializeField] private float offsetDistance = 0.5f;
 
     private void Awake()
@@ -39,16 +40,20 @@ public class Entity_VFX : MonoBehaviour
         sr.material = origionalMaterial;
     }
 
-    public void PlayHitVFX(Vector2 facingDirection)
+    public void PlayHitVFX(Vector2 facingDirection, bool isCrit)
     {
         if (hitVFXPrefab == null) return;
 
         Vector3 offset = (Vector3)(facingDirection.normalized * offsetDistance);
         Vector3 spawnPosition = transform.position + offset;
 
-        GameObject hitVFX = Instantiate(hitVFXPrefab, spawnPosition, Quaternion.identity);
-        //FUTURE: look into using Object Pooling for hit VFX
+        GameObject hitPrefab = isCrit ? critHitVFXPrefab : hitVFXPrefab;
+
+        float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        GameObject hitVFX = Instantiate(hitPrefab, spawnPosition, rotation);
         hitVFX.GetComponentInChildren<SpriteRenderer>().color = hitVFXColor;
-        
+        //FUTURE: look into using Object Pooling for hit VFX    
     }
 }

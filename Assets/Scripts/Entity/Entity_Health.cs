@@ -45,15 +45,21 @@ public class Entity_Health : MonoBehaviour, IDamageable
             return false;
         }
 
+        Entity_Stats attackerStats = damageSource.GetComponent<Entity_Stats>();
+        float armorReduction = attackerStats != null ? attackerStats.GetArmorReduction() : 0f;
+
+        float mitigation = entityStats.GetArmorMitigation(armorReduction);
+        float finalDamage = damage * (1 - mitigation); // e.g 150 damage, mitigation is .6 = 60%. you take 1 - .6 give you .40 so you take 60 damage. (150 x.40 = 60)
+
         Debug.Log($"{gameObject.name} TOOK DAMAGE from {damageSource.name}");
 
-        float duration = CalculateDuration(damage);
-        Vector2 knockback = CalculateKnockback(damage, damageSource);
+        float duration = CalculateDuration(finalDamage);
+        Vector2 knockback = CalculateKnockback(finalDamage, damageSource);
 
         entityVFX?.PlayOnDamageVFX();
         entityBrain?.ReciveKnockback(knockback, duration);
-        ReduceHP(damage);
-        DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(damage), transform);
+        ReduceHP(finalDamage);
+        DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(finalDamage), transform);
 
         return true;
 

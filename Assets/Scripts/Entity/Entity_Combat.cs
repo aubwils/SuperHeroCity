@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Entity_Combat : MonoBehaviour
 {
-    public float damage = 10f;
+    private Entity_Stats entityStats;
 
     [Header("Target detection")]
     [SerializeField] private Transform targetCheck;
     [SerializeField] private float taragetCheckRadious = 1f;
     [SerializeField] private LayerMask targetLayerMask;
+
+    private void Awake()
+    {
+        entityStats = GetComponent<Entity_Stats>();
+        
+    }
 
     public virtual void PerformAttack()
     {
@@ -19,11 +25,12 @@ public class Entity_Combat : MonoBehaviour
             if (collider.TryGetComponent(out IDamageable damageable))
             {
 
+                float damage = entityStats.GetPhisicalDamage(out bool isCrit);
                 damageable.TakeDamage(damage, transform);
                 if (TryGetComponent(out Entity_VFX vfx))
                 {
                     Vector2 facingDir = GetComponent<Entity_Brain>().GetFacingDirection(); ;
-                    vfx.PlayHitVFX(facingDir);
+                    vfx.PlayHitVFX(facingDir, isCrit);
                 }
             }
         }

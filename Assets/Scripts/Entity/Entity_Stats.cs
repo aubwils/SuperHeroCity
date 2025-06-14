@@ -28,7 +28,7 @@ public class Entity_Stats : MonoBehaviour
         return false;
     }
 
-    public float GetPhisicalDamage()
+    public float GetPhisicalDamage(out bool isCrit) //Craeteinga variable only used in this method and out is saying you can get information OUT of this method when you call it.
     {
         float baseDamage = offenseStats.damage.GetValue();
         float bonusDamage = majorStats.strength.GetValue();
@@ -42,18 +42,38 @@ public class Entity_Stats : MonoBehaviour
         float bonusCritPower = majorStats.strength.GetValue() * 0.5f; // +0.5% Crit Damage per point of strength
         float totalCritPower = (baseCritPower + bonusCritPower) / 100f; // Convert to a multiplier
 
-        bool isCrit = Random.Range(0, 100) < totalCritChance;
+        isCrit = Random.Range(0, 100) < totalCritChance; //bool variable is being decalred at the top.
         float finalDamage = isCrit ? totalBaseDamage * totalCritPower : totalBaseDamage;
 
         return finalDamage;
     }
 
-    public float GetMaxHealth()
+    public float GetArmorMitigation(float armorReduction)
     {
-        float baseHP = maxHealth.GetValue();
-        float bonusHP = majorStats.constitution.GetValue() * 5; // Assuming 5 HP per point of constitution
+        float baseArmor = defenseStats.armor.GetValue();
+        float bonusArmor = majorStats.constitution.GetValue(); // Bonus armor from constentoution: +1 per con
+        float totalArmor = baseArmor + bonusArmor;
 
-        return baseHP + bonusHP;
+        //take armor reduction and calculate how much armor should be used
+        float reductionMultiplier = Mathf.Clamp(1 - armorReduction, 0,1); // if you pass 1-.4 = .6f .6 is the percentage of armor that will be used to defend on attack.
+        // float reductionMultiplier = Mathf.Clamp01(1 - armorReduction); another way to say the above
+
+        float effectiveArmor = totalArmor * reductionMultiplier; // Apply armor reduction to total armor
+
+        float mitigation = effectiveArmor / (effectiveArmor + 100f); // Armor mitigation formula: Armor / (Armor + 100)
+        float mitigationCap = 85f; // Max mitigation will be capped at 85%
+
+        float finalMitigation = Mathf.Clamp(mitigation, 0f, mitigationCap); // Clamp to ensure it doesn't exceed the cap
+
+        return finalMitigation;
+    }
+
+    public float GetArmorReduction()
+    {
+        //Total armor reduction as multiplier (e.g 30/ 100 = .3f - multiplier)
+        float finalReduction = offenseStats.armorReduction.GetValue() / 100f;
+
+        return finalReduction;
     }
 
     public float GetEvasion()
@@ -69,6 +89,14 @@ public class Entity_Stats : MonoBehaviour
         return finalEvasion;
     }
 
+    public float GetMaxHealth()
+    {
+        float baseMaxHP = maxHealth.GetValue();
+        float bonusMaxHP = majorStats.constitution.GetValue() * 5; // Assuming 5 HP per point of constitution
+
+        float finalMaxHP = baseMaxHP + bonusMaxHP;
+        return finalMaxHP;
+    }
 
 
 
