@@ -110,7 +110,24 @@ public class Player_Brain : Entity_Brain
             animator = heroAnimator;
         }
     }
+    protected override IEnumerator SlowDownEntityRoutine(float duration, float slowMultiplier)
+    {
+        float origionalMoveSpeed = playerMovement.moveSpeed;
+        float origionalDashSpeed = playerMovement.dashSpeed;
+        float origionalAnimationSpeed = animator.speed;
 
+        float speedMultiplier = 1 - slowMultiplier;
+
+        playerMovement.moveSpeed *= speedMultiplier;
+        playerMovement.dashSpeed *= speedMultiplier;
+        animator.speed *= speedMultiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        playerMovement.moveSpeed = origionalMoveSpeed;
+        playerMovement.dashSpeed = origionalDashSpeed;
+        animator.speed = origionalAnimationSpeed;
+    }
 
     public bool GetPlayerIdentity()
     {

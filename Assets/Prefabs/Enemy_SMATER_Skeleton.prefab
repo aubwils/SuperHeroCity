@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 2584080256043127876}
   - component: {fileID: 5986345504936959484}
   - component: {fileID: 5503448458362826698}
+  - component: {fileID: 4375722077752349646}
   m_Layer: 7
   m_Name: Enemy_SMATER_Skeleton
   m_TagString: Enemy
@@ -369,7 +370,7 @@ MonoBehaviour:
       modifiers: 
   offenseStats:
     damage:
-      baseValue: 2
+      baseValue: 10
       modifiers: 
     critPower:
       baseValue: 0
@@ -377,17 +378,20 @@ MonoBehaviour:
     critChance:
       baseValue: 0
       modifiers: 
-    fireDamage:
+    armorReduction:
       baseValue: 0
+      modifiers: 
+    fireDamage:
+      baseValue: 4
       modifiers: 
     iceDamage:
-      baseValue: 0
+      baseValue: 7
       modifiers: 
     lightningDamage:
-      baseValue: 0
+      baseValue: 6
       modifiers: 
     poisonDamage:
-      baseValue: 0
+      baseValue: 5
       modifiers: 
     holyDamage:
       baseValue: 0
@@ -497,6 +501,7 @@ MonoBehaviour:
   hitVFXPrefab: {fileID: 7908671705037834761, guid: c8b2c05d0f8b74c1fac40136d58e9b75, type: 3}
   critHitVFXPrefab: {fileID: 8718304954696748275, guid: d63b01987fe5f40329bfd40218be109e, type: 3}
   offsetDistance: 0.5
+  chillVFXColor: {r: 0, g: 0.5686275, b: 1, a: 1}
   attackAlert: {fileID: 6143093957836898207}
 --- !u!114 &5503448458362826698
 MonoBehaviour:
@@ -515,7 +520,21 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  defaultDuration: 3
+  chilledSlowMultiplier: 0.2
   attackCooldown: 1.5
+--- !u!114 &4375722077752349646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151483344570242149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ee3624eee95473e91226ec28ec663c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8546906492471159017
 PrefabInstance:
   m_ObjectHideFlags: 0

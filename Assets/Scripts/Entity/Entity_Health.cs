@@ -37,36 +37,39 @@ public class Entity_Health : MonoBehaviour, IDamageable
     {
     }
 
-    public virtual bool TakeDamage(float damage, Transform damageSource)
+    public virtual bool TakeDamage(float damage, float elementalDamage, ElementType elementType, Transform damageSource)
     {
         if (isDead || AttackEvaded())
-        {
-            Debug.Log($"{gameObject.name} avoided damage (dead: {isDead}, evaded: {AttackEvaded()})");
             return false;
-        }
 
         Entity_Stats attackerStats = damageSource.GetComponent<Entity_Stats>();
         float armorReduction = attackerStats != null ? attackerStats.GetArmorReduction() : 0f;
 
         float mitigation = entityStats.GetArmorMitigation(armorReduction);
-        float finalDamage = damage * (1 - mitigation); // e.g 150 damage, mitigation is .6 = 60%. you take 1 - .6 give you .40 so you take 60 damage. (150 x.40 = 60)
+        float physicalDamageTaken = damage * (1 - mitigation); // e.g 150 damage, mitigation is .6 = 60%. you take 1 - .6 give you .40 so you take 60 damage. (150 x.40 = 60)
 
-        Debug.Log($"{gameObject.name} TOOK DAMAGE from {damageSource.name}");
-
-        float duration = CalculateDuration(finalDamage);
-        Vector2 knockback = CalculateKnockback(finalDamage, damageSource);
-
-        entityVFX?.PlayOnDamageVFX();
-        entityBrain?.ReciveKnockback(knockback, duration);
-        ReduceHP(finalDamage);
-        DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(finalDamage), transform);
+        float elementalResistance = entityStats.GetElementalResistance(elementType);
+        float elementalDamageTaken = elementalDamage * (1 - elementalResistance);
+        
+        TakeKnockback(damageSource, physicalDamageTaken);
+        ReduceHP(physicalDamageTaken + elementalDamageTaken);
+        DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(physicalDamageTaken + elementalDamageTaken), transform);
 
         return true;
 
     }
 
+    private void TakeKnockback(Transform damageSource, float finalDamage)
+    {
+        float duration = CalculateDuration(finalDamage);
+        Vector2 knockback = CalculateKnockback(finalDamage, damageSource);
+
+        entityBrain?.ReciveKnockback(knockback, duration);
+    }
+
     protected void ReduceHP(float damage)
     {
+        entityVFX?.PlayOnDamageVFX();
         currentHP -= damage;
         UpdateHealthBar();
         if (currentHP < 0)

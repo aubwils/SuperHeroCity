@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Entity_Stats : MonoBehaviour
 {
-
     public Stat maxHealth;
     public bool isDead = false;
 
@@ -12,6 +11,100 @@ public class Entity_Stats : MonoBehaviour
     public MajorStats majorStats;
     public OffenseStats offenseStats;
     public DefenseStats defenseStats;
+
+    public float GetElementalDamage(out ElementType elementType)
+    {
+        float fireDamage = offenseStats.fireDamage.GetValue();
+        float iceDamage = offenseStats.iceDamage.GetValue();
+        float lightningDamage = offenseStats.lightningDamage.GetValue();
+        float poisonDamage = offenseStats.poisonDamage.GetValue();
+        float holyDamage = offenseStats.holyDamage.GetValue();
+        float darkDamage = offenseStats.darkDamage.GetValue();
+
+        float bonusElementalDamage = majorStats.intelligence.GetValue(); // 1 point of intelligence gives 1 point of bonus elemental damage
+
+        float highestDamage = fireDamage;
+        elementType = ElementType.Fire;
+
+        if (iceDamage > highestDamage)
+        {
+            highestDamage = iceDamage;
+            elementType = ElementType.Ice;
+        }
+        if (lightningDamage > highestDamage)
+        {
+            highestDamage = lightningDamage;
+            elementType = ElementType.lightning;
+        }
+        if (poisonDamage > highestDamage)
+        {
+            highestDamage = poisonDamage;
+            elementType = ElementType.Poison;
+        }
+        if (holyDamage > highestDamage)
+        {
+            highestDamage = holyDamage;
+            elementType = ElementType.Holy;
+        }
+        if (darkDamage > highestDamage)
+        {
+            highestDamage = darkDamage;
+            elementType = ElementType.Dark;
+        }
+        if (highestDamage <= 0)
+        {
+            elementType = ElementType.None; 
+            return 0f;
+        }
+
+        float bonusFire = (fireDamage == highestDamage) ? 0 : fireDamage * .5f; // If fire damage is not the highest, give it a 50% bonus
+        float bonusIce = (iceDamage == highestDamage) ? 0 : iceDamage * .5f; // If ice damage is not the highest, give it a 50% bonus
+        float bonusLightning = (lightningDamage == highestDamage) ? 0 : lightningDamage * .5f; // If lightning damage is not the highest, give it a 50% bonus
+        float bonusPoison = (poisonDamage == highestDamage) ? 0 : poisonDamage * .5f; // If poison damage is not the highest, give it a 50% bonus
+        float bonusHoly = (holyDamage == highestDamage) ? 0 : holyDamage * .5f; // If holy damage is not the highest, give it a 50% bonus
+        float bonusDark = (darkDamage == highestDamage) ? 0 : darkDamage * .5f; // If dark damage is not the highest, give it a 50% bonus
+
+        float weakerElementsDamage = highestDamage + bonusFire + bonusIce + bonusLightning + bonusPoison + bonusHoly + bonusDark;
+        float finalElementalDamage = highestDamage + weakerElementsDamage + bonusElementalDamage;
+
+        return finalElementalDamage;
+
+    }
+
+    public float GetElementalResistance(ElementType elementType)
+    {
+        float baseResistance = 0f;
+        float bonusResistance = majorStats.intelligence.GetValue() * 0.5f; // 0.5% resistance per point of intelligence
+
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                baseResistance = defenseStats.fireResistance.GetValue();
+                break;
+            case ElementType.Ice:
+                baseResistance = defenseStats.iceResistance.GetValue();
+                break;
+            case ElementType.lightning:
+                baseResistance = defenseStats.lightningResistance.GetValue();
+                break;
+            case ElementType.Poison:
+                baseResistance = defenseStats.poisonResistance.GetValue();
+                break;
+            case ElementType.Holy:
+                baseResistance = defenseStats.holyResistance.GetValue();
+                break;
+            case ElementType.Dark:
+                baseResistance = defenseStats.darkResistance.GetValue();
+                break;
+            case ElementType.None:
+                return 0f; // No resistance for None type
+        }
+        float totalResistance = baseResistance + bonusResistance;
+        float resistanceCap = 75f; // Resistance cap at 75%
+        float finalResistance = Mathf.Clamp(totalResistance, 0f, resistanceCap) / 100; // Clamp to ensure it doesn't exceed the cap
+        return finalResistance;
+
+    }
 
     [SerializeField] private int currentHealth;
 

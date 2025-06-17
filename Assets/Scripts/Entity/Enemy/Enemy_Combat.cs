@@ -11,14 +11,10 @@ public class Enemy_Combat : Entity_Combat
     public override void PerformAttack()
     {
         if (Time.time - lastAttackTime < attackCooldown)
-        {
-            Debug.Log($"{gameObject.name} tried to attack but is on cooldown.");
             return;
-        }
-
+        
         lastAttackTime = Time.time;
 
-        Debug.Log($"{gameObject.name} is performing an attack!");
         base.PerformAttack(); // Calls the shared damage logic
     }
 }

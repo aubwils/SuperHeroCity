@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 4335453004549195812}
   - component: {fileID: 571323377157899366}
   - component: {fileID: 2492486223105643334}
+  - component: {fileID: 1773979453848976520}
   m_Layer: 7
   m_Name: Enemy_Simple_Skeleton
   m_TagString: Enemy
@@ -207,6 +208,9 @@ MonoBehaviour:
     critChance:
       baseValue: 0
       modifiers: 
+    armorReduction:
+      baseValue: 0
+      modifiers: 
     fireDamage:
       baseValue: 0
       modifiers: 
@@ -290,7 +294,9 @@ MonoBehaviour:
   OnDamageVFXDuration: 0.2
   hitVFXColor: {r: 0.8679245, g: 0.08597365, b: 0.08597365, a: 1}
   hitVFXPrefab: {fileID: 7908671705037834761, guid: c8b2c05d0f8b74c1fac40136d58e9b75, type: 3}
+  critHitVFXPrefab: {fileID: 8718304954696748275, guid: d63b01987fe5f40329bfd40218be109e, type: 3}
   offsetDistance: 0.5
+  chillVFXColor: {r: 0, g: 0.5686275, b: 1, a: 1}
   attackAlert: {fileID: 5989092645758035900}
 --- !u!114 &2492486223105643334
 MonoBehaviour:
@@ -304,13 +310,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490039e1f98e04a0ea4c87dbaab95346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
   targetCheck: {fileID: 7745282389540443606}
   taragetCheckRadious: 1
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  defaultDuration: 3
+  chilledSlowMultiplier: 0.2
   attackCooldown: 1.5
+--- !u!114 &1773979453848976520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930377323201452730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ee3624eee95473e91226ec28ec663c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5989092645758035900
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,7 +425,7 @@ GameObject:
   - component: {fileID: 1502308272275735530}
   - component: {fileID: 7868938536040339224}
   - component: {fileID: 2978591733955128963}
-  - component: {fileID: 4729946532353740538}
+  - component: {fileID: 553479581377822636}
   m_Layer: 0
   m_Name: Enemy_Visuals
   m_TagString: Untagged
@@ -502,7 +521,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4729946532353740538
+--- !u!114 &553479581377822636
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -511,7 +530,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7944463168955823913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80ef6f832c59d4667944b1f3b67b6c1a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7609ab605ee1c44f589bb1ca85c0b5b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3749603534415014793

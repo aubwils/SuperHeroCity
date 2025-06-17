@@ -15,8 +15,9 @@ public class Entity_Brain : MonoBehaviour
 
     #endregion
 
-    private Coroutine knockbackCoroutine;
     private bool isKnockbacked = false;
+    private Coroutine knockbackCoroutine;
+    private Coroutine slowDownCoroutine;
 
     [Header("Combat Settings")]
     public float attackCheckRange = 1.0f;
@@ -53,6 +54,18 @@ public class Entity_Brain : MonoBehaviour
 
     public virtual void CallAnimationFinishTrigger() => stateMachine.currentState.CallAnimationFinishTrigger();
 
+    public virtual void SlowDownEntity(float duration, float slowMultiplier)
+    {
+        if (slowDownCoroutine != null)
+            StopCoroutine(slowDownCoroutine);
+            
+        slowDownCoroutine = StartCoroutine(SlowDownEntityRoutine(duration, slowMultiplier));
+    }
+
+    protected virtual IEnumerator SlowDownEntityRoutine(float duration, float slowMultiplier)
+    {
+        yield return null;
+    }
 
     public IEnumerator BusyFor(float duration)
     {

@@ -48,6 +48,25 @@ public class Enemy_Brain : Entity_Brain, ICounterable
 
     }
 
+    protected override IEnumerator SlowDownEntityRoutine(float duration, float slowMultiplier)
+    {
+        float origionalMoveSpeed = moveSpeed;
+        float origionalChaseSpeed = chaseSpeed;
+        float origionalAnimationSpeed = animator.speed;
+
+        float speedMultiplier = 1 - slowMultiplier;
+
+        moveSpeed *= speedMultiplier;
+        chaseSpeed *= speedMultiplier;
+        animator.speed *= speedMultiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        moveSpeed = origionalMoveSpeed;
+        chaseSpeed = origionalChaseSpeed;
+        animator.speed = origionalAnimationSpeed;
+    }
+
     public void SetFacingDirection(Vector2 dir)
     {
         if (dir != Vector2.zero)

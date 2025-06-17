@@ -14,7 +14,6 @@ public class Enemy_Smarter_Wanderer_ChaseState : EnemyState
     public override void Enter()
     {
         base.Enter();
-            Debug.Log("Entered CHASE state!");
 
         specificEnemyBrain.currentMoveSpeed = specificEnemyBrain.ChaseSpeed;
 
@@ -50,10 +49,7 @@ public class Enemy_Smarter_Wanderer_ChaseState : EnemyState
     private void ChasePlayer()
     {
         if (specificEnemyBrain.PlayerTarget == null)
-            {
-                Debug.LogWarning("ChasePlayer called but PlayerTarget is null!");
                 return;
-            }
 
         Vector2 direction = (specificEnemyBrain.PlayerTarget.position - specificEnemyBrain.transform.position).normalized;
         specificEnemyBrain.SetFacingDirection(direction);

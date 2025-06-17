@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Player_Movement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 5f; 
+    public float moveSpeed = 5f; 
     [SerializeField] private bool canMove = true; // Whether the player can move
 
     [Header("Dash Settings")]
@@ -102,7 +102,7 @@ public class Player_Movement : MonoBehaviour
     private void MovePlayer()
     {
 
-        rb.MovePosition(rb.position + movementInput * speed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
         playerBrain.UpdateAttackCheckPosition(lastMovementDirection);
     }
 

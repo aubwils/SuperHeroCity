@@ -18,10 +18,42 @@ public class Entity_VFX : MonoBehaviour
     [SerializeField] private GameObject critHitVFXPrefab;
     [SerializeField] private float offsetDistance = 0.5f;
 
+    [Header("Element Colors")]
+    [SerializeField] private Color chillVFXColor = Color.cyan;
+    private Color origionalHitVFXColor;
+
     private void Awake()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         origionalMaterial = sr.material;
+        origionalHitVFXColor = hitVFXColor;
+    }
+    public void PlayStatusVFX(float duration, ElementType elementType)
+    {
+        if(elementType == ElementType.Ice )
+            StartCoroutine(PlayStatusVFXRoutine(duration, chillVFXColor));
+    }
+
+    private IEnumerator PlayStatusVFXRoutine(float duration, Color effectColor)
+    {
+        float timePassed = 0f;
+        float tickInterval = .25f;
+        Color lightColor = effectColor * 1.2f;
+        Color darkColor = effectColor * 0.8f;
+        Color origionalColor = sr.color;
+
+        bool toggle = false;
+
+        while (timePassed < duration)
+        {
+            sr.color = toggle ? lightColor : darkColor;
+            toggle = !toggle;
+
+            yield return new WaitForSeconds(tickInterval);
+            timePassed += tickInterval;
+        }
+
+        sr.color = origionalColor;
     }
 
     public void PlayOnDamageVFX()
@@ -56,4 +88,22 @@ public class Entity_VFX : MonoBehaviour
         hitVFX.GetComponentInChildren<SpriteRenderer>().color = hitVFXColor;
         //FUTURE: look into using Object Pooling for hit VFX    
     }
+
+    public void UpdateOnHitColorForElementColor(ElementType elementType)
+    {
+        switch (elementType)
+        {
+            case ElementType.None:
+                hitVFXColor = origionalHitVFXColor;
+                break;
+            case ElementType.Ice:
+                hitVFXColor = chillVFXColor;
+                break;
+            default:
+                hitVFXColor = origionalHitVFXColor;
+                break;
+        }
+    }
+
+    
 }
