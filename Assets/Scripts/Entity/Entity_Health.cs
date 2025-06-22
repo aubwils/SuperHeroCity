@@ -15,6 +15,8 @@ public class Entity_Health : MonoBehaviour, IDamageable
     [Header("Health Regen")]
     [SerializeField] private float healthRegenRate = 1f; // how often you heal with health regen
     [SerializeField] private bool canRegenHealth = true;
+    private Coroutine regenCoroutine;
+
 
     [Header("Knockback Settings")]
     [SerializeField] private float knockbackDuration = 0.2f;
@@ -34,8 +36,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
         healthBar = GetComponentInChildren<Slider>();
         currentHealth = entityStats.GetMaxHealth(); ;
         UpdateHealthBar();
-
-        InvokeRepeating(nameof(RegenerateHealth), 0, healthRegenRate);
+        
 
     }
 
@@ -60,20 +61,39 @@ public class Entity_Health : MonoBehaviour, IDamageable
         TakeKnockback(damageSource, physicalDamageTaken);
         ReduceHealth(physicalDamageTaken + elementalDamageTaken);
         DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(physicalDamageTaken + elementalDamageTaken), transform);
-
+        RegenerateHealth();
         return true;
 
     }
 
     private void RegenerateHealth()
     {
-        if (canRegenHealth == false)
+        if (!canRegenHealth || isDead)
             return;
 
-        float regentAmount = entityStats.resourceStats.healthRegen.GetValue();
-        IncreaseHealth(regentAmount);
+        float regentAmount = entityStats.resourceStats.healthRegen.GetValue(); // amount to heal
+
+        if (regenCoroutine != null)
+            StopCoroutine(regenCoroutine);
+
+        regenCoroutine = StartCoroutine(RegenerateHealthRoutine(healthRegenRate, regentAmount));
+    }
+
+    private IEnumerator RegenerateHealthRoutine(float healthRegenRate, float regentAmount)
+    {
+        //to add in a shold/can regenerate bool method, add conditionsl like not moving maybe?
+        // or could have that for set locations that boost healing (like SDV spa) but leave a version that you cna move in for items?
+        //have a skill set for passive regen and/or item and/or skill you hit to active? tbd
+        while (canRegenHealth && !isDead && currentHealth < entityStats.GetMaxHealth())
+        {
+            IncreaseHealth(regentAmount);
+            yield return new WaitForSeconds(healthRegenRate);
+        }
+
+        regenCoroutine = null;
 
     }
+            
 
     public void IncreaseHealth(float healAmount)
     {
@@ -106,6 +126,8 @@ public class Entity_Health : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         isDead = true;
+        if (regenCoroutine != null)
+            StopCoroutine(regenCoroutine);
         Debug.Log("Entity has died.");
     }
 
