@@ -1,3 +1,3 @@
 using UnityEngine;
 
-public enum ElementType { None, Fire, Ice, lightning, Poison, Holy, Dark }
+public enum ElementType { None, Fire, Ice, Lightning, Poison, Holy, Dark }

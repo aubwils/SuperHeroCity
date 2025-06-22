@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,12 +10,41 @@ public class Entity_StatusHandler : MonoBehaviour
     private Entity_Brain entityBrain;
     private Entity_VFX entityVFX;
     private Entity_Stats entityStats;
+    private Entity_Health entityHealth;
 
     private void Awake()
     {
         entityBrain = GetComponent<Entity_Brain>();
         entityVFX = GetComponent<Entity_VFX>();
         entityStats = GetComponent<Entity_Stats>();
+        entityHealth = GetComponent<Entity_Health>();
+    }
+
+    public void ApplyBurnEffect(float duration, float fireDamage)
+    {
+        float fireResistance = entityStats.GetElementalResistance(ElementType.Fire);
+        float reducedFireDamage = fireDamage * (1 - fireResistance);
+
+        StartCoroutine(BurnEffectRoutine(duration, reducedFireDamage));
+    }
+
+    private IEnumerator BurnEffectRoutine(float duration, float totalDamage)
+    {
+        currentElementType = ElementType.Fire;
+        entityVFX.PlayStatusVFX(duration, ElementType.Fire);
+        int ticksPerSecond = 2; // Number of ticks per second. Ticks means instance of damage while target is burning.
+        int tickCount = Mathf.RoundToInt(duration * ticksPerSecond); // Total number of ticks
+
+        float damagePerTick = totalDamage / tickCount; // Total damage divided by number of ticks
+        float tickInterval = 1f / ticksPerSecond; // 0.5 seconds per tick
+
+        for (int i = 0; i < tickCount; i++)
+        {
+            entityHealth.ReduceHP(damagePerTick);
+            DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(damagePerTick), transform);
+            yield return new WaitForSeconds(tickInterval);
+        }
+        currentElementType = ElementType.None;
     }
 
     public void ApplyChilledEffect(float duration, float slowMultiplier)

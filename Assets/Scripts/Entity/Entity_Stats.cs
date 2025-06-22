@@ -12,7 +12,7 @@ public class Entity_Stats : MonoBehaviour
     public OffenseStats offenseStats;
     public DefenseStats defenseStats;
 
-    public float GetElementalDamage(out ElementType elementType)
+    public float GetElementalDamage(out ElementType elementType, float scaleFactor = 1f)
     {
         float fireDamage = offenseStats.fireDamage.GetValue();
         float iceDamage = offenseStats.iceDamage.GetValue();
@@ -34,7 +34,7 @@ public class Entity_Stats : MonoBehaviour
         if (lightningDamage > highestDamage)
         {
             highestDamage = lightningDamage;
-            elementType = ElementType.lightning;
+            elementType = ElementType.Lightning;
         }
         if (poisonDamage > highestDamage)
         {
@@ -67,7 +67,7 @@ public class Entity_Stats : MonoBehaviour
         float weakerElementsDamage = highestDamage + bonusFire + bonusIce + bonusLightning + bonusPoison + bonusHoly + bonusDark;
         float finalElementalDamage = highestDamage + weakerElementsDamage + bonusElementalDamage;
 
-        return finalElementalDamage;
+        return finalElementalDamage * scaleFactor; // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
 
     }
 
@@ -84,7 +84,7 @@ public class Entity_Stats : MonoBehaviour
             case ElementType.Ice:
                 baseResistance = defenseStats.iceResistance.GetValue();
                 break;
-            case ElementType.lightning:
+            case ElementType.Lightning:
                 baseResistance = defenseStats.lightningResistance.GetValue();
                 break;
             case ElementType.Poison:
@@ -121,7 +121,7 @@ public class Entity_Stats : MonoBehaviour
         return false;
     }
 
-    public float GetPhisicalDamage(out bool isCrit) //Craeteinga variable only used in this method and out is saying you can get information OUT of this method when you call it.
+    public float GetPhisicalDamage(out bool isCrit, float scaleFactor = 1f) //Craeteinga variable only used in this method and out is saying you can get information OUT of this method when you call it.
     {
         float baseDamage = offenseStats.damage.GetValue();
         float bonusDamage = majorStats.strength.GetValue();
@@ -138,7 +138,7 @@ public class Entity_Stats : MonoBehaviour
         isCrit = Random.Range(0, 100) < totalCritChance; //bool variable is being decalred at the top.
         float finalDamage = isCrit ? totalBaseDamage * totalCritPower : totalBaseDamage;
 
-        return finalDamage;
+        return finalDamage * scaleFactor; // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
     }
 
     public float GetArmorMitigation(float armorReduction)

@@ -20,6 +20,12 @@ public class Entity_VFX : MonoBehaviour
 
     [Header("Element Colors")]
     [SerializeField] private Color chillVFXColor = Color.cyan;
+    [SerializeField] private Color burnVFXColor = Color.red;
+    [SerializeField] private Color shockVFXColor = Color.yellow;
+    [SerializeField] private Color poisonVFXColor = Color.green;
+    [SerializeField] private Color holyVFXColor = Color.white;
+    [SerializeField] private Color darkVFXColor = Color.black;
+    
     private Color origionalHitVFXColor;
 
     private void Awake()
@@ -30,8 +36,18 @@ public class Entity_VFX : MonoBehaviour
     }
     public void PlayStatusVFX(float duration, ElementType elementType)
     {
-        if(elementType == ElementType.Ice )
+        if (elementType == ElementType.Ice)
             StartCoroutine(PlayStatusVFXRoutine(duration, chillVFXColor));
+        if (elementType == ElementType.Fire)
+            StartCoroutine(PlayStatusVFXRoutine(duration, burnVFXColor));
+        // if (elementType == ElementType.Lightning)
+        //     StartCoroutine(PlayStatusVFXRoutine(duration, shockVFXColor));
+        if (elementType == ElementType.Poison)
+            StartCoroutine(PlayStatusVFXRoutine(duration, poisonVFXColor));
+        // if (elementType == ElementType.Holy)
+        //     StartCoroutine(PlayStatusVFXRoutine(duration, holyVFXColor));
+        // if (elementType == ElementType.Dark)
+        //     StartCoroutine(PlayStatusVFXRoutine(duration, darkVFXColor));
     }
 
     private IEnumerator PlayStatusVFXRoutine(float duration, Color effectColor)
