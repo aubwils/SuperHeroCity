@@ -10,8 +10,11 @@ public class Entity_Health : MonoBehaviour, IDamageable
     private Entity_Stats entityStats;
     private Entity_Brain entityBrain;
 
-    [SerializeField] public float currentHP;
+    [SerializeField] public float currentHealth;
     [SerializeField] protected bool isDead = false;
+    [Header("Health Regen")]
+    [SerializeField] private float healthRegenRate = 1f; // how often you heal with health regen
+    [SerializeField] private bool canRegenHealth = true;
 
     [Header("Knockback Settings")]
     [SerializeField] private float knockbackDuration = 0.2f;
@@ -29,8 +32,11 @@ public class Entity_Health : MonoBehaviour, IDamageable
         entityStats = GetComponent<Entity_Stats>();
         entityBrain = GetComponent<Entity_Brain>();
         healthBar = GetComponentInChildren<Slider>();
-        currentHP = entityStats.GetMaxHealth(); ;
+        currentHealth = entityStats.GetMaxHealth(); ;
         UpdateHealthBar();
+
+        InvokeRepeating(nameof(RegenerateHealth), 0, healthRegenRate);
+
     }
 
     private void Start()
@@ -52,27 +58,46 @@ public class Entity_Health : MonoBehaviour, IDamageable
         float elementalDamageTaken = elementalDamage * (1 - elementalResistance);
         
         TakeKnockback(damageSource, physicalDamageTaken);
-        ReduceHP(physicalDamageTaken + elementalDamageTaken);
+        ReduceHealth(physicalDamageTaken + elementalDamageTaken);
         DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(physicalDamageTaken + elementalDamageTaken), transform);
 
         return true;
 
     }
 
-    private void TakeKnockback(Transform damageSource, float finalDamage)
+    private void RegenerateHealth()
     {
-        float duration = CalculateDuration(finalDamage);
-        Vector2 knockback = CalculateKnockback(finalDamage, damageSource);
+        if (canRegenHealth == false)
+            return;
 
-        entityBrain?.ReciveKnockback(knockback, duration);
+        float regentAmount = entityStats.resourceStats.healthRegen.GetValue();
+        IncreaseHealth(regentAmount);
+
     }
 
-    public void ReduceHP(float damage)
+    public void IncreaseHealth(float healAmount)
+    {
+        if (isDead)
+            return;
+
+        float newHealth = currentHealth + healAmount;
+        float maxHealth = entityStats.GetMaxHealth();
+
+        // if (newHealth > maxHealth)
+        //     currentHealth = maxHealth;
+        // else
+        //     currentHealth = newHealth;
+
+        currentHealth = Mathf.Min(newHealth, maxHealth); // this will add the min of the two either newhealth or max health so if max health is the smaller number it will pick that and stay at the max. so similar to the if/else statment
+        UpdateHealthBar();
+    }
+
+    public void ReduceHealth(float damage)
     {
         entityVFX?.PlayOnDamageVFX();
-        currentHP -= damage;
+        currentHealth -= damage;
         UpdateHealthBar();
-        if (currentHP < 0)
+        if (currentHealth < 0)
         {
             Die();
         }
@@ -94,14 +119,22 @@ public class Entity_Health : MonoBehaviour, IDamageable
         if (healthBar == null)
             return;
         
-        healthBar.value = currentHP / entityStats.GetMaxHealth();
+        healthBar.value = currentHealth / entityStats.GetMaxHealth();
     }
 
     private bool AttackEvaded() => Random.Range(0, 100) < entityStats.GetEvasion();
 
+    private void TakeKnockback(Transform damageSource, float finalDamage)
+    {
+        float duration = CalculateDuration(finalDamage);
+        Vector2 knockback = CalculateKnockback(finalDamage, damageSource);
+
+        entityBrain?.ReciveKnockback(knockback, duration);
+    }
+
     private Vector2 CalculateKnockback(float damage, Transform damageSource)
     {
-              // Calculate direction from the damage source to this entity
+        // Calculate direction from the damage source to this entity
         Vector2 direction = (transform.position - damageSource.position).normalized;
         // Apply knockback force using the serialized OnDamageKnockback magnitude
         Vector2 knockback = IsHeavyDamage(damage) ? direction * onHeavyDamageKnockback.magnitude : direction * OnDamageKnockback.magnitude;
@@ -112,5 +145,6 @@ public class Entity_Health : MonoBehaviour, IDamageable
     {
         return IsHeavyDamage(damage) ? heavyKnockbackDuration : knockbackDuration;
     }
+
     private bool IsHeavyDamage(float damage) => damage / entityStats.GetMaxHealth() > heavyDamageThreshold; 
 }

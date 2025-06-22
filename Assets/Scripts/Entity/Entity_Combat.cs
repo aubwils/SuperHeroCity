@@ -14,6 +14,7 @@ public class Entity_Combat : MonoBehaviour
     [Header("Status Effect Details")]
     [SerializeField] private float defaultDuration = 3f;
     [SerializeField] private float chilledSlowMultiplier = 0.4f;
+    [SerializeField] private float electrifiedChargeBuildup = .4f;
     
 
 
@@ -59,7 +60,7 @@ public class Entity_Combat : MonoBehaviour
 
     public void ApplyStatusEffect(Transform target, ElementType elementType, float scaleFactor = 1f)
     {
-       
+
         Entity_StatusHandler entityStatusHandler = target.GetComponent<Entity_StatusHandler>();
         if (entityStatusHandler == null)
             return;
@@ -72,6 +73,11 @@ public class Entity_Combat : MonoBehaviour
             float fireDamage = entityStats.offenseStats.fireDamage.GetValue() * scaleFactor;
             entityStatusHandler.ApplyBurnEffect(defaultDuration, fireDamage);
         }
+        if (elementType == ElementType.Lightning && entityStatusHandler.CanEffectBeApplied(ElementType.Lightning))
+        {
+            float lightningDamage = entityStats.offenseStats.lightningDamage.GetValue() * scaleFactor;
+            entityStatusHandler.ApplyElectrifiedEffect(defaultDuration, lightningDamage, electrifiedChargeBuildup);
+        }// coem back to lightning think want a diff thing with this...
 
     }
 

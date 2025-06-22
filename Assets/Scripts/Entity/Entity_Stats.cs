@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class Entity_Stats : MonoBehaviour
 {
-    public Stat maxHealth;
-    public bool isDead = false;
-
-
+    public ResourceStats resourceStats;
     public MajorStats majorStats;
     public OffenseStats offenseStats;
     public DefenseStats defenseStats;
@@ -110,7 +107,7 @@ public class Entity_Stats : MonoBehaviour
 
     protected virtual void Start()
     {
-        currentHealth = maxHealth.GetValue();
+        currentHealth = resourceStats.maxHealth.GetValue();
 
     }
 
@@ -184,7 +181,7 @@ public class Entity_Stats : MonoBehaviour
 
     public float GetMaxHealth()
     {
-        float baseMaxHP = maxHealth.GetValue();
+        float baseMaxHP = resourceStats.maxHealth.GetValue();
         float bonusMaxHP = majorStats.constitution.GetValue() * 5; // Assuming 5 HP per point of constitution
 
         float finalMaxHP = baseMaxHP + bonusMaxHP;

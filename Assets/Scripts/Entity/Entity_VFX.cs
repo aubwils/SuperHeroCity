@@ -40,16 +40,21 @@ public class Entity_VFX : MonoBehaviour
             StartCoroutine(PlayStatusVFXRoutine(duration, chillVFXColor));
         if (elementType == ElementType.Fire)
             StartCoroutine(PlayStatusVFXRoutine(duration, burnVFXColor));
-        // if (elementType == ElementType.Lightning)
-        //     StartCoroutine(PlayStatusVFXRoutine(duration, shockVFXColor));
-        if (elementType == ElementType.Poison)
-            StartCoroutine(PlayStatusVFXRoutine(duration, poisonVFXColor));
+        if (elementType == ElementType.Lightning)
+            StartCoroutine(PlayStatusVFXRoutine(duration, shockVFXColor));
+        //if (elementType == ElementType.Poison)
+          //  StartCoroutine(PlayStatusVFXRoutine(duration, poisonVFXColor));
         // if (elementType == ElementType.Holy)
         //     StartCoroutine(PlayStatusVFXRoutine(duration, holyVFXColor));
         // if (elementType == ElementType.Dark)
         //     StartCoroutine(PlayStatusVFXRoutine(duration, darkVFXColor));
     }
-
+    public void StopAllVFX()
+    {
+        StopAllCoroutines();
+        sr.color = origionalHitVFXColor; // Reset the color to original
+        sr.material = origionalMaterial; // Reset the material to original
+    }
     private IEnumerator PlayStatusVFXRoutine(float duration, Color effectColor)
     {
         float timePassed = 0f;

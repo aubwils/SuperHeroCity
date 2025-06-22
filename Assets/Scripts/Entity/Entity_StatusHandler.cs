@@ -12,12 +12,61 @@ public class Entity_StatusHandler : MonoBehaviour
     private Entity_Stats entityStats;
     private Entity_Health entityHealth;
 
+    [Header("Electrify effect details")]
+    [SerializeField] private GameObject lightningStrikeVFXPrefab;
+    [SerializeField] private float currentCharge;
+    [SerializeField] private float maxCharge = 1f;
+    private Coroutine electrifiedEffectRoutine;
+
     private void Awake()
     {
         entityBrain = GetComponent<Entity_Brain>();
         entityVFX = GetComponent<Entity_VFX>();
         entityStats = GetComponent<Entity_Stats>();
         entityHealth = GetComponent<Entity_Health>();
+    }
+
+    public void ApplyElectrifiedEffect(float duration, float damage, float charge)
+    {
+        //dont think i like the build charge up  but maybe useful for a weapon? keepign for now may remove.
+        float lightningResistance = entityStats.GetElementalResistance(ElementType.Lightning);
+        float additionalCharge = charge * (1 - lightningResistance);
+        
+        currentCharge = currentCharge + additionalCharge;
+        if (currentCharge >= maxCharge)
+        {
+            LightingStrike(damage);
+            StopElectrifiedEffect();
+            return;
+        }
+
+        if (electrifiedEffectRoutine != null)
+            StopCoroutine(electrifiedEffectRoutine);
+        
+
+        electrifiedEffectRoutine = StartCoroutine(ElectrifiedEffectRoutine(duration));
+
+    }
+    private void StopElectrifiedEffect()
+    {
+        currentCharge = 0f;
+        currentElementType = ElementType.None;
+        entityVFX.StopAllVFX();
+    }
+
+    private void LightingStrike(float damage)
+    {
+        Instantiate(lightningStrikeVFXPrefab, transform.position, Quaternion.identity);
+        entityHealth.ReduceHealth(damage);
+        DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(damage), transform);
+    }
+    private IEnumerator ElectrifiedEffectRoutine(float duration)
+    {
+        currentElementType = ElementType.Lightning;
+        entityVFX.PlayStatusVFX(duration, ElementType.Lightning);
+
+        yield return new WaitForSeconds(duration);
+        StopElectrifiedEffect();
     }
 
     public void ApplyBurnEffect(float duration, float fireDamage)
@@ -40,7 +89,7 @@ public class Entity_StatusHandler : MonoBehaviour
 
         for (int i = 0; i < tickCount; i++)
         {
-            entityHealth.ReduceHP(damagePerTick);
+            entityHealth.ReduceHealth(damagePerTick);
             DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(damagePerTick), transform);
             yield return new WaitForSeconds(tickInterval);
         }
@@ -67,6 +116,9 @@ public class Entity_StatusHandler : MonoBehaviour
 
     public bool CanEffectBeApplied(ElementType newElementType)
     {
+        if(newElementType == ElementType.Lightning && currentElementType == ElementType.Lightning)
+            return true; 
+        
         return currentElementType == ElementType.None;
     }
 

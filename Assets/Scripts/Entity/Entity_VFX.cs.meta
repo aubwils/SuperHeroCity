@@ -3,7 +3,10 @@ guid: ad5fde1dc546846a99c4660ef8c8b988
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - OnDamageMaterial: {fileID: 2100000, guid: bc501d9971c1641f39f426f391aae3bc, type: 2}
+  - hitVFXPrefab: {fileID: 7908671705037834761, guid: c8b2c05d0f8b74c1fac40136d58e9b75, type: 3}
+  - critHitVFXPrefab: {fileID: 8718304954696748275, guid: d63b01987fe5f40329bfd40218be109e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
