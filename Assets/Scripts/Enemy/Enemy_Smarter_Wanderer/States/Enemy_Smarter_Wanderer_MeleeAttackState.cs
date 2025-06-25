@@ -17,6 +17,7 @@ public class Enemy_Smarter_Wanderer_MeleeAttackState : EnemyState
     {
         base.Enter();
         specificEnemyBrain.rb.velocity = Vector2.zero;
+        SyncAttackSpeed();
         //Debug.Log("Attacking Player");
     }
 

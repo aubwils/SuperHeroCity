@@ -16,18 +16,18 @@ public class StatDrawer : PropertyDrawer
             return;
         }
 
-        int baseValue = baseValueProp.intValue;
-        int modSum = 0;
+        float baseValue = baseValueProp.floatValue;
+        float modSum = 0;
 
         if (modifiersProp != null && modifiersProp.isArray)
         {
             for (int i = 0; i < modifiersProp.arraySize; i++)
             {
-                modSum += modifiersProp.GetArrayElementAtIndex(i).intValue;
+                modSum += modifiersProp.GetArrayElementAtIndex(i).floatValue;
             }
         }
 
-        int total = baseValue + modSum;
+        float total = baseValue + modSum;
         GUIContent tooltipLabel = new GUIContent($"{label.text} ({total})", label.tooltip);
 
 

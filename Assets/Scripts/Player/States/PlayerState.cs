@@ -9,7 +9,7 @@ public abstract class PlayerState : EntityState
 
 
 
-    public PlayerState(Player_Brain playerBrain, StateMachine stateMachine,  string animBoolName) : base(stateMachine, animBoolName)
+    public PlayerState(Player_Brain playerBrain, StateMachine stateMachine, string animBoolName) : base(stateMachine, animBoolName)
     {
         this.playerBrain = playerBrain;
         //playerInputActions = player.playerInputActions;
@@ -22,13 +22,13 @@ public abstract class PlayerState : EntityState
 
     }
 
-    public override void Update() 
+    public override void Update()
     {
         base.Update();
-         if (playerBrain.GetKnockbackStatus()) return;
-    }   
+        if (playerBrain.GetKnockbackStatus()) return;
+    }
 
-    public override void FixedUpdate() 
+    public override void FixedUpdate()
     {
         base.FixedUpdate();
     }
@@ -40,6 +40,11 @@ public abstract class PlayerState : EntityState
 
     }
     
+        public void SyncAttackSpeed()
+    {
+        float attackSpeed = playerBrain.entityStats.offenseStats.attackSpeed.GetValue();
+        playerBrain.CurrentAnimator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+    }
 
     
 }

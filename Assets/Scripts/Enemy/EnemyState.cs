@@ -25,5 +25,11 @@ public class EnemyState : EntityState
         base.Exit();
         animator.SetBool(animBoolName, false);
     }
+
+    public void SyncAttackSpeed()
+    {
+        float attackSpeed = enemyBrain.entityStats.offenseStats.attackSpeed.GetValue();
+        animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+    }
     
 }

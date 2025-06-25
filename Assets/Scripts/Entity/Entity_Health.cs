@@ -12,7 +12,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
 
     [SerializeField] public float currentHealth;
     [SerializeField] protected bool isDead = false;
-    [Header("Health Regen")]
+    [Header("Health Regen")] // Move health rate into stats??? anything else with health regen???
     [SerializeField] private float healthRegenRate = 1f; // how often you heal with health regen
     [SerializeField] private bool canRegenHealth = true;
     private Coroutine regenCoroutine;

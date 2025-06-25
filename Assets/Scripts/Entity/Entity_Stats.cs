@@ -103,7 +103,7 @@ public class Entity_Stats : MonoBehaviour
 
     }
 
-    [SerializeField] private int currentHealth;
+    [SerializeField] private float currentHealth;
 
     protected virtual void Start()
     {

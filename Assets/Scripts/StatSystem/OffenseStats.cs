@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class OffenseStats
 {
+
+     public Stat attackSpeed;
     //Physical Damage
     public Stat damage;
     public Stat critPower;
