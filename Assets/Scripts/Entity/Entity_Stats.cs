@@ -188,6 +188,52 @@ public class Entity_Stats : MonoBehaviour
         return finalMaxHP;
     }
 
+    public Stat GetStatByType(StatType statType)
+    {
+        switch (statType)
+        {
+            // OffenseStats
+            case StatType.AttackSpeed: return offenseStats.attackSpeed;
+            case StatType.ArmorReduction: return offenseStats.armorReduction;
+            case StatType.CritChance: return offenseStats.critChance;
+            case StatType.CritPower: return offenseStats.critPower;
+            case StatType.Damage: return offenseStats.damage;
+            case StatType.DarkDamage: return offenseStats.darkDamage;
+            case StatType.FireDamage: return offenseStats.fireDamage;
+            case StatType.HolyDamage: return offenseStats.holyDamage;
+            case StatType.IceDamage: return offenseStats.iceDamage;
+            case StatType.LightningDamage: return offenseStats.lightningDamage;
+            case StatType.PoisonDamage: return offenseStats.poisonDamage;
 
+            // DefenseStats
+            case StatType.Armor: return defenseStats.armor;
+            case StatType.DarkResistance: return defenseStats.darkResistance;
+            case StatType.Evasion: return defenseStats.evasion;
+            case StatType.FireResistance: return defenseStats.fireResistance;
+            case StatType.HolyResistance: return defenseStats.holyResistance;
+            case StatType.IceResistance: return defenseStats.iceResistance;
+            case StatType.LightningResistance: return defenseStats.lightningResistance;
+            case StatType.PoisonResistance: return defenseStats.poisonResistance;
+            case StatType.SuspisionResistance: return defenseStats.suspisionResistance;
+
+            // MajorStats
+            case StatType.Constitution: return majorStats.constitution;
+            case StatType.Dexterity: return majorStats.dexterity;
+            case StatType.Intelligence: return majorStats.intelligence;
+            case StatType.Strength: return majorStats.strength;
+
+            // ResourceStats
+            case StatType.MaxHealth: return resourceStats.maxHealth;
+            case StatType.HealthRegen: return resourceStats.healthRegen;
+            case StatType.MaxMana: return resourceStats.maxMana;
+            case StatType.ManaRegen: return resourceStats.manaRegen;
+            case StatType.MaxStamina: return resourceStats.maxStamina;
+            case StatType.StaminaRegen: return resourceStats.staminaRegen;
+
+            default:
+                Debug.LogWarning("Stat type not found: " + statType);
+                return null;
+        }
+    }
 
 }

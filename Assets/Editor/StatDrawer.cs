@@ -21,9 +21,15 @@ public class StatDrawer : PropertyDrawer
 
         if (modifiersProp != null && modifiersProp.isArray)
         {
-            for (int i = 0; i < modifiersProp.arraySize; i++)
+           for (int i = 0; i < modifiersProp.arraySize; i++)
             {
-                modSum += modifiersProp.GetArrayElementAtIndex(i).floatValue;
+                SerializedProperty modifierElement = modifiersProp.GetArrayElementAtIndex(i);
+                SerializedProperty valueProp = modifierElement.FindPropertyRelative("value");
+
+                if (valueProp != null)
+                {
+                    modSum += valueProp.floatValue;
+                }
             }
         }
 
