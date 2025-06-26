@@ -369,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cafe456cbfbf454392e99c3b79e526f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultStatSetup: {fileID: 0}
   resourceStats:
     maxHealth:
       baseValue: 1000
@@ -387,19 +388,6 @@ MonoBehaviour:
       modifiers: []
     staminaRegen:
       baseValue: 0
-      modifiers: []
-  majorStats:
-    strength:
-      baseValue: 10
-      modifiers: []
-    dexterity:
-      baseValue: 0
-      modifiers: []
-    intelligence:
-      baseValue: 0
-      modifiers: []
-    constitution:
-      baseValue: 10
       modifiers: []
   offenseStats:
     attackSpeed:
@@ -462,6 +450,19 @@ MonoBehaviour:
       modifiers: []
     darkResistance:
       baseValue: 0
+      modifiers: []
+  majorStats:
+    strength:
+      baseValue: 10
+      modifiers: []
+    dexterity:
+      baseValue: 0
+      modifiers: []
+    intelligence:
+      baseValue: 0
+      modifiers: []
+    constitution:
+      baseValue: 10
       modifiers: []
   currentHealth: 0
 --- !u!114 &96530815
@@ -228541,8 +228542,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4818250115263168811, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
+      propertyPath: defaultStatSetup
+      value: 
+      objectReference: {fileID: 11400000, guid: 973bb4dc1c22c4671940e614eaf7101a, type: 2}
+    - target: {fileID: 4818250115263168811, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
       propertyPath: maxHealth.baseValue
       value: 50000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4818250115263168811, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
+      propertyPath: offenseStats.damage.baseValue
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4818250115263168811, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
       propertyPath: offenseStats.iceDamage.baseValue
@@ -228554,7 +228563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4818250115263168811, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
       propertyPath: resourceStats.maxHealth.baseValue
-      value: 500
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4818250115263168811, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
       propertyPath: offenseStats.attackSpeed.baseValue

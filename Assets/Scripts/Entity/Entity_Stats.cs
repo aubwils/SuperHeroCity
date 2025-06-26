@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Entity_Stats : MonoBehaviour
 {
+    public Stat_SetupSO defaultStatSetup; /// so i think i want to make a SO for enemy and one for player stat set up and player can have the orgin type and major stats and enemy one would not have major stats but then would move this i think to the player stats and enemy stats.
+
     public ResourceStats resourceStats;
-    public MajorStats majorStats;
     public OffenseStats offenseStats;
     public DefenseStats defenseStats;
+    public MajorStats majorStats;
 
     public float GetElementalDamage(out ElementType elementType, float scaleFactor = 1f)
     {
@@ -50,7 +52,7 @@ public class Entity_Stats : MonoBehaviour
         }
         if (highestDamage <= 0)
         {
-            elementType = ElementType.None; 
+            elementType = ElementType.None;
             return 0f;
         }
 
@@ -145,7 +147,7 @@ public class Entity_Stats : MonoBehaviour
         float totalArmor = baseArmor + bonusArmor;
 
         //take armor reduction and calculate how much armor should be used
-        float reductionMultiplier = Mathf.Clamp(1 - armorReduction, 0,1); // if you pass 1-.4 = .6f .6 is the percentage of armor that will be used to defend on attack.
+        float reductionMultiplier = Mathf.Clamp(1 - armorReduction, 0, 1); // if you pass 1-.4 = .6f .6 is the percentage of armor that will be used to defend on attack.
         // float reductionMultiplier = Mathf.Clamp01(1 - armorReduction); another way to say the above
 
         float effectiveArmor = totalArmor * reductionMultiplier; // Apply armor reduction to total armor
@@ -236,4 +238,44 @@ public class Entity_Stats : MonoBehaviour
         }
     }
 
+    [ContextMenu("Apply Default Stat Setup")]
+    public void ApplyDefautStatSetup()
+    {
+        if (defaultStatSetup == null)
+        {
+            Debug.LogWarning("Default Stat Setup is not assigned.");
+            return;
+        }
+
+        resourceStats.maxHealth.SetBaseValue(defaultStatSetup.maxHealth);
+        resourceStats.healthRegen.SetBaseValue(defaultStatSetup.healthRegen);
+
+        majorStats.strength.SetBaseValue(defaultStatSetup.strength);
+        majorStats.dexterity.SetBaseValue(defaultStatSetup.dexterity);
+        majorStats.intelligence.SetBaseValue(defaultStatSetup.intelligence);
+        majorStats.constitution.SetBaseValue(defaultStatSetup.constitution);
+
+        offenseStats.attackSpeed.SetBaseValue(defaultStatSetup.attackSpeed);
+        offenseStats.damage.SetBaseValue(defaultStatSetup.damage);
+        offenseStats.critPower.SetBaseValue(defaultStatSetup.critPower);
+        offenseStats.critChance.SetBaseValue(defaultStatSetup.critChance);
+        offenseStats.armorReduction.SetBaseValue(defaultStatSetup.armorReduction);
+        offenseStats.fireDamage.SetBaseValue(defaultStatSetup.fireDamage);
+        offenseStats.iceDamage.SetBaseValue(defaultStatSetup.iceDamage);
+        offenseStats.lightningDamage.SetBaseValue(defaultStatSetup.lightningDamage);
+        offenseStats.poisonDamage.SetBaseValue(defaultStatSetup.poisonDamage);
+        offenseStats.holyDamage.SetBaseValue(defaultStatSetup.holyDamage);
+        offenseStats.darkDamage.SetBaseValue(defaultStatSetup.darkDamage);
+
+        defenseStats.armor.SetBaseValue(defaultStatSetup.armor);
+        defenseStats.evasion.SetBaseValue(defaultStatSetup.evasion);
+        defenseStats.suspisionResistance.SetBaseValue(defaultStatSetup.suspisionResistance);
+        defenseStats.fireResistance.SetBaseValue(defaultStatSetup.fireResistance);
+        defenseStats.iceResistance.SetBaseValue(defaultStatSetup.iceResistance);
+        defenseStats.lightningResistance.SetBaseValue(defaultStatSetup.lightningResistance);
+        defenseStats.poisonResistance.SetBaseValue(defaultStatSetup.poisonResistance);
+        defenseStats.holyResistance.SetBaseValue(defaultStatSetup.holyResistance);
+        defenseStats.darkResistance.SetBaseValue(defaultStatSetup.darkResistance);
+
+    }
 }
