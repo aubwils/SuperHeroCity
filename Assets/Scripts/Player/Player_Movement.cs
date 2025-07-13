@@ -6,7 +6,10 @@ using UnityEngine.InputSystem;
 public class Player_Movement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 5f; 
+    public float moveSpeed = 5f;
+
+
+
     [SerializeField] private bool canMove = true; // Whether the player can move
 
     [Header("Dash Settings")]

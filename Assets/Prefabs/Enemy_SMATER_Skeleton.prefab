@@ -351,82 +351,101 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a69627a3f11142c1847a91ed40088a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth:
-    baseValue: 500
-    modifiers: 
-  isDead: 0
-  majorStats:
-    strength:
+  defaultStatSetup: {fileID: 11400000, guid: 973bb4dc1c22c4671940e614eaf7101a, type: 2}
+  resourceStats:
+    maxHealth:
+      baseValue: 100
+      modifiers: []
+    healthRegen:
       baseValue: 0
-      modifiers: 
-    dexterity:
+      modifiers: []
+    maxMana:
       baseValue: 0
-      modifiers: 
-    intelligence:
+      modifiers: []
+    manaRegen:
       baseValue: 0
-      modifiers: 
-    constitution:
+      modifiers: []
+    maxStamina:
       baseValue: 0
-      modifiers: 
+      modifiers: []
+    staminaRegen:
+      baseValue: 0
+      modifiers: []
   offenseStats:
+    attackSpeed:
+      baseValue: 1
+      modifiers: []
     damage:
-      baseValue: 10
-      modifiers: 
+      baseValue: 5
+      modifiers: []
     critPower:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     critChance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     armorReduction:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     fireDamage:
-      baseValue: 4
-      modifiers: 
+      baseValue: 0
+      modifiers: []
     iceDamage:
-      baseValue: 7
-      modifiers: 
+      baseValue: 0
+      modifiers: []
     lightningDamage:
-      baseValue: 6
-      modifiers: 
+      baseValue: 0
+      modifiers: []
     poisonDamage:
-      baseValue: 5
-      modifiers: 
+      baseValue: 0
+      modifiers: []
     holyDamage:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     darkDamage:
       baseValue: 0
-      modifiers: 
+      modifiers: []
   defenseStats:
     armor:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     evasion:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     suspisionResistance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     fireResistance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     iceResistance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     lightningResistance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     poisonResistance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     holyResistance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
     darkResistance:
       baseValue: 0
-      modifiers: 
+      modifiers: []
+  majorStats:
+    strength:
+      baseValue: 0
+      modifiers: []
+    dexterity:
+      baseValue: 0
+      modifiers: []
+    intelligence:
+      baseValue: 0
+      modifiers: []
+    constitution:
+      baseValue: 0
+      modifiers: []
   currentHealth: 0
 --- !u!114 &6703977481512812547
 MonoBehaviour:
@@ -440,8 +459,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797b293a2615f4e7588a2eb491ef2a8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHP: 0
+  currentHealth: 0
   isDead: 0
+  healthRegenRate: 1
+  canRegenHealth: 1
   knockbackDuration: 0.25
   OnDamageKnockback: {x: 0.75, y: 2}
   heavyDamageThreshold: 0.3
@@ -502,6 +523,11 @@ MonoBehaviour:
   critHitVFXPrefab: {fileID: 8718304954696748275, guid: d63b01987fe5f40329bfd40218be109e, type: 3}
   offsetDistance: 0.5
   chillVFXColor: {r: 0, g: 0.5686275, b: 1, a: 1}
+  burnVFXColor: {r: 1, g: 0, b: 0, a: 1}
+  shockVFXColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  poisonVFXColor: {r: 0, g: 1, b: 0, a: 1}
+  holyVFXColor: {r: 1, g: 1, b: 1, a: 1}
+  darkVFXColor: {r: 0, g: 0, b: 0, a: 1}
   attackAlert: {fileID: 6143093957836898207}
 --- !u!114 &5503448458362826698
 MonoBehaviour:
@@ -521,7 +547,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   defaultDuration: 3
-  chilledSlowMultiplier: 0.2
+  chilledSlowMultiplier: 0.4
+  electrifiedChargeBuildup: 0.4
   attackCooldown: 1.5
 --- !u!114 &4375722077752349646
 MonoBehaviour:
@@ -535,6 +562,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ee3624eee95473e91226ec28ec663c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightningStrikeVFXPrefab: {fileID: 1847298722444548943, guid: 0bfeeb6dede2c496e9f5f7e520a801f0, type: 3}
+  currentCharge: 0
+  maxCharge: 1
 --- !u!1001 &8546906492471159017
 PrefabInstance:
   m_ObjectHideFlags: 0
