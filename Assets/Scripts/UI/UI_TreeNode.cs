@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+
+    private UI ui;
+    private RectTransform rectTransform;
+
     [SerializeField] private Skill_DataSO skillData;
     [SerializeField] private string skillName;
 
@@ -15,19 +19,13 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public bool isUnlocked;
     public bool isLocked;
 
-    //onvalidate is called when the inspector is updated so this updates the gmeobject name and icon in the editor when we add the SO
-    private void OnValidate()
-    {
-        if (skillData == null)
-            return;
 
-        skillName = skillData.skillName;
-        skillIcon.sprite = skillData.icon;
-        gameObject.name = "UI_TreeNode - " + skillData.skillName;
-    }
 
     private void Awake()
     {
+        ui = GetComponentInParent<UI>();
+        rectTransform = GetComponent<RectTransform>();
+
         UpdateIconColor(skillLockedColor);
     }
 
@@ -69,12 +67,16 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        ui.skillToolTip.ShowToolTip(true, rectTransform, skillData);
+
         if (isUnlocked == false)
             UpdateIconColor(Color.white * .9f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        ui.skillToolTip.ShowToolTip(false, rectTransform); //can pass null here
+
         if (isUnlocked == false)
             UpdateIconColor(lastColor);
     }
@@ -84,4 +86,15 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     //     ColorUtility.TryParseHtmlString(hexNumber, out Color color);
     //     return color;}
     // would then need to update where skillLockedColor is set in Awake with GetColorByHex(lockedColorHex);
+
+    //onvalidate is called when the inspector is updated so this updates the gmeobject name and icon in the editor when we add the SO
+    private void OnValidate()
+    {
+        if (skillData == null)
+            return;
+
+        skillName = skillData.skillName;
+        skillIcon.sprite = skillData.icon;
+        gameObject.name = "UI_TreeNode - " + skillData.skillName;
+    }
 }
