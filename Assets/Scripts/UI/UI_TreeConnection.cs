@@ -7,13 +7,13 @@ public class UI_TreeConnection : MonoBehaviour
     [SerializeField] private RectTransform connecttionLength;
     [SerializeField] private RectTransform childNodeConnectionPoint;
 
-    public void DirectConnection(NodeDirectionType direction, float length)
+    public void DirectConnection(NodeDirectionType direction, float length, float offset)
     {
         bool shouldBeActive = direction != NodeDirectionType.None;
         float finalLength = shouldBeActive ? length : 0f;
         float angle = GetDirectionAngle(direction);
 
-        rotationPoint.localRotation = Quaternion.Euler(0, 0, angle);
+        rotationPoint.localRotation = Quaternion.Euler(0, 0, angle + offset);
         connecttionLength.sizeDelta = new Vector2(finalLength, connecttionLength.sizeDelta.y);
     }
 

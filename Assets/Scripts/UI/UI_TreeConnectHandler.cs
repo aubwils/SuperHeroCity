@@ -7,7 +7,8 @@ public class UI_TreeConnectDetails
 {
     public UI_TreeConnectHandler childNode;
     public NodeDirectionType direction;
-     [Range(100f, 350f)] public float length;
+    [Range(100f, 350f)] public float length;
+    [Range(-50f, 50f)] public float rotation;
 }
 
 public class UI_TreeConnectHandler : MonoBehaviour
@@ -49,9 +50,13 @@ public class UI_TreeConnectHandler : MonoBehaviour
             Vector2 targetPosition = connection.GetConnectionPoint(rect);
             Image connectionImage = connection.GetConnectionImage();
 
-            connection.DirectConnection(detail.direction, detail.length);
-            detail.childNode?.SetPosition(targetPosition);
-            detail.childNode?.SetConnectionImage(connectionImage);
+            connection.DirectConnection(detail.direction, detail.length, detail.rotation);
+
+            if(detail.childNode == null)
+                continue;
+
+            detail.childNode.SetPosition(targetPosition);
+            detail.childNode.SetConnectionImage(connectionImage);
         }
     }
 

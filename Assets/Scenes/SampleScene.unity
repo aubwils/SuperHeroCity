@@ -262,9 +262,11 @@ MonoBehaviour:
   - childNode: {fileID: 129546406}
     direction: 7
     length: 215
+    rotation: 0
   - childNode: {fileID: 1427612095}
     direction: 8
     length: 236
+    rotation: 0
   connections:
   - {fileID: 363990333}
   - {fileID: 314802191}
@@ -970,7 +972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -608, y: -11.500122}
+  m_AnchoredPosition: {x: -608, y: -12.500122}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &129546406
@@ -989,6 +991,7 @@ MonoBehaviour:
   - childNode: {fileID: 0}
     direction: 0
     length: 0
+    rotation: 0
   connections:
   - {fileID: 84036810}
 --- !u!114 &129546407
@@ -177993,6 +177996,7 @@ MonoBehaviour:
   - childNode: {fileID: 0}
     direction: 0
     length: 0
+    rotation: 0
   connections:
   - {fileID: 1585135826}
 --- !u!114 &1427612096
