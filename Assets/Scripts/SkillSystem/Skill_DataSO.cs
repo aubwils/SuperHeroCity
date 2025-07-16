@@ -3,14 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Skill data - ", menuName = "Game Setup/Skill Data")]
 public class Skill_DataSO : ScriptableObject
 {
-      public int cost;
+    public int skillPointCost = 1;
 
     [Header("Skill description")]
-    public string displayName;
-    [TextArea]
-    public string description;
+    public string skillName;
+    [TextArea] public string description;
     public Sprite icon;
 
-    // skill type that you should unlock
+    //skill tye to unlock
     
 }

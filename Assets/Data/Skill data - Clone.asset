@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1efeb5193184f2095794537c7346cb, type: 3}
   m_Name: Skill data - Clone
   m_EditorClassIdentifier: 
-  cost: 1
-  displayName: Clone
+  skillPointCost: 1
+  skillName: Clone
   description: Create a clone of yourself. The clone will distract enemies.
   icon: {fileID: 459359251, guid: 649757c49eb53402e83b108a87a04cd5, type: 3}
