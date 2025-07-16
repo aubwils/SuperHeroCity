@@ -19,6 +19,7 @@ public class Player_Brain : Entity_Brain
     }
 
     public PlayerInputActions playerInputActions;
+    private UI ui;
 
     public Player_Movement playerMovement { get; private set; }
 
@@ -52,6 +53,7 @@ public class Player_Brain : Entity_Brain
         base.Awake();
         playerMovement = GetComponent<Player_Movement>();
         playerInputActions = new PlayerInputActions();
+        ui = FindObjectOfType<UI>(); //FindObjectofType is heavy preformance, NEVER do it in the update and dont do it ofent. ok to do on the awake for a couple of items.
 
         idleState = new Player_IdleState(this, stateMachine, "IsIdle");
         moveState = new Player_MoveState(this, stateMachine, "IsMoving");
@@ -68,6 +70,7 @@ public class Player_Brain : Entity_Brain
     private void OnEnable()
     {
         playerInputActions.Player.Enable();
+        playerInputActions.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
 
     }
 

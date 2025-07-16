@@ -1,85 +1,111 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEditor.Experimental.GraphView;
 using System.Text;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class UI_SkillToolTip : UI_ToolTip
 {
+    private UI ui;
     private UI_SkillTree skillTree;
 
     [SerializeField] private TextMeshProUGUI skillName;
     [SerializeField] private TextMeshProUGUI skillDescription;
-    [SerializeField] private TextMeshProUGUI skillRequirments;
+    [SerializeField] private TextMeshProUGUI skillRequirements;
 
     [Space]
     [SerializeField] private string metConditionHex;
     [SerializeField] private string notMetConditionHex;
     [SerializeField] private string importantInfoHex;
     [SerializeField] private Color exampleColor;
-    [SerializeField] private string lockedSkillText = "You've taken a different path - this skill is now locked.";
+    [SerializeField] private string lockedSkillText = "You've taken a diffrent path - this skill is now locked.";
 
+    private Coroutine textEffectCo;
 
     protected override void Awake()
     {
         base.Awake();
-        skillTree = GetComponentInParent<UI_SkillTree>();
+        ui = GetComponentInParent<UI>();
+        skillTree = ui.GetComponentInChildren<UI_SkillTree>(true);
     }
 
     public override void ShowToolTip(bool show, RectTransform targetRect)
     {
         base.ShowToolTip(show, targetRect);
-
     }
 
-    public void ShowToolTip(bool show, RectTransform targetRect, UI_TreeNode treeNode)
+    public void ShowToolTip(bool show, RectTransform targetRect, UI_TreeNode node)
     {
         base.ShowToolTip(show, targetRect);
 
         if (show == false)
             return;
 
-        skillName.text = treeNode.skillData.skillName;
-        skillDescription.text = treeNode.skillData.description;
+        skillName.text = node.skillData.displayName;
+        skillDescription.text = node.skillData.description;
 
-        string skillLockedText = $"<color={importantInfoHex}>{lockedSkillText}</color>";
-        string requirements = treeNode.isLocked ? skillLockedText : GetRequirements(treeNode.skillData.skillPointCost, treeNode.neededNodes, treeNode.conflictNodes);
+        string skillLockedText = GetColoredText(importantInfoHex, lockedSkillText);
+        string requirements = node.isLocked ? skillLockedText : GetRequirements(node.skillData.cost, node.neededNodes, node.conflictNodes);
 
-        skillRequirments.text = requirements;
-
+        skillRequirements.text = requirements;
     }
 
-    private string GetRequirements(int skillPointCost, UI_TreeNode[] neededNodes, UI_TreeNode[] conflictNodes)
+    public void LockedSkillEffect()
     {
-        StringBuilder stringBuilder = new StringBuilder();
+        if (textEffectCo != null)
+            StopCoroutine(textEffectCo);
 
-        stringBuilder.AppendLine("Requirments:");
+        textEffectCo = StartCoroutine(TextBlinkEffectCo(skillRequirements, .15f, 3));
+    }
 
-        string costColor = skillTree.EnoughSkillPoints(skillPointCost) ? metConditionHex : notMetConditionHex;
-        stringBuilder.AppendLine($"<color={costColor}>- {skillPointCost} Skill Point(s)</color>");
+    private IEnumerator TextBlinkEffectCo(TextMeshProUGUI text, float blinkInterval, int blinkCount)
+    {
+        for (int i = 0; i < blinkCount; i++)
+        {
+            text.text = GetColoredText(notMetConditionHex, lockedSkillText);
+            yield return new WaitForSeconds(blinkInterval);
+
+            text.text = GetColoredText(importantInfoHex, lockedSkillText);
+            yield return new WaitForSeconds(blinkInterval);
+        }
+    }
+
+    private string GetRequirements(int skillCost, UI_TreeNode[] neededNodes, UI_TreeNode[] conflictNodes)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendLine("Requirements:");
+
+        string costColor = skillTree.EnoughSkillPoints(skillCost) ? metConditionHex : notMetConditionHex;
+        string costText = $"- {skillCost} skill point(s)";
+        string finalCostText = GetColoredText(costColor, costText);
+
+        sb.AppendLine(finalCostText);
 
         foreach (var node in neededNodes)
         {
             string nodeColor = node.isUnlocked ? metConditionHex : notMetConditionHex;
-            stringBuilder.AppendLine($"<color={nodeColor}>- {node.skillData.skillName}</color>");
+            string nodeText = $"- {node.skillData.displayName}";
+            string finalNodeText = GetColoredText(nodeColor, nodeText);
+
+            sb.AppendLine(finalNodeText);
         }
 
         if (conflictNodes.Length <= 0)
-            return stringBuilder.ToString();
+            return sb.ToString();
 
-        stringBuilder.AppendLine(); // spapce between sections
 
-        stringBuilder.AppendLine($"<color={importantInfoHex}>Locks out:</color>");
+        sb.AppendLine(); // spacing
+        sb.AppendLine(GetColoredText(importantInfoHex,"Locks out: "));
 
         foreach (var node in conflictNodes)
         {
-            stringBuilder.AppendLine($"<color={importantInfoHex}>- {node.skillData.skillName}</color>");
+            string nodeText = $"- {node.skillData.displayName}";
+            string finalNodeText = GetColoredText(importantInfoHex, nodeText);
+            sb.AppendLine(finalNodeText);
         }
-        return stringBuilder.ToString();
-        
 
+        return sb.ToString();
     }
-        
-
+ 
 }

@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e1efeb5193184f2095794537c7346cb, type: 3}
-  m_Name: Skill data - Clone Healing Orb
+  m_Name: Skill data - Clone Attacker 2
   m_EditorClassIdentifier: 
-  cost: 2
-  displayName: Healing Orb
-  description: When clone is destroyed by enemy, it releases a health orb that moves
-    towards you and heals you on contact.
-  icon: {fileID: -1005477199, guid: 649757c49eb53402e83b108a87a04cd5, type: 3}
+  cost: 3
+  displayName: Clone Double Attack
+  description: More clones
+  icon: {fileID: 1030482263, guid: 649757c49eb53402e83b108a87a04cd5, type: 3}
