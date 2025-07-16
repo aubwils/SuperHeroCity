@@ -44,7 +44,7 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         isUnlocked = true;
         UpdateIconColor(Color.white);
         LockConflictNodes();
-        
+
         skillTree.RemoveSkillPoints(skillData.skillPointCost);
         connectHandler.UnlockConnectionImage(true);        
     }
@@ -95,17 +95,24 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         ui.skillToolTip.ShowToolTip(true, rectTransform, this);
 
-        if (isUnlocked == false)
-            UpdateIconColor(Color.white * .9f);
-    }
+        if (isUnlocked || isLocked)
+            return;
+        
+        Color color = Color.white * .9f; color.a = 1;
+        UpdateIconColor(color);
+        
+}
 
     public void OnPointerExit(PointerEventData eventData)
     {
         ui.skillToolTip.ShowToolTip(false, rectTransform); //can pass null here
 
-        if (isUnlocked == false)
-            UpdateIconColor(lastColor);
+        if (isUnlocked || isLocked)
+            return;
+
+        UpdateIconColor(lastColor);
     }
+
 
     //if I want to pick the loced coolor by hex value can do the below
     // private Color GetColorByHex(string hexNumber){
