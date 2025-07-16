@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class UI_TreeConnectDetails
@@ -18,7 +16,16 @@ public class UI_TreeConnectHandler : MonoBehaviour
     [SerializeField] private UI_TreeConnectDetails[] connectionDetails;
     [SerializeField] private UI_TreeConnection[] connections;
 
-    void OnValidate()
+    private Image connectionImage;
+    private Color origionalColor;
+
+    private void Awake()
+    {
+        if (connectionImage != null)
+            origionalColor = connectionImage.color;
+    }
+
+    private void OnValidate()
     {
         if (connectionDetails.Length <= 0)
             return;
@@ -36,13 +43,27 @@ public class UI_TreeConnectHandler : MonoBehaviour
         for (int i = 0; i < connectionDetails.Length; i++)
         {
             var detail = connectionDetails[i];
+
             var connection = connections[i];
+
             Vector2 targetPosition = connection.GetConnectionPoint(rect);
+            Image connectionImage = connection.GetConnectionImage();
 
             connection.DirectConnection(detail.direction, detail.length);
             detail.childNode?.SetPosition(targetPosition);
+            detail.childNode?.SetConnectionImage(connectionImage);
         }
     }
+
+    public void UnlockConnectionImage(bool unlocked)
+    {
+        if (connectionImage == null)
+            return;
+            
+            connectionImage.color = unlocked ? Color.white : origionalColor;
+    }
+
+    public void SetConnectionImage(Image image) => connectionImage = image;
 
     private void SetPosition(Vector2 position) => rect.anchoredPosition = position;
 }

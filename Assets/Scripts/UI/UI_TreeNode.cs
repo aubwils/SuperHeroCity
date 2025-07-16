@@ -9,6 +9,7 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private UI ui;
     private RectTransform rectTransform;
     private UI_SkillTree skillTree;
+    private UI_TreeConnectHandler connectHandler;
 
     [Header("Unlock details")]
     public UI_TreeNode[] neededNodes;
@@ -33,6 +34,7 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         ui = GetComponentInParent<UI>();
         rectTransform = GetComponent<RectTransform>();
         skillTree = GetComponentInParent<UI_SkillTree>();
+        connectHandler = GetComponent<UI_TreeConnectHandler>();
 
         UpdateIconColor(skillLockedColor);
     }
@@ -41,12 +43,10 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         isUnlocked = true;
         UpdateIconColor(Color.white);
-        skillTree.RemoveSkillPoints(skillData.skillPointCost);
         LockConflictNodes();
         
-        //find player skill manager
-        //unlock skill on skill manager 
-        // skill manager unlock skill from skill data skill type
+        skillTree.RemoveSkillPoints(skillData.skillPointCost);
+        connectHandler.UnlockConnectionImage(true);        
     }
 
     private bool CanBeUnlocked()

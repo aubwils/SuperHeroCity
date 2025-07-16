@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_TreeConnection : MonoBehaviour
 {
@@ -17,8 +15,9 @@ public class UI_TreeConnection : MonoBehaviour
 
         rotationPoint.localRotation = Quaternion.Euler(0, 0, angle);
         connecttionLength.sizeDelta = new Vector2(finalLength, connecttionLength.sizeDelta.y);
-        
     }
+
+    public Image GetConnectionImage() => connecttionLength.GetComponent<Image>();
 
     public Vector2 GetConnectionPoint(RectTransform rect) // This method converts the world position of the childNodeConnectionPoint to a local position relative to the parent RectTransform.
     {
@@ -28,7 +27,7 @@ public class UI_TreeConnection : MonoBehaviour
          childNodeConnectionPoint.position, //taking world position of this object and converting it to the local position
          null,
          out Vector2 localPosition
-        ); 
+        );
 
         return localPosition;
     }
