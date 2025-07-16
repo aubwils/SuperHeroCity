@@ -20,6 +20,9 @@ public class UI_TreeConnectHandler : MonoBehaviour
 
     void OnValidate()
     {
+        if (connectionDetails.Length <= 0)
+            return;
+
         if (connectionDetails.Length != connections.Length)
         {
             Debug.LogError("Details and Connections arrays must be of the same length. - " + gameObject.name);
