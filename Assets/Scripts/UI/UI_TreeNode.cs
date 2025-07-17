@@ -40,6 +40,19 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     }
 
+    public void Refund()
+    {
+        isUnlocked = false;
+        isLocked = false;
+        UpdateIconColor(GetColorByHex(lockedColorHex));
+
+        skillTree.AddSkillPoints(skillData.skillPointCost);
+        connectHandler.UnlockConnectionImage(false);
+        
+        //skill manager and reset skill
+    }
+
+
     private void Unlock()
     {
         isUnlocked = true;
@@ -47,7 +60,10 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         LockConflictNodes();
 
         skillTree.RemoveSkillPoints(skillData.skillPointCost);
-        connectHandler.UnlockConnectionImage(true);        
+        connectHandler.UnlockConnectionImage(true);
+        // find player skill manager
+        //unlock skill on skill manager
+
     }
 
     private bool CanBeUnlocked()
