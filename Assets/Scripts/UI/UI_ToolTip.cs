@@ -35,7 +35,12 @@ public class UI_ToolTip : MonoBehaviour
             targetPosition.y = screenTop - screenVerticalHalf - offset.y;
         else if (bottomY < screenBottom)
             targetPosition.y = screenBottom + screenVerticalHalf + offset.y;
-    
+
         rectTransform.position = targetPosition;
+    }
+    
+    protected string GetColoredText(string color, string text)
+    {
+        return $"<color={color}>{text}</color>";
     }
 }

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -112,11 +111,8 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         ui.skillToolTip.ShowToolTip(true, rectTransform, this);
 
-        if (isUnlocked || isLocked)
-            return;
-        
-        Color color = Color.white * .9f; color.a = 1;
-        UpdateIconColor(color);
+        if (isUnlocked == false || isLocked == false)
+            ToggleNodeHighlight(true);
         
 }
 
@@ -124,12 +120,17 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         ui.skillToolTip.ShowToolTip(false, rectTransform); //can pass null here
 
-        if (isUnlocked || isLocked)
-            return;
-
-        UpdateIconColor(lastColor);
+        if (isUnlocked == false || isLocked == false)
+            ToggleNodeHighlight(false);
     }
 
+    private void ToggleNodeHighlight(bool highlight)
+    {
+        Color highlightColor = Color.white * .9f; highlightColor.a = 1;
+        Color colorToApply = highlight ? highlightColor : lastColor;
+
+        UpdateIconColor(colorToApply);
+    }
 
     private Color GetColorByHex(string hexNumber)
     {

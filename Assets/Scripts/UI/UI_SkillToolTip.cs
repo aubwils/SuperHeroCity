@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System.Text;
-using UnityEngine.UI;
 
 public class UI_SkillToolTip : UI_ToolTip
 {
@@ -45,7 +44,7 @@ public class UI_SkillToolTip : UI_ToolTip
         skillName.text = treeNode.skillData.skillName;
         skillDescription.text = treeNode.skillData.description;
 
-        string skillLockedText = $"<color={importantInfoHex}>{lockedSkillText}</color>";
+        string skillLockedText = GetColoredText(importantInfoHex, lockedSkillText);
         string requirements = treeNode.isLocked ? skillLockedText : GetRequirements(treeNode.skillData.skillPointCost, treeNode.neededNodes, treeNode.conflictNodes);
 
         skillRequirments.text = requirements;
@@ -78,12 +77,19 @@ public class UI_SkillToolTip : UI_ToolTip
         stringBuilder.AppendLine("Requirments:");
 
         string costColor = skillTree.EnoughSkillPoints(skillPointCost) ? metConditionHex : notMetConditionHex;
-        stringBuilder.AppendLine($"<color={costColor}>- {skillPointCost} Skill Point(s)</color>");
+        string costText = $" - {skillPointCost} Skill Point(s)";
+        string finalCostText = GetColoredText(costColor, costText);
+
+        stringBuilder.AppendLine(finalCostText);
+        // stringBuilder.AppendLine($"<color={costColor}>- {skillPointCost} Skill Point(s)</color>"); -- old way of doing the text line, since was reused alot created getcoloredtext method.
 
         foreach (var node in neededNodes)
         {
             string nodeColor = node.isUnlocked ? metConditionHex : notMetConditionHex;
-            stringBuilder.AppendLine($"<color={nodeColor}>- {node.skillData.skillName}</color>");
+            string nodeText = $"- {node.skillData.skillName}";
+            string finalNodeText = GetColoredText(nodeColor, nodeText);
+
+            stringBuilder.AppendLine(finalNodeText);
         }
 
         if (conflictNodes.Length <= 0)
@@ -91,21 +97,20 @@ public class UI_SkillToolTip : UI_ToolTip
 
         stringBuilder.AppendLine(); // spapce between sections
 
-        stringBuilder.AppendLine($"<color={importantInfoHex}>Locks out:</color>");
+        stringBuilder.AppendLine(GetColoredText(importantInfoHex, "Locks out: "));
 
         foreach (var node in conflictNodes)
-        {
-            stringBuilder.AppendLine($"<color={importantInfoHex}>- {node.skillData.skillName}</color>");
+        {   
+            string nodeText = $"- {node.skillData.skillName}";
+            string finalNodeText = GetColoredText(importantInfoHex, nodeText);
+            stringBuilder.AppendLine(finalNodeText);
         }
         return stringBuilder.ToString();
 
 
     }
 
-    private string GetColoredText(string color, string text)
-    {
-        return $"<color={color}>{text}</color>";
-    }
+    
     
 
 
