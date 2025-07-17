@@ -53,11 +53,12 @@ public class UI_TreeConnectHandler : MonoBehaviour
 
             connection.DirectConnection(detail.direction, detail.length, detail.rotation);
 
-            if(detail.childNode == null)
+            if (detail.childNode == null)
                 continue;
 
             detail.childNode.SetPosition(targetPosition);
             detail.childNode.SetConnectionImage(connectionImage);
+            detail.childNode.transform.SetAsLastSibling();
         }
     }
 

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using System.Text;
 
 public class UI_SkillToolTip : UI_ToolTip
 {
+    private UI ui;
     private UI_SkillTree skillTree;
 
     [SerializeField] private TextMeshProUGUI skillName;
@@ -24,7 +24,8 @@ public class UI_SkillToolTip : UI_ToolTip
     protected override void Awake()
     {
         base.Awake();
-        skillTree = GetComponentInParent<UI_SkillTree>();
+        ui = GetComponentInParent<UI>();
+        skillTree = ui.GetComponentInChildren<UI_SkillTree>();
     }
 
     public override void ShowToolTip(bool show, RectTransform targetRect)

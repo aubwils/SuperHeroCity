@@ -11,6 +11,11 @@ public class UI_SkillTree : MonoBehaviour
 
     public void RemoveSkillPoints(int cost) => skillPoints -= cost;
 
+    private void Start()
+    {
+        UpdateAllConnections();   
+    }
+
     [ContextMenu("Update All Connections")]
     public void UpdateAllConnections()
     {
