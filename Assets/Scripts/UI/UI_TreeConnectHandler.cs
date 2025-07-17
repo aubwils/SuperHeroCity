@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +40,7 @@ public class UI_TreeConnectHandler : MonoBehaviour
         UpdateConnections();
     }
 
-    private void UpdateConnections()
+    public void UpdateConnections()
     {
         for (int i = 0; i < connectionDetails.Length; i++)
         {
@@ -60,12 +61,23 @@ public class UI_TreeConnectHandler : MonoBehaviour
         }
     }
 
+    public void UpdateAllConnections()
+    {
+        UpdateConnections();
+
+        foreach (var node in connectionDetails)
+        {
+            if (node.childNode == null) continue;
+            node.childNode?.UpdateConnections();
+        }
+    }
+
     public void UnlockConnectionImage(bool unlocked)
     {
         if (connectionImage == null)
             return;
-            
-            connectionImage.color = unlocked ? Color.white : origionalColor;
+
+        connectionImage.color = unlocked ? Color.white : origionalColor;
     }
 
     public void SetConnectionImage(Image image) => connectionImage = image;

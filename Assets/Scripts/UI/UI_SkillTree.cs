@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class UI_SkillTree : MonoBehaviour
 {
-    public int skillPoints;
+    [SerializeField] private int skillPoints;
+    [SerializeField] private UI_TreeConnectHandler[] parentNodes;
 
     public bool EnoughSkillPoints(int cost) => skillPoints >= cost;
 
     public void RemoveSkillPoints(int cost) => skillPoints -= cost;
+
+    [ContextMenu("Update All Connections")]
+    public void UpdateAllConnections()
+    {
+        foreach (var node in parentNodes)
+        {
+            node.UpdateAllConnections();
+        }
+    }
 }
