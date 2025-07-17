@@ -22,6 +22,8 @@ public class Player_Brain : Entity_Brain
 
     public Player_Movement playerMovement { get; private set; }
 
+    private UI ui;
+
 
     [SerializeField] private GameObject secretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
@@ -50,6 +52,7 @@ public class Player_Brain : Entity_Brain
     protected override void Awake()
     {
         base.Awake();
+        ui = FindAnyObjectByType<UI>(); // heavy on preformance, NEVER Do in the update. ok to do once in the awake or start.
         playerMovement = GetComponent<Player_Movement>();
         playerInputActions = new PlayerInputActions();
 
@@ -68,13 +71,13 @@ public class Player_Brain : Entity_Brain
     private void OnEnable()
     {
         playerInputActions.Player.Enable();
-
+        playerInputActions.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
     }
 
     private void OnDisable()
     {
-
         playerInputActions.Player.Disable();
+        playerInputActions.Player.ToggleSkillTreeUI.performed -= ctx => ui.ToggleSkillTreeUI();
     }
 
     protected override void Start()

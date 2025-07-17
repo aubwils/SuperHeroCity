@@ -137,6 +137,15 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         UnityEngine.ColorUtility.TryParseHtmlString(hexNumber, out Color color);
         return color;
     }
+
+    private void OnDisable()
+    {
+        if (isLocked)
+            UpdateIconColor(GetColorByHex(lockedColorHex));
+
+        if (isUnlocked)
+            UpdateIconColor(Color.white);
+    }
     
 
     //onvalidate is called when the inspector is updated so this updates the gmeobject name and icon in the editor when we add the SO
