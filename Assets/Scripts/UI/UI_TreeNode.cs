@@ -22,8 +22,8 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private string skillName;
     [SerializeField] private Image skillIcon;
     [SerializeField] private int skillCost; //here for debugging
-    [SerializeField] private Color skillLockedColor = Color.gray;
-    //[SerializeField] private string lockedColorHex = "#808080"; // if want to use hex value for color indead of picker
+    //[SerializeField] private Color skillLockedColor = Color.gray;
+    [SerializeField] private string lockedColorHex = "#808080";
     private Color lastColor;
 
 
@@ -36,7 +36,8 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         skillTree = GetComponentInParent<UI_SkillTree>();
         connectHandler = GetComponent<UI_TreeConnectHandler>();
 
-        UpdateIconColor(skillLockedColor);
+        UpdateIconColor(GetColorByHex(lockedColorHex));
+
     }
 
     private void Unlock()
@@ -87,8 +88,8 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (CanBeUnlocked())
             Unlock();
-        else
-            Debug.Log("Can not unlock skill");
+        else if (isLocked)
+            ui.skillToolTip.LockedSkillEffect();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -114,11 +115,12 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
 
-    //if I want to pick the loced coolor by hex value can do the below
-    // private Color GetColorByHex(string hexNumber){
-    //     ColorUtility.TryParseHtmlString(hexNumber, out Color color);
-    //     return color;}
-    // would then need to update where skillLockedColor is set in Awake with GetColorByHex(lockedColorHex);
+    private Color GetColorByHex(string hexNumber)
+    {
+        UnityEngine.ColorUtility.TryParseHtmlString(hexNumber, out Color color);
+        return color;
+    }
+    
 
     //onvalidate is called when the inspector is updated so this updates the gmeobject name and icon in the editor when we add the SO
     private void OnValidate()
