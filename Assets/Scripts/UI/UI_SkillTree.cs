@@ -12,7 +12,7 @@ public class UI_SkillTree : MonoBehaviour
         UpdateAllConnections();   
     }
 
-    [ContextMenu("Refund All Skills")] // will add button for player later, can do it once per game or with a specific item or specific $ or something else 
+    [ContextMenu("Refund All Skills")] // will add button for player later, can do it once per game or with a specific item or specific $ orsomething else 
     public void RefundAllSkills()
     {
         UI_TreeNode[] skillNodes = GetComponentsInChildren<UI_TreeNode>();

@@ -16,9 +16,8 @@ public class Player_Movement : MonoBehaviour
     public float dashDistance = 5f; // How far the player dashes
     public float dashSpeed = 20f;  // How fast the player dashes
     public float dashDuration = 0.2f; // How long the dash lasts
-    public float dashCooldown = 1f;  // Cooldown time between dashes
-    public float dashCooldownTimer = 0f; // Timer for the cooldown
-    public bool canDash = true; // Whether the player can dash  
+
+
     [Header("Collision Settings")]
     public LayerMask collisionMask; // Layer mask for collision detection right now for dashing
 
@@ -35,14 +34,14 @@ public class Player_Movement : MonoBehaviour
         playerBrain = GetComponent<Player_Brain>();
 
         // Set the default starting direction to down
-         lastMovementDirection = Vector2.down;
+        lastMovementDirection = Vector2.down;
     }
 
     private void Start()
     {
         playerBrain.playerInputActions.Player.Move.performed += OnMovePerformed;
         playerBrain.playerInputActions.Player.Move.canceled += OnMoveCanceled;
-        playerBrain.playerInputActions.Player.Dash.performed += OnDashPerformed; 
+        playerBrain.playerInputActions.Player.Dash.performed += OnDashPerformed;
         playerBrain.playerInputActions.Player.Enable();
 
     }
@@ -56,24 +55,16 @@ public class Player_Movement : MonoBehaviour
     }
     private void Update()
     {
-        if (!canDash)
-        {
-            dashCooldownTimer -= Time.deltaTime; // NOT fixedDeltaTime
-            if (dashCooldownTimer <= 0f)
-            {
-                canDash = true;
-                Debug.Log("Dash cooldown complete, can dash again!");
-            }
-        }
+
     }
     private void FixedUpdate()
-    {        
+    {
         if (playerBrain.GetKnockbackStatus()) return;
 
         if (canMove && !playerBrain.isBusy && playerBrain.StateMachine.currentState is Player_MoveState)
-            {
-                MovePlayer();
-            }    
+        {
+            MovePlayer();
+        }
     }
 
     public void SetCanMove(bool value)
@@ -120,17 +111,22 @@ public class Player_Movement : MonoBehaviour
     }
 
     private void OnDashPerformed(InputAction.CallbackContext ctx)
-    { 
-        if (!canDash) return; // Check if dashing is allowed
-        if (!(playerBrain.StateMachine.currentState is Player_MoveState || playerBrain.StateMachine.currentState is Player_IdleState))
-        return; // Only allow dash if in MoveState or IdleState
+    {
+        if (!CanDash()) return;
 
-       
         playerBrain.StateMachine.ChangeState(playerBrain.dashState);
-        canDash = false; // Disable dashing until cooldown is over
-        dashCooldownTimer = dashCooldown; // Reset cooldown timer
-        //Debug.Log("Player started dashing");
-       
+        playerBrain.skillManager.dash.SetSkillOnCooldown(); // Set the dash skill on cooldown
+    }
+
+    private bool CanDash()
+    {
+        var dashSkill = playerBrain.skillManager.dash;
+        if (!dashSkill.CanUseSkill()) return false; 
+
+        var currentState = playerBrain.StateMachine.currentState;
+        if (!(currentState is Player_MoveState || currentState is Player_IdleState)) return false; // Only allow dash if in MoveState or IdleState
+
+        return true;
     }
 
     public Vector2 GetLastMovementDirection()
@@ -142,5 +138,6 @@ public class Player_Movement : MonoBehaviour
     {
         return rb;
     }
+    
     
 }

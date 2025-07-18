@@ -6,6 +6,7 @@ public abstract class PlayerState : EntityState
 {
     protected Player_Brain playerBrain;
     //protected PlayerInputActions playerInputActions; 
+    protected Player_SkillManager skillManager;
 
 
 
@@ -13,6 +14,7 @@ public abstract class PlayerState : EntityState
     {
         this.playerBrain = playerBrain;
         //playerInputActions = player.playerInputActions;
+        skillManager = playerBrain.skillManager;
     }
 
     public override void Enter()

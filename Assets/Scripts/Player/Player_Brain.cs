@@ -21,6 +21,7 @@ public class Player_Brain : Entity_Brain
     public PlayerInputActions playerInputActions;
 
     public Player_Movement playerMovement { get; private set; }
+    public Player_SkillManager skillManager { get; private set; }
 
     private UI ui;
 
@@ -43,8 +44,6 @@ public class Player_Brain : Entity_Brain
     public Player_PrimaryAttackState primaryAttackState { get; private set; }
     public Player_DeathState deathState { get; private set; }
     public Player_CounterAttackState counterAttackState { get; private set; }
-
-
     #endregion
 
 
@@ -54,6 +53,7 @@ public class Player_Brain : Entity_Brain
         base.Awake();
         ui = FindAnyObjectByType<UI>(); // heavy on preformance, NEVER Do in the update. ok to do once in the awake or start.
         playerMovement = GetComponent<Player_Movement>();
+        skillManager = GetComponent<Player_SkillManager>();
         playerInputActions = new PlayerInputActions();
 
         idleState = new Player_IdleState(this, stateMachine, "IsIdle");
