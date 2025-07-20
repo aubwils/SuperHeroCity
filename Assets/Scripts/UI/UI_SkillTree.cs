@@ -6,10 +6,16 @@ public class UI_SkillTree : MonoBehaviour
 {
     [SerializeField] private int skillPoints;
     [SerializeField] private UI_TreeConnectHandler[] parentNodes;
+    public Player_SkillManager skillManager { get; private set; }
+
+    private void Awake()
+    {
+        skillManager = FindAnyObjectByType<Player_SkillManager>();   
+    }
 
     private void Start()
     {
-        UpdateAllConnections();   
+        UpdateAllConnections();
     }
 
     [ContextMenu("Refund All Skills")] // will add button for player later, can do it once per game or with a specific item or specific $ orsomething else 

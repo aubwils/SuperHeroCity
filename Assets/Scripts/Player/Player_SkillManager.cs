@@ -12,4 +12,17 @@ public class Player_SkillManager : MonoBehaviour
         dash = GetComponentInChildren<Skill_Dash>();
         clone = GetComponentInChildren<Skill_Clone>();
     }
+
+    public Skill_Base GetSkillByType(SkillType type)
+    {
+        switch (type)
+        {
+            case SkillType.Dash: return dash;
+            case SkillType.Clone: return clone;
+            default:
+                Debug.Log($"Skill type {type} is not implemented yet.");
+                return null;
+        }
+    }
+
 }

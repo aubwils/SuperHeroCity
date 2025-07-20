@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill_Clone : Skill_Base
+public enum SkillType
 {
-    //clone skill
-}
+    Dash,
+    Clone
+} 
