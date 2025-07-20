@@ -1,11 +1,12 @@
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "Skill data - ", menuName = "Game Setup/Skill Data")]
 public class Skill_DataSO : ScriptableObject
 {
     public int skillPointCost;
     public SkillType skillType;
-    public SkillUpgradeType skillUpgradeType;
+    public UpgradeData upgradeData;
 
     [Header("Skill description")]
     public string skillName;
@@ -13,5 +14,12 @@ public class Skill_DataSO : ScriptableObject
     public Sprite icon;
 
     //skill tye to unlock
-    
+
 }
+
+[Serializable]
+public class UpgradeData
+{
+    public SkillUpgradeType upgradeType;
+    public float cooldown;
+ }

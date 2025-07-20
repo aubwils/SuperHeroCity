@@ -60,7 +60,7 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         skillTree.RemoveSkillPoints(skillData.skillPointCost);
         connectHandler.UnlockConnectionImage(true);
-        skillTree.skillManager.GetSkillByType(skillData.skillType).SetSkillUpgrade(skillData.skillUpgradeType);
+        skillTree.skillManager.GetSkillByType(skillData.skillType).SetSkillUpgrade(skillData.upgradeData);
 
     }
 

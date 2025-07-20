@@ -8,14 +8,16 @@ public class Player_DashState : PlayerState
     private Vector2 dashDirection;
     private Vector2 dashTarget;
 
-    public Player_DashState(Player_Brain playerBrain, StateMachine stateMachine,  string animBoolName)
-    : base(playerBrain, stateMachine, animBoolName)
+    public Player_DashState(Player_Brain playerBrain, StateMachine stateMachine,  string animBoolName): base(playerBrain, stateMachine, animBoolName)
     {
     }
 
    public override void Enter()
     {
         base.Enter();
+
+        skillManager.dash.OnStartEffect();
+
 
         dashDirection = playerBrain.playerMovement.GetLastMovementDirection();
         if (dashDirection == Vector2.zero)
@@ -69,5 +71,6 @@ public class Player_DashState : PlayerState
     {
         base.Exit();
         Debug.Log("Player finished dashing");
+        skillManager.dash.OnEndEffect();
     }
 }

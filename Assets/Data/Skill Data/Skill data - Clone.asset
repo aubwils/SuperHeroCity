@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillPointCost: 1
   skillType: 0
-  skillUpgradeType: 1
+  upgradeData:
+    upgradeType: 1
+    cooldown: 3
   skillName: Clone
   description: Create a clone of yourself on Dash Start. The clone will distract
     enemies.

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillPointCost: 1
   skillType: 0
-  skillUpgradeType: 3
+  upgradeData:
+    upgradeType: 3
+    cooldown: 3
   skillName: Dash Smash
   description: Jump high up into the air dash forward and smash down on your enemies
     below.

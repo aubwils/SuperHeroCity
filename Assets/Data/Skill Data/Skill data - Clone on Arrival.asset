@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillPointCost: 1
   skillType: 0
-  skillUpgradeType: 2
+  upgradeData:
+    upgradeType: 2
+    cooldown: 3
   skillName: Clone on Arrival
   description: Create a clone of yourself on Dash end. The clone will distract enemies.
   icon: {fileID: 341152473, guid: 649757c49eb53402e83b108a87a04cd5, type: 3}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e1efeb5193184f2095794537c7346cb, type: 3}
-  m_Name: Skill data - Clone Attacker
+  m_Name: Skill data - Placeholder -  Clone Attacker
   m_EditorClassIdentifier: 
   skillPointCost: 2
   skillName: Clone Attacker

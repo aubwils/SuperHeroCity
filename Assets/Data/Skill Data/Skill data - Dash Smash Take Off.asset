@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillPointCost: 1
   skillType: 0
-  skillUpgradeType: 4
+  upgradeData:
+    upgradeType: 4
+    cooldown: 3
   skillName: Take Off Smash
   description: When you jump up high in the air to preform the Dash Smash, the force
     to take off hits nearby enemies.
