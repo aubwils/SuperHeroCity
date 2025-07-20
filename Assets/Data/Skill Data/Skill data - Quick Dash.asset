@@ -16,7 +16,7 @@ MonoBehaviour:
   skillType: 0
   upgradeData:
     upgradeType: 0
-    cooldown: 3
+    cooldown: 0
   skillName: Quick Dash
   description: 'Dash to avoid Attacks.
 

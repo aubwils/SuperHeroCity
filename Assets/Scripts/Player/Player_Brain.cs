@@ -22,6 +22,7 @@ public class Player_Brain : Entity_Brain
 
     public Player_Movement playerMovement { get; private set; }
     public Player_SkillManager skillManager { get; private set; }
+    public Player_VFX vfx { get; private set; }
 
     private UI ui;
 
@@ -54,6 +55,8 @@ public class Player_Brain : Entity_Brain
         ui = FindAnyObjectByType<UI>(); // heavy on preformance, NEVER Do in the update. ok to do once in the awake or start.
         playerMovement = GetComponent<Player_Movement>();
         skillManager = GetComponent<Player_SkillManager>();
+        vfx = GetComponent<Player_VFX>();
+        
         playerInputActions = new PlayerInputActions();
 
         idleState = new Player_IdleState(this, stateMachine, "IsIdle");

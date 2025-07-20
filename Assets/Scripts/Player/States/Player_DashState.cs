@@ -20,6 +20,9 @@ public class Player_DashState : PlayerState
 
 
         dashDirection = playerBrain.playerMovement.GetLastMovementDirection();
+        playerBrain.vfx.DoImageEchoEffect(playerBrain.playerMovement.dashDuration);
+
+
         if (dashDirection == Vector2.zero)
             dashDirection = Vector2.down;
 
