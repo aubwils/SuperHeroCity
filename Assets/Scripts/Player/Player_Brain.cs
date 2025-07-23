@@ -56,7 +56,7 @@ public class Player_Brain : Entity_Brain
         playerMovement = GetComponent<Player_Movement>();
         skillManager = GetComponent<Player_SkillManager>();
         vfx = GetComponent<Player_VFX>();
-        
+
         playerInputActions = new PlayerInputActions();
 
         idleState = new Player_IdleState(this, stateMachine, "IsIdle");
@@ -75,12 +75,14 @@ public class Player_Brain : Entity_Brain
     {
         playerInputActions.Player.Enable();
         playerInputActions.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
+        playerInputActions.Player.SkillOne.performed += ctx => skillManager.shard.CreateShard();
     }
 
     private void OnDisable()
     {
         playerInputActions.Player.Disable();
         playerInputActions.Player.ToggleSkillTreeUI.performed -= ctx => ui.ToggleSkillTreeUI();
+        playerInputActions.Player.SkillOne.performed -= ctx => skillManager.shard.CreateShard();
     }
 
     protected override void Start()
