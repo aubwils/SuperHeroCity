@@ -39,6 +39,14 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     }
 
+    private void Start()
+    {
+
+        if (skillData.unlockedByDefault)
+            Unlock();
+        
+    }
+
     public void Refund()
     {
         isUnlocked = false;
@@ -47,7 +55,7 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         skillTree.AddSkillPoints(skillData.skillPointCost);
         connectHandler.UnlockConnectionImage(false);
-        
+
         //skill manager and reset skill
     }
 
@@ -84,7 +92,18 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void LockConflictNodes()
     {
         foreach (var node in conflictNodes)
+        {
             node.isLocked = true;
+            node.LockChildNodes();
+        }
+    }
+
+    public void LockChildNodes()
+    {
+        isLocked = true;
+
+        foreach (var node in connectHandler.GetChildNodes())
+            node.LockChildNodes();
     }
 
 

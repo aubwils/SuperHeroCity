@@ -1,5 +1,5 @@
 using System;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,17 +27,18 @@ public class UI_TreeConnectHandler : MonoBehaviour
             origionalColor = connectionImage.color;
     }
 
-    private void OnValidate()
+    public UI_TreeNode[] GetChildNodes()
     {
-        if (connectionDetails.Length <= 0)
-            return;
+        //list change size dynamically can add/remove stuff
+        List<UI_TreeNode> childrenToReturn = new List<UI_TreeNode>();
 
-        if (connectionDetails.Length != connections.Length)
+        foreach (var node in connectionDetails)
         {
-            Debug.LogError("Details and Connections arrays must be of the same length. - " + gameObject.name);
-            return;
+            if (node.childNode != null)
+                childrenToReturn.Add(node.childNode.GetComponent<UI_TreeNode>());
         }
-        UpdateConnections();
+
+        return childrenToReturn.ToArray();
     }
 
     public void UpdateConnections()
@@ -84,4 +85,18 @@ public class UI_TreeConnectHandler : MonoBehaviour
     public void SetConnectionImage(Image image) => connectionImage = image;
 
     private void SetPosition(Vector2 position) => rect.anchoredPosition = position;
+
+
+    private void OnValidate()
+    {
+        if (connectionDetails.Length <= 0)
+            return;
+
+        if (connectionDetails.Length != connections.Length)
+        {
+            Debug.LogError("Details and Connections arrays must be of the same length. - " + gameObject.name);
+            return;
+        }
+        UpdateConnections();
+    }
 }

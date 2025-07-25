@@ -21,6 +21,7 @@ public class Player_SkillManager : MonoBehaviour
         {
             case SkillType.Dash: return dash;
             case SkillType.Clone: return clone;
+            case SkillType.MiniBot: return shard; //need to pudate shard to bot.
             default:
                 Debug.Log($"Skill type {type} is not implemented yet.");
                 return null;
