@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class Player_Brain : Entity_Brain
 {
-    #region Components
+    [Header("Hero Visual Settings")]
     [SerializeField] private Animator heroAnimator;
     [SerializeField] private Animator seceretAnimator;
     public Animator CurrentAnimator
@@ -17,25 +18,21 @@ public class Player_Brain : Entity_Brain
                 return secretIdentityVisuals.GetComponent<Animator>();
         }
     }
+    [SerializeField] private GameObject secretIdentityVisuals;
+    [SerializeField] private GameObject heroIdentityVisuals;
+
 
     public PlayerInputActions playerInputActions;
-
     public Player_Movement playerMovement { get; private set; }
     public Player_SkillManager skillManager { get; private set; }
     public Player_VFX vfx { get; private set; }
 
     private UI ui;
 
-
-    [SerializeField] private GameObject secretIdentityVisuals;
-    [SerializeField] private GameObject heroIdentityVisuals;
-
-    #endregion
-
-    #region Player Stats
+    [Header("Hero Settings")]
     [SerializeField] private bool isHero = false;
-    #endregion
-
+    [SerializeField] private OriginType originType;
+    public OriginType OriginType => originType;
 
     #region States
     public Player_IdleState idleState { get; private set; }
@@ -75,14 +72,14 @@ public class Player_Brain : Entity_Brain
     {
         playerInputActions.Player.Enable();
         playerInputActions.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
-        playerInputActions.Player.SkillOne.performed += ctx => skillManager.shard.CreateShard();
+        playerInputActions.Player.SkillOne.performed += ctx => skillManager.deployableBomb.TryUseSkill();
     }
 
     private void OnDisable()
     {
         playerInputActions.Player.Disable();
         playerInputActions.Player.ToggleSkillTreeUI.performed -= ctx => ui.ToggleSkillTreeUI();
-        playerInputActions.Player.SkillOne.performed -= ctx => skillManager.shard.CreateShard();
+        playerInputActions.Player.SkillOne.performed -= ctx => skillManager.deployableBomb.TryUseSkill();
     }
 
     protected override void Start()

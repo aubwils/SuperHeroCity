@@ -7,6 +7,7 @@ public class SkillObject_Base : MonoBehaviour
     [SerializeField] protected LayerMask whatIsEnemy;
     [SerializeField] protected Transform targetCheck;
     [SerializeField] protected float checkRadius = 1;
+    protected float closestTargetCheckRadius = 10f;
 
     protected void DamageEnemiesInRadius(Transform t, float radius)
     {
@@ -19,6 +20,25 @@ public class SkillObject_Base : MonoBehaviour
 
             damageable.TakeDamage(1, 1, ElementType.None, transform);
         }
+    }
+
+    protected Transform FindClosestTarget()
+    {
+        Transform target = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (var enemy in EnemiesAround(transform, closestTargetCheckRadius))
+        {
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
+
+            if (distance < closestDistance)
+            {
+                target = enemy.transform;
+                closestDistance = distance;
+            }
+        }
+
+        return target;
     }
 
     protected Collider2D[] EnemiesAround(Transform t, float radius)

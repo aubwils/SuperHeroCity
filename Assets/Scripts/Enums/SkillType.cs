@@ -6,6 +6,6 @@ public enum SkillType
 {
     Dash,
     Clone,
-    MiniBot,
+    DeployableBomb,
     Portal
 } 

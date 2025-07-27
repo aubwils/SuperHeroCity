@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5426562491327466859}
-  - component: {fileID: 9178167070950527196}
   - component: {fileID: 172063134854229168}
+  - component: {fileID: 1440661373900982530}
   m_Layer: 0
-  m_Name: SkillObject_MiniBot
+  m_Name: SkillObject_DeployableBomb_MiniBot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,24 +34,6 @@ Transform:
   - {fileID: 5665835287313328868}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9178167070950527196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263314538509216172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af89e7a8150f349bd87a372e6273e63f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsEnemy:
-    serializedVersion: 2
-    m_Bits: 128
-  targetCheck: {fileID: 5426562491327466859}
-  checkRadius: 1.25
-  vfxPrefab: {fileID: 6003144358854223206, guid: 74462660d4c034846821d29e432556c2, type: 3}
 --- !u!58 &172063134854229168
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -87,6 +69,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.8213531
+--- !u!114 &1440661373900982530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263314538509216172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed520a89f6760489aa3bd22adfc0116c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 128
+  targetCheck: {fileID: 5426562491327466859}
+  checkRadius: 1.25
+  vfxPrefab: {fileID: 6003144358854223206, guid: 74462660d4c034846821d29e432556c2, type: 3}
 --- !u!1 &7747522770318028853
 GameObject:
   m_ObjectHideFlags: 0
