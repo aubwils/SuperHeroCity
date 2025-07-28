@@ -16,12 +16,17 @@ public class Skill_Base : MonoBehaviour
     protected virtual void Awake()
     {
         lastTimeUsed = lastTimeUsed - cooldown;
-        playerBrain = GetComponent<Player_Brain>();
+        playerBrain = GetComponentInParent<Player_Brain>();
+    }
+
+    protected virtual void Start()
+    { 
+
     }
 
     public virtual void TryUseSkill()
     {
-        
+
     }
 
     public void SetSkillUpgrade(UpgradeData upgrade)

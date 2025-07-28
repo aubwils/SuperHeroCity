@@ -8,6 +8,8 @@ public class Skill_DeployableBomb : Skill_Base
 
     [SerializeField] private GameObject gadgetDeployableBombPrefab;
     [SerializeField] private GameObject mysticDeployableBombPrefab;
+    [SerializeField] private GameObject prefabToUse;
+
 
     [SerializeField] private float detonateTime = 2f;
 
@@ -24,6 +26,10 @@ public class Skill_DeployableBomb : Skill_Base
     {
         base.Awake();
         currentBombAmount = maxBombAmount;
+    }
+
+    protected override void Start()
+    {
     }
 
     public override void TryUseSkill()
@@ -65,7 +71,7 @@ public class Skill_DeployableBomb : Skill_Base
         }
 
         isBombReloading = false;
-        
+
     }
 
     private void HandleDeployableBombMoving()
@@ -83,33 +89,29 @@ public class Skill_DeployableBomb : Skill_Base
 
     public void CreateDeployableBomb()
     {
+        DeterminePrefabToUse();
+        //FUTURE - Moved to where we set orgin type on character creation and special/item/purchase/etc if let reset sometime in teh game. e.g. skillDeployableBomb.DeterminePrefabToUse();
 
-        // GameObject prefabToUse = null;
-
-        // switch (playerBrain.OriginType)
-        // {
-        //     case OriginType.GadgetHero:
-        //         prefabToUse = gadgetDeployableBombPrefab;
-        //         break;
-
-        //     case OriginType.MysticPowers:
-        //         prefabToUse = mysticDeployableBombPrefab;
-        //         break;
-
-        //      default:
-        //         Debug.LogWarning($"Unhandled origin type: {playerBrain.OriginType}. Using Gadget prefab.");
-        //         prefabToUse = gadgetDeployableBombPrefab;
-        //         break;
-        // }
-
-        //  if (prefabToUse == null)
-        // {
-        //     Debug.LogError("DeployableBomb prefab is null.");
-        //     return;
-        // }
-
-        GameObject bomb = Instantiate(gadgetDeployableBombPrefab, transform.position, Quaternion.identity);
+        GameObject bomb = Instantiate(prefabToUse, transform.position, Quaternion.identity);
         currentBomb = bomb.GetComponent<SkillObject_DeployableBomb>();
         currentBomb.SetupDeployableBomb(detonateTime);
+    }
+
+    private void DeterminePrefabToUse()
+    {
+         switch (playerBrain.OriginType)
+        {
+            case OriginType.GadgetHero:
+                prefabToUse = gadgetDeployableBombPrefab;
+                break;
+
+            case OriginType.MysticPowers:
+                prefabToUse = mysticDeployableBombPrefab;
+                break;
+
+            default:
+                prefabToUse = gadgetDeployableBombPrefab;
+                break;
+        }
     }
 }
