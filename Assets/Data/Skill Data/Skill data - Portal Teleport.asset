@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e1efeb5193184f2095794537c7346cb, type: 3}
-  m_Name: Skill data - Portal
+  m_Name: Skill data - Portal Teleport
   m_EditorClassIdentifier: 
   skillPointCost: 0
-  unlockedByDefault: 0
+  unlockedByDefault: 1
   skillType: 3
   upgradeData:
     upgradeType: 9

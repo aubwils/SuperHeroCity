@@ -10,7 +10,7 @@ public class Skill_Base : MonoBehaviour
     [SerializeField] protected SkillUpgradeType skillUpgradeType;
     [SerializeField] protected float cooldown;
     private float lastTimeUsed;
-    protected Player_Brain playerBrain;
+    protected Player_Brain playerBrain { get; private set; }
 
 
     protected virtual void Awake()

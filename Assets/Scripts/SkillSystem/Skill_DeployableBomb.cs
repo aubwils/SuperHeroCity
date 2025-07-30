@@ -99,7 +99,7 @@ public class Skill_DeployableBomb : Skill_Base
 
     private void DeterminePrefabToUse()
     {
-         switch (playerBrain.OriginType)
+        switch (playerBrain.OriginType)
         {
             case OriginType.GadgetHero:
                 prefabToUse = gadgetDeployableBombPrefab;
@@ -114,4 +114,11 @@ public class Skill_DeployableBomb : Skill_Base
                 break;
         }
     }
+    
+     //public float GetDetonateTime(){
+    //     if(Unlocked(SkillUpgradeType.Shard_Teleport) || Unlocked(SkillUpgradeType.Shard_TeleportAndHeal))
+    //         return shardExistDuration;
+        
+    //     return detonateTime;
+    // }
 }

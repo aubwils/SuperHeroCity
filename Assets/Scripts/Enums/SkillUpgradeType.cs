@@ -19,7 +19,8 @@ public enum SkillUpgradeType
     DeployableBomb_MultiDeploy, // Deploy multiple bombs in a row
 
     // --------- Teleoprt Tree ---------
-    Portal, // Creat a Portal
-    Portal_Teleport, // swap places with portal
-    Portal_TeleportAndHeal // swap and hp is back to % when placed
+    Portal_Teleport, // Create a portal and then swap places
+    Portal_TeleportAndHeal // swap and hp is back to % when placed 
+    // Heal could be just heala amount instead
+    // Maybe other tree path is damage aoe when leaving and arroving.
 }

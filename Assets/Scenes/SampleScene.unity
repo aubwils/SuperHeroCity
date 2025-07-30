@@ -358,7 +358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.7740479, y: -144.47351}
+  m_AnchoredPosition: {x: -2.7740173, y: -144.47348}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &86876270
@@ -591,7 +591,7 @@ MonoBehaviour:
   secretIdentityVisuals: {fileID: 2142156121}
   heroIdentityVisuals: {fileID: 694593881}
   isHero: 0
-  originType: 3
+  originType: 2
 --- !u!70 &96530811
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1488,7 +1488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125.5116, y: -303.01166}
+  m_AnchoredPosition: {x: -125.511505, y: -303.01166}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &283805226
@@ -180667,6 +180667,7 @@ GameObject:
   - component: {fileID: 1432745613}
   - component: {fileID: 1432745614}
   - component: {fileID: 1432745615}
+  - component: {fileID: 1432745616}
   m_Layer: 6
   m_Name: Skills_Holder
   m_TagString: Untagged
@@ -180727,6 +180728,28 @@ MonoBehaviour:
   maxBombAmount: 3
   currentBombAmount: 3
   isBombReloading: 0
+--- !u!114 &1432745616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432745612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 574f6f617ffb64c3883202533b3befd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillType: 3
+  skillUpgradeType: 9
+  cooldown: 0
+  gadgetPortalPrefab: {fileID: 6233439614258759083, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+  mysticPortalPrefab: {fileID: 6233439614258759083, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+  prefabToUse: {fileID: 0}
+  maxPortalAmount: 1
+  currentPortalAmount: 0
+  isBombReloading: 0
+  portalExistDuration: 10
 --- !u!1 &1443890411
 GameObject:
   m_ObjectHideFlags: 0
@@ -234783,6 +234806,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ef6f832c59d4667944b1f3b67b6c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &447386350908509782
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.706
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.083
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456823618025212068, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6233439614258759083, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
+      propertyPath: m_Name
+      value: SkillObject_Portal_Mystic
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 35d1f1131524c4f02b2c52e84768c6f7, type: 3}
 --- !u!1001 &6181000568371282615
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -235130,3 +235210,4 @@ SceneRoots:
   - {fileID: 816609629}
   - {fileID: 1456804868}
   - {fileID: 1800800141}
+  - {fileID: 447386350908509782}

@@ -144,6 +144,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkillTwo"",
+                    ""type"": ""Button"",
+                    ""id"": ""30495e73-ca29-4add-9ca4-3baa539a6fce"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -333,6 +342,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SkillOne"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6d4c590-4374-4faf-b05d-f4bc199ab18d"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkillTwo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -364,6 +384,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_CounterAttack = m_Player.FindAction("CounterAttack", throwIfNotFound: true);
         m_Player_ToggleSkillTreeUI = m_Player.FindAction("ToggleSkillTreeUI", throwIfNotFound: true);
         m_Player_SkillOne = m_Player.FindAction("SkillOne", throwIfNotFound: true);
+        m_Player_SkillTwo = m_Player.FindAction("SkillTwo", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -450,6 +471,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CounterAttack;
     private readonly InputAction m_Player_ToggleSkillTreeUI;
     private readonly InputAction m_Player_SkillOne;
+    private readonly InputAction m_Player_SkillTwo;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -485,6 +507,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/SkillOne".
         /// </summary>
         public InputAction @SkillOne => m_Wrapper.m_Player_SkillOne;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SkillTwo".
+        /// </summary>
+        public InputAction @SkillTwo => m_Wrapper.m_Player_SkillTwo;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -529,6 +555,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SkillOne.started += instance.OnSkillOne;
             @SkillOne.performed += instance.OnSkillOne;
             @SkillOne.canceled += instance.OnSkillOne;
+            @SkillTwo.started += instance.OnSkillTwo;
+            @SkillTwo.performed += instance.OnSkillTwo;
+            @SkillTwo.canceled += instance.OnSkillTwo;
         }
 
         /// <summary>
@@ -558,6 +587,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SkillOne.started -= instance.OnSkillOne;
             @SkillOne.performed -= instance.OnSkillOne;
             @SkillOne.canceled -= instance.OnSkillOne;
+            @SkillTwo.started -= instance.OnSkillTwo;
+            @SkillTwo.performed -= instance.OnSkillTwo;
+            @SkillTwo.canceled -= instance.OnSkillTwo;
         }
 
         /// <summary>
@@ -653,5 +685,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSkillOne(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SkillTwo" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkillTwo(InputAction.CallbackContext context);
     }
 }

@@ -73,6 +73,7 @@ public class Player_Brain : Entity_Brain
         playerInputActions.Player.Enable();
         playerInputActions.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
         playerInputActions.Player.SkillOne.performed += ctx => skillManager.deployableBomb.TryUseSkill();
+        playerInputActions.Player.SkillTwo.performed += ctx => skillManager.portal.TryUseSkill();
     }
 
     private void OnDisable()
@@ -80,6 +81,7 @@ public class Player_Brain : Entity_Brain
         playerInputActions.Player.Disable();
         playerInputActions.Player.ToggleSkillTreeUI.performed -= ctx => ui.ToggleSkillTreeUI();
         playerInputActions.Player.SkillOne.performed -= ctx => skillManager.deployableBomb.TryUseSkill();
+        playerInputActions.Player.SkillTwo.performed -= ctx => skillManager.portal.TryUseSkill();
     }
 
     protected override void Start()
@@ -87,6 +89,7 @@ public class Player_Brain : Entity_Brain
         base.Start();
         stateMachine.Initialize(idleState);
     }
+
     protected override void Update()
     {
         base.Update();
@@ -115,6 +118,9 @@ public class Player_Brain : Entity_Brain
             animator = heroAnimator;
         }
     }
+
+    public void TeleportPlayer(Vector3 position) => transform.position = position;
+
     protected override IEnumerator SlowDownEntityRoutine(float duration, float slowMultiplier)
     {
         float origionalMoveSpeed = playerMovement.moveSpeed;
