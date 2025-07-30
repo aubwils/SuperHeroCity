@@ -57,14 +57,26 @@ public class Skill_Portal : Skill_Base
 
     private void SwapPlayerandPortal()
     {
+        //swapped theplayer and portal object
+        // Vector3 portalPosition = currentPortal.transform.position;
+        // Vector3 playerPosition = playerBrain.transform.position;
+
+        // currentPortal.transform.position = playerPosition;
+        // playerBrain.TeleportPlayer(portalPosition);
+
+
         Vector3 portalPosition = currentPortal.transform.position;
         Vector3 playerPosition = playerBrain.transform.position;
 
         currentPortal.transform.position = playerPosition;
+        currentPortal.Disappear();
+
         playerBrain.TeleportPlayer(portalPosition);
+
 
     }
 
+    //Portal should disappear if we go to a different scene too
 
     private void CreatePortal()
     {

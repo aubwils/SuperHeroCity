@@ -20,7 +20,7 @@ public enum SkillUpgradeType
 
     // --------- Teleoprt Tree ---------
     Portal_Teleport, // Create a portal and then swap places
-    Portal_TeleportAndHeal // swap and hp is back to % when placed 
-    // Heal could be just heala amount instead
-    // Maybe other tree path is damage aoe when leaving and arroving.
+    Portal_TeleportAndHeal, // swap and Heal a % back OR Teleport & Heal back to what the player was when they placed it (could be more or less health) and have it be like a time rewind ability (or BOTH one for a mutant and one for a gadget, gadget could heal and teleport and mutant could go back in "time" sort of, though only they are and no changes to the world just them )
+    Portal_TeleportAndAOEBehind, // teleport and do aoe damage behind
+    Portal_TeleportAndAOEArrival // teleport and do AOE damage on arrival
 }

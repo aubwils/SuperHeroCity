@@ -12,8 +12,10 @@ public class SkillObject_Portal : SkillObject_Base
         Invoke(nameof(Disappear), portalExistDuration);
     }
 
-    private void Disappear()
+    
+    public void Disappear()
     {
+        // should do a animation dissaper and then destroy on animation finisher.
         Destroy(gameObject);
     }
 
