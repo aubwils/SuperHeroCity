@@ -29,13 +29,14 @@ public class SkillObject_DeployableBomb : SkillObject_Base
         Invoke(nameof(Explode), detinationTime);
     }
 
-    private void Explode()
+    public void Explode()
     {
         DamageEnemiesInRadius(transform, checkRadius);
         Instantiate(vfxPrefab, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
     }
+
 
     private void OnTriggerEnter2D(Collider2D collider)
     {

@@ -6,23 +6,31 @@ public class Skill_Portal : Skill_Base
 {
     private SkillObject_Portal currentPortal;
 
+    [Header("Teleport Portal Settings")]
     [SerializeField] private GameObject gadgetPortalPrefab;
     [SerializeField] private GameObject mysticPortalPrefab;
-    [SerializeField] private GameObject prefabToUse;
-
-    [Header("Multi Bomb Upgrade")]
-    [SerializeField] private int maxPortalAmount = 1;
-    [SerializeField] private int currentPortalAmount;
-    [SerializeField] private bool isBombReloading;
-    //should only have 1 portal at a time, if calling portal again with one out it should teleport you back to it?
-    // if portal out and leave area it shuld disappear. if so much time has passed and in the area it should disappear?
-    [Header("Teleport Portal Upgrade")]
+    private GameObject prefabToUse;
     [SerializeField] private float portalExistDuration = 10f;
+
+    [Header("Heal Upgrade Settings")]
+    public float savedHealthAtPortalPlacement;
+    [Range (0, 1)]
+    [SerializeField] private float healPercentage = 0.3f; // 30% heal
+
+    
+    [Header("AOE Upgrade Settings")]
+    [SerializeField] private float aoeRadius = 3f;
+    [SerializeField] private float aoeDamage = 50f;
+    [SerializeField] private GameObject aoeVFXPrefab;
+
+    Player_Health playerHealth;
+
+
 
     protected override void Awake()
     {
         base.Awake();
-        currentPortalAmount = maxPortalAmount;
+        playerHealth = GetComponentInParent<Player_Health>();
     }
 
     protected override void Start()
@@ -34,12 +42,12 @@ public class Skill_Portal : Skill_Base
         if (CanUseSkill() == false)
             return;
 
-        if (Unlocked(SkillUpgradeType.Portal_Teleport))
+        if (Unlocked(SkillUpgradeType.Portal_Teleport) || Unlocked(SkillUpgradeType.Portal_TeleportAndAOEArrival) ||
+        Unlocked(SkillUpgradeType.Portal_TeleportAndAOEBehind) || Unlocked(SkillUpgradeType.Portal_TeleportAndHeal) || Unlocked(SkillUpgradeType.Portal_TeleportTimeRewindHeal))
             HandlePortalTeleport();
 
-        // add a damage on teleport where player was
-        //  and where they arrive
-        // Portal stay open for longer
+        // Add increase Portal exists durration
+        //Origin Type should set portalExistDuration too.
     }
 
     private void HandlePortalTeleport()
@@ -68,22 +76,53 @@ public class Skill_Portal : Skill_Base
         Vector3 portalPosition = currentPortal.transform.position;
         Vector3 playerPosition = playerBrain.transform.position;
 
+        if (Unlocked(SkillUpgradeType.Portal_TeleportAndAOEBehind))
+            CreateAOEEffect(playerPosition);
+
         currentPortal.transform.position = playerPosition;
         currentPortal.Disappear();
 
         playerBrain.TeleportPlayer(portalPosition);
 
+        if (Unlocked(SkillUpgradeType.Portal_TeleportAndAOEArrival))
+            CreateAOEEffect(portalPosition);
 
+        if (Unlocked(SkillUpgradeType.Portal_TeleportAndHeal)) 
+        {
+            float healAmount = playerHealth.currentHealth * healPercentage;
+            playerHealth.IncreaseHealth(healAmount);
+        }
+
+        if (Unlocked(SkillUpgradeType.Portal_TeleportTimeRewindHeal))
+        {
+            playerHealth.ForceHealthOverride(savedHealthAtPortalPlacement);
+        }
+            
+    }
+
+
+    private void CreateAOEEffect(Vector3 position)
+    {
+        GameObject aoe = Instantiate(aoeVFXPrefab, position, Quaternion.identity);
+        SkillObject_DeployableBomb currentAOE = aoe.GetComponent<SkillObject_DeployableBomb>();
+        
+        // Immediately explode (no timer, no movement)
+        currentAOE.Explode();
     }
 
     //Portal should disappear if we go to a different scene too
-
     private void CreatePortal()
     {
         DeterminePrefabToUse();
         GameObject portal = Instantiate(prefabToUse, transform.position, Quaternion.identity);
         currentPortal = portal.GetComponent<SkillObject_Portal>();
         currentPortal.SetupPortal(portalExistDuration);
+
+        if (Unlocked(SkillUpgradeType.Portal_TeleportTimeRewindHeal))
+        {
+            savedHealthAtPortalPlacement = playerBrain.GetComponent<Player_Health>().currentHealth;
+        }
+
     }
 
     private void DeterminePrefabToUse()

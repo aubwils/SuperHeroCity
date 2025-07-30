@@ -57,7 +57,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
 
         float elementalResistance = entityStats.GetElementalResistance(elementType);
         float elementalDamageTaken = elementalDamage * (1 - elementalResistance);
-        
+
         TakeKnockback(damageSource, physicalDamageTaken);
         ReduceHealth(physicalDamageTaken + elementalDamageTaken);
         DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(physicalDamageTaken + elementalDamageTaken), transform);
@@ -93,7 +93,14 @@ public class Entity_Health : MonoBehaviour, IDamageable
         regenCoroutine = null;
 
     }
-            
+
+    public void ForceHealthOverride(float forcedHealth)
+    {
+        float maxHealth = entityStats.GetMaxHealth();
+
+        currentHealth = Mathf.Min(forcedHealth, maxHealth); // will set current to max if forced health is larger than max, otherwise iwll use forced.
+        UpdateHealthBar();
+    }        
 
     public void IncreaseHealth(float healAmount)
     {
