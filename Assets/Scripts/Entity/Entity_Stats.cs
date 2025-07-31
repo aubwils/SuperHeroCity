@@ -120,7 +120,7 @@ public class Entity_Stats : MonoBehaviour
         return false;
     }
 
-    public float GetPhisicalDamage(out bool isCrit, float scaleFactor = 1f) //Craeteinga variable only used in this method and out is saying you can get information OUT of this method when you call it.
+    public float GetPhysicalDamage(out bool isCrit, float scaleFactor = 1f) //Craeteinga variable only used in this method and out is saying you can get information OUT of this method when you call it.
     {
         float baseDamage = offenseStats.damage.GetValue();
         float bonusDamage = majorStats.strength.GetValue();

@@ -94,7 +94,7 @@ public class Skill_DeployableBomb : Skill_Base
 
         GameObject bomb = Instantiate(prefabToUse, transform.position, Quaternion.identity);
         currentBomb = bomb.GetComponent<SkillObject_DeployableBomb>();
-        currentBomb.SetupDeployableBomb(detonateTime);
+        currentBomb.SetupDeployableBomb(this);
     }
 
     private void DeterminePrefabToUse()
@@ -115,10 +115,11 @@ public class Skill_DeployableBomb : Skill_Base
         }
     }
     
-     //public float GetDetonateTime(){
-    //     if(Unlocked(SkillUpgradeType.Shard_Teleport) || Unlocked(SkillUpgradeType.Shard_TeleportAndHeal))
-    //         return shardExistDuration;
-        
-    //     return detonateTime;
-    // }
+     public float GetDetonateTime()
+    {
+        //this is if a upgrade would change the detonationtime.
+        // if(Unlocked(SkillUpgradeType.Shard_Teleport) || Unlocked(SkillUpgradeType.Shard_TeleportAndHeal))
+        //     return shardExistDuration;
+        return detonateTime;
+    }
 }

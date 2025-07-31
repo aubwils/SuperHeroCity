@@ -5,12 +5,14 @@ using UnityEngine;
 public class Skill_Base : MonoBehaviour
 {
 
+    public Player_Brain playerBrain { get; private set; }
+    public DamageScaleData damageScaleData { get; private set; }
+
     [Header("General Details")]
     [SerializeField] protected SkillType skillType;
     [SerializeField] protected SkillUpgradeType skillUpgradeType;
     [SerializeField] protected float cooldown;
     private float lastTimeUsed;
-    protected Player_Brain playerBrain { get; private set; }
 
 
     protected virtual void Awake()
@@ -33,6 +35,7 @@ public class Skill_Base : MonoBehaviour
     {
         skillUpgradeType = upgrade.upgradeType;
         cooldown = upgrade.cooldown;
+        damageScaleData = upgrade.damageScaleData;
     }
 
     public bool CanUseSkill()

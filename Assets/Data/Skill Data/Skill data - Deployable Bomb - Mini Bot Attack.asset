@@ -17,16 +17,16 @@ MonoBehaviour:
   skillType: 2
   upgradeData:
     upgradeType: 7
-    cooldown: 3
-    damageScale:
-      physical: 0.2
-      elemental: 2
+    cooldown: 0
+    damageScaleData:
+      physical: 1
+      elemental: 1
       chillDuration: 3
       chilledSlowMultiplier: 0.2
       burnDuration: 3
-      burnDamageScale: 1
+      burnDamageScale: 10
       shockDuration: 3
-      shockDamageScale: 1.5
+      shockDamageScale: 4
       shockCharge: 0.4
   skillName: Huner Mini Bot
   description: Mini Bot will hunt down the nearest enemy and explode.

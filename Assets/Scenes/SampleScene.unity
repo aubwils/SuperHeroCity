@@ -756,7 +756,7 @@ MonoBehaviour:
       baseValue: 0
       modifiers: []
     iceDamage:
-      baseValue: 0
+      baseValue: 10
       modifiers: []
     lightningDamage:
       baseValue: 0
@@ -114142,9 +114142,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 145829284}
-  - {fileID: 813303115}
   - {fileID: 1217865688}
   - {fileID: 981461755}
+  - {fileID: 813303115}
   - {fileID: 236849107}
   m_Father: {fileID: 1553901951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -115859,10 +115859,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1317325729}
+  - {fileID: 1695733200}
   - {fileID: 86876269}
   - {fileID: 1044651788}
   - {fileID: 470932028}
-  - {fileID: 1695733200}
   m_Father: {fileID: 1553901951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -182049,7 +182049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2852451690230217202, guid: f7b575df014814b968462c4d42491d1d, type: 3}
       propertyPath: resourceStats.maxHealth.baseValue
-      value: 500
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 3633349734283987018, guid: f7b575df014814b968462c4d42491d1d, type: 3}
       propertyPath: m_AnchorMax.x

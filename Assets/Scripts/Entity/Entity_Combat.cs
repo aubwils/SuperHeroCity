@@ -42,7 +42,7 @@ public class Entity_Combat : MonoBehaviour
                 //can remove the 1f here since default is 1f, but leaving it here for clarity.
 
 
-                float damage = entityStats.GetPhisicalDamage(out bool isCrit, 1f);
+                float damage = entityStats.GetPhysicalDamage(out bool isCrit, 1f);
                 // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
                 //1f is full damage, 0.5f is half damage, etc.
                 // can us this one. asword throw attack that does 200% damage, you can use 2f as the scale factor.

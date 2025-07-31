@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkillObject_DeployableBomb : SkillObject_Base
 {
     [SerializeField] private GameObject vfxPrefab;
+    private Skill_DeployableBomb deployableBombManager;
 
     private Transform target;
     private float speed;
@@ -24,9 +25,15 @@ public class SkillObject_DeployableBomb : SkillObject_Base
         this.speed = speed;
     }
 
-    public void SetupDeployableBomb(float detinationTime)
+    public void SetupDeployableBomb(Skill_DeployableBomb deployableBombManager)
     {
-        Invoke(nameof(Explode), detinationTime);
+        this.deployableBombManager = deployableBombManager;
+
+        playerStats = deployableBombManager.playerBrain.entityStats;
+        damageScaleData = deployableBombManager.damageScaleData;
+
+        float detonateTime = deployableBombManager.GetDetonateTime();
+        Invoke(nameof(Explode), detonateTime);
     }
 
     public void Explode()
