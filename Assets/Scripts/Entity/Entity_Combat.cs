@@ -6,15 +6,17 @@ public class Entity_Combat : MonoBehaviour
 {
     private Entity_Stats entityStats;
 
+    public DamageScaleData basicAttackScale;
+
     [Header("Target detection")]
     [SerializeField] private Transform targetCheck;
     [SerializeField] private float taragetCheckRadious = 1f;
     [SerializeField] private LayerMask targetLayerMask;
 
-    [Header("Status Effect Details")]
-    [SerializeField] private float defaultDuration = 3f;
-    [SerializeField] private float chilledSlowMultiplier = 0.4f;
-    [SerializeField] private float electrifiedChargeBuildup = .4f;
+    // [Header("Status Effect Details")]
+    // [SerializeField] private float defaultDuration = 3f;
+    // [SerializeField] private float chilledSlowMultiplier = 0.4f;
+    // [SerializeField] private float shockChargeBuildup = .4f;
     
 
 
@@ -26,11 +28,12 @@ public class Entity_Combat : MonoBehaviour
 
     public virtual void PerformAttack()
     {
-        foreach (var collider in GetDetectedColliders())
+        foreach (var target in GetDetectedColliders())
         {
 
-            if (collider.TryGetComponent(out IDamageable damageable))
+            if (target.TryGetComponent(out IDamageable damageable))
             {
+                ElementalEffectData effectData = new ElementalEffectData(entityStats, basicAttackScale);
 
                 float elementalDamage = entityStats.GetElementalDamage(out ElementType elementType, 1f);
                 // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
@@ -45,8 +48,13 @@ public class Entity_Combat : MonoBehaviour
                 // can us this one. asword throw attack that does 200% damage, you can use 2f as the scale factor.
                 //can remove the 1f here since default is 1f, but leaving it here for clarity.
                 damageable.TakeDamage(damage, elementalDamage, elementType, transform);
-                if(elementType != ElementType.None)
-                    ApplyStatusEffect(collider.transform, elementType);
+
+                if (elementType != ElementType.None)
+                {
+                    target.GetComponent<Entity_StatusHandler>().ApplyStatusEffect(elementType, effectData);
+                    Debug.Log(elementType);
+                    Debug.Log(effectData);
+                }
 
                 if (TryGetComponent(out Entity_VFX vfx))
                 {
@@ -58,28 +66,6 @@ public class Entity_Combat : MonoBehaviour
         }
     }
 
-    public void ApplyStatusEffect(Transform target, ElementType elementType, float scaleFactor = 1f)
-    {
-
-        Entity_StatusHandler entityStatusHandler = target.GetComponent<Entity_StatusHandler>();
-        if (entityStatusHandler == null)
-            return;
-
-        if (elementType == ElementType.Ice && entityStatusHandler.CanEffectBeApplied(ElementType.Ice))
-            entityStatusHandler.ApplyChilledEffect(defaultDuration, chilledSlowMultiplier);
-
-        if (elementType == ElementType.Fire && entityStatusHandler.CanEffectBeApplied(ElementType.Fire))
-        {
-            float fireDamage = entityStats.offenseStats.fireDamage.GetValue() * scaleFactor;
-            entityStatusHandler.ApplyBurnEffect(defaultDuration, fireDamage);
-        }
-        if (elementType == ElementType.Lightning && entityStatusHandler.CanEffectBeApplied(ElementType.Lightning))
-        {
-            float lightningDamage = entityStats.offenseStats.lightningDamage.GetValue() * scaleFactor;
-            entityStatusHandler.ApplyElectrifiedEffect(defaultDuration, lightningDamage, electrifiedChargeBuildup);
-        }// coem back to lightning think want a diff thing with this...
-
-    }
 
     protected Collider2D[] GetDetectedColliders()
     {

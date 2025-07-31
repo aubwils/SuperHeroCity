@@ -18,6 +18,16 @@ MonoBehaviour:
   upgradeData:
     upgradeType: 6
     cooldown: 3
+    damageScale:
+      physical: 0
+      elemental: 1.2
+      chillDuration: 3
+      chilledSlowMultiplier: 0.2
+      burnDuration: 3
+      burnDamageScale: 1
+      shockDuration: 3
+      shockDamageScale: 1
+      shockCharge: 0.4
   skillName: Mini Bot
   description: Deploy a mini bot. The Bot explodes after a short time or when touched
     by a enemy.

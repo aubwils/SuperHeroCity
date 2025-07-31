@@ -60,6 +60,7 @@ public class Object_Buff : MonoBehaviour
 
     private void ApplyBuff(bool apply)
     {
+        Debug.Log("Apply Buff" + buffName);
         foreach (var buff in buffs)
         {
             if (apply)

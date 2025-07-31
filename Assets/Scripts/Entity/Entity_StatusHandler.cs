@@ -16,7 +16,7 @@ public class Entity_StatusHandler : MonoBehaviour
     [SerializeField] private GameObject lightningStrikeVFXPrefab;
     [SerializeField] private float currentCharge;
     [SerializeField] private float maxCharge = 1f;
-    private Coroutine electrifiedEffectRoutine;
+    private Coroutine shockedEffectRoutine;
 
     private void Awake()
     {
@@ -26,28 +26,43 @@ public class Entity_StatusHandler : MonoBehaviour
         entityHealth = GetComponent<Entity_Health>();
     }
 
-    public void ApplyElectrifiedEffect(float duration, float damage, float charge)
+    public void ApplyStatusEffect(ElementType element, ElementalEffectData effectData)
+    {
+        if (element == ElementType.Ice && CanEffectBeApplied(ElementType.Ice))
+            ApplyChilledEffect(effectData.chillDuration, effectData.chilledSlowMultiplier);
+
+        if (element == ElementType.Fire && CanEffectBeApplied(ElementType.Fire))
+            ApplyBurnEffect(effectData.burnDuration, effectData.burnDamage);
+
+        if (element == ElementType.Lightning && CanEffectBeApplied(ElementType.Lightning))
+            ApplyShockEffect(effectData.shockDuration, effectData.shockDamage, effectData.shockCharge);
+        
+        //need to add in posion and other damage types.
+        
+    }
+
+    public void ApplyShockEffect(float duration, float damage, float charge)
     {
         //dont think i like the build charge up  but maybe useful for a weapon? keepign for now may remove.
         float lightningResistance = entityStats.GetElementalResistance(ElementType.Lightning);
         float additionalCharge = charge * (1 - lightningResistance);
-        
+
         currentCharge = currentCharge + additionalCharge;
         if (currentCharge >= maxCharge)
         {
             LightingStrike(damage);
-            StopElectrifiedEffect();
+            StopShockEffect();
             return;
         }
 
-        if (electrifiedEffectRoutine != null)
-            StopCoroutine(electrifiedEffectRoutine);
-        
+        if (shockedEffectRoutine != null)
+            StopCoroutine(shockedEffectRoutine);
 
-        electrifiedEffectRoutine = StartCoroutine(ElectrifiedEffectRoutine(duration));
+
+        shockedEffectRoutine = StartCoroutine(ShockedEffectRoutine(duration));
 
     }
-    private void StopElectrifiedEffect()
+    private void StopShockEffect()
     {
         currentCharge = 0f;
         currentElementType = ElementType.None;
@@ -60,13 +75,13 @@ public class Entity_StatusHandler : MonoBehaviour
         entityHealth.ReduceHealth(damage);
         DamageTextSpawnerManager.Instance.SpawnDamageText(Mathf.RoundToInt(damage), transform);
     }
-    private IEnumerator ElectrifiedEffectRoutine(float duration)
+    private IEnumerator ShockedEffectRoutine(float duration)
     {
         currentElementType = ElementType.Lightning;
         entityVFX.PlayStatusVFX(duration, ElementType.Lightning);
 
         yield return new WaitForSeconds(duration);
-        StopElectrifiedEffect();
+        StopShockEffect();
     }
 
     public void ApplyBurnEffect(float duration, float fireDamage)
