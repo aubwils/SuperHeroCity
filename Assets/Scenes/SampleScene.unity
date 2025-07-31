@@ -759,7 +759,7 @@ MonoBehaviour:
       baseValue: 10
       modifiers: []
     lightningDamage:
-      baseValue: 0
+      baseValue: 100
       modifiers: []
     poisonDamage:
       baseValue: 0

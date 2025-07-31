@@ -13,13 +13,6 @@ public class Entity_Combat : MonoBehaviour
     [SerializeField] private float taragetCheckRadious = 1f;
     [SerializeField] private LayerMask targetLayerMask;
 
-    // [Header("Status Effect Details")]
-    // [SerializeField] private float defaultDuration = 3f;
-    // [SerializeField] private float chilledSlowMultiplier = 0.4f;
-    // [SerializeField] private float shockChargeBuildup = .4f;
-    
-
-
     private void Awake()
     {
         entityStats = GetComponent<Entity_Stats>();
@@ -33,34 +26,23 @@ public class Entity_Combat : MonoBehaviour
 
             if (target.TryGetComponent(out IDamageable damageable))
             {
-                ElementalEffectData effectData = new ElementalEffectData(entityStats, basicAttackScale);
+                AttackData attackData = entityStats.GetAttackData(basicAttackScale);
+                Entity_StatusHandler statusHandler = target.GetComponent<Entity_StatusHandler>();
 
-                float elementalDamage = entityStats.GetElementalDamage(out ElementType elementType, 1f);
-                // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
-                //1f is full damage, 0.5f is half damage, etc. good usecase is if clones do half damage as the original entity.
-                //or regular attack do 60% and magic attack do 100% damage.
-                //can remove the 1f here since default is 1f, but leaving it here for clarity.
-
-
-                float damage = entityStats.GetPhysicalDamage(out bool isCrit, 1f);
-                // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
-                //1f is full damage, 0.5f is half damage, etc.
-                // can us this one. asword throw attack that does 200% damage, you can use 2f as the scale factor.
-                //can remove the 1f here since default is 1f, but leaving it here for clarity.
-                damageable.TakeDamage(damage, elementalDamage, elementType, transform);
+                float physicalDamage = attackData.physicalDamage;
+                float elementalDamage = attackData.elementalDamage;
+                ElementType elementType = attackData.element;
+                
+                damageable.TakeDamage(physicalDamage, elementalDamage, elementType, transform);
 
                 if (elementType != ElementType.None)
-                {
-                    target.GetComponent<Entity_StatusHandler>().ApplyStatusEffect(elementType, effectData);
-                    Debug.Log(elementType);
-                    Debug.Log(effectData);
-                }
+                    statusHandler?.ApplyStatusEffect(elementType, attackData.effectData);
 
                 if (TryGetComponent(out Entity_VFX vfx))
                 {
                     vfx.UpdateOnHitColorForElementColor(elementType);
                     Vector2 facingDir = GetComponent<Entity_Brain>().GetFacingDirection(); ;
-                    vfx.PlayHitVFX(facingDir, isCrit);
+                    vfx.PlayHitVFX(facingDir, attackData.isCrit);
                 }
             }
         }
