@@ -76,7 +76,7 @@ public class Skill_Portal : Skill_Base
         Vector3 portalPosition = currentPortal.transform.position;
         Vector3 playerPosition = playerBrain.transform.position;
 
-        if (Unlocked(SkillUpgradeType.Portal_TeleportAndAOEBehind))
+        if (Unlocked(SkillUpgradeType.Portal_TeleportAndAOEBehind) || Unlocked(SkillUpgradeType.Portal_TeleportAndAOEArrival))
             CreateAOEEffect(playerPosition);
 
         currentPortal.transform.position = playerPosition;
