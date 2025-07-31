@@ -781,7 +781,7 @@ MonoBehaviour:
       baseValue: 0
       modifiers: []
     fireResistance:
-      baseValue: 50
+      baseValue: 0
       modifiers: []
     iceResistance:
       baseValue: 0
@@ -827,7 +827,7 @@ MonoBehaviour:
   currentHealth: 0
   isDead: 0
   healthRegenRate: 1
-  canRegenHealth: 1
+  canRegenHealth: 0
   knockbackDuration: 0.2
   OnDamageKnockback: {x: 0.75, y: 2}
   heavyDamageThreshold: 0.3
@@ -1716,7 +1716,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125.511505, y: -303.01166}
+  m_AnchoredPosition: {x: -125.511536, y: -303.01166}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &283805226
@@ -182036,12 +182036,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2852451690230217202, guid: f7b575df014814b968462c4d42491d1d, type: 3}
+      propertyPath: offenseStats.damage.baseValue
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3633349734283987018, guid: f7b575df014814b968462c4d42491d1d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3633349734283987018, guid: f7b575df014814b968462c4d42491d1d, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335453004549195812, guid: f7b575df014814b968462c4d42491d1d, type: 3}
+      propertyPath: canRegenHealth
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5439486300991215047, guid: f7b575df014814b968462c4d42491d1d, type: 3}
@@ -234497,6 +234505,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4612848611132264803, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703977481512812547, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}
+      propertyPath: canRegenHealth
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8140734558088973098, guid: efd589698c7f34d23b6fa473c9c0ea59, type: 3}

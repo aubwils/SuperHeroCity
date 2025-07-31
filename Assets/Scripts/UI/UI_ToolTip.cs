@@ -17,26 +17,41 @@ public class UI_ToolTip : MonoBehaviour
             return;
         }
         UpdatePosition(targetRect);
+        Debug.Log($"TargetRect world pos: {targetRect.position}, local pos: {targetRect.localPosition}");
+        Debug.Log($"Tooltip current pos: {rectTransform.position}");
+
     }
     private void UpdatePosition(RectTransform targetRect)
     {
-        float screenCenterX = Screen.width / 2;
-        float screenTop = Screen.height;
-        float screenBottom = 0;
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(null, targetRect.position);
 
-        Vector2 targetPosition = targetRect.position;
-        targetPosition.x = targetPosition.x < screenCenterX ? targetPosition.x + offset.x : targetPosition.x - offset.x;
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            rectTransform.parent as RectTransform,
+            screenPoint,
+            null,
+            out localPoint
+        );
 
-        float screenVerticalHalf = rectTransform.sizeDelta.y / 2f;
-        float topY = targetPosition.y + screenVerticalHalf;
-        float bottomY = targetPosition.y - screenVerticalHalf;
+        // Horizontal offset logic
+        localPoint.x += (screenPoint.x < Screen.width / 2) ? offset.x : -offset.x;
+        localPoint.y += offset.y;
 
-        if (topY > screenTop)
-            targetPosition.y = screenTop - screenVerticalHalf - offset.y;
-        else if (bottomY < screenBottom)
-            targetPosition.y = screenBottom + screenVerticalHalf + offset.y;
+        // --- Clamp vertically so tooltip stays on screen ---
+        float tooltipHeight = rectTransform.rect.height;
+        float canvasHeight = (rectTransform.parent as RectTransform).rect.height;
 
-        rectTransform.position = targetPosition;
+        float halfHeight = tooltipHeight / 2f;
+
+        // Prevent top overflow
+        if (localPoint.y + halfHeight > canvasHeight / 2f)
+            localPoint.y = (canvasHeight / 2f) - halfHeight;
+
+        // Prevent bottom overflow
+        if (localPoint.y - halfHeight < -(canvasHeight / 2f))
+            localPoint.y = -(canvasHeight / 2f) + halfHeight;
+
+        rectTransform.localPosition = localPoint;
     }
     
     protected string GetColoredText(string color, string text)
