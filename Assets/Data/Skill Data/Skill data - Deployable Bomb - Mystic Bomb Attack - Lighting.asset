@@ -10,25 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e1efeb5193184f2095794537c7346cb, type: 3}
-  m_Name: Skill data - Portal Teleport - AOE On Arrival
+  m_Name: Skill data - Deployable Bomb - Mystic Bomb Attack - Lighting
   m_EditorClassIdentifier: 
-  skillName: Teleport Smack
-  description: When you teleport, blast enemies at our new location with AOE Damage.
-  icon: {fileID: -1390233556, guid: 649757c49eb53402e83b108a87a04cd5, type: 3}
-  skillPointCost: 0
+  skillName: Mystic Bomb Chaser - lighting
+  description: Mystic Bomb t will hunt down the nearest enemy and explode with a
+    lighting damage.
+  icon: {fileID: 81425007, guid: 649757c49eb53402e83b108a87a04cd5, type: 3}
+  skillPointCost: 1
   unlockedByDefault: 0
-  skillType: 3
+  skillType: 2
   upgradeData:
-    upgradeType: 13
+    upgradeType: 7
     cooldown: 0
     damageScaleData:
       physical: 1
-      elemental: 1
-      forcedElement: 1
+      elemental: 10
+      forcedElement: 3
       chillDuration: 3
-      chilledSlowMultiplier: 0.2
+      chilledSlowMultiplier: 0.5
       burnDuration: 3
-      burnDamageScale: 2
+      burnDamageScale: 10
       shockDuration: 3
-      shockDamageScale: 1
-      shockCharge: 0.4
+      shockDamageScale: 2
+      shockCharge: 0.5

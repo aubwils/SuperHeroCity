@@ -38,7 +38,7 @@ public class SkillObject_DeployableBomb : SkillObject_Base
 
     public void Explode()
     {
-        DamageEnemiesInRadius(transform, checkRadius);
+        DamageEnemiesInRadius(transform, damageRadius);
         Instantiate(vfxPrefab, transform.position, Quaternion.identity);
 
         Destroy(gameObject);

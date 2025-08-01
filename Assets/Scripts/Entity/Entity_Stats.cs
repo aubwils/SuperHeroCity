@@ -18,6 +18,8 @@ public class Entity_Stats : MonoBehaviour
 
     public float GetElementalDamage(out ElementType elementType, float scaleFactor = 1f)
     {
+        //I think i may not want/need element type based on highest value... will see based on the other one and if not will remove later.
+        //Maybe be useful with items and adding/removing modifiers... will keep for now.
         float fireDamage = offenseStats.fireDamage.GetValue();
         float iceDamage = offenseStats.iceDamage.GetValue();
         float lightningDamage = offenseStats.lightningDamage.GetValue();
@@ -61,6 +63,7 @@ public class Entity_Stats : MonoBehaviour
             return 0f;
         }
 
+        // Yea this extra amount per each i fele like is over complicated... dont realy want it
         float bonusFire = (fireDamage == highestDamage) ? 0 : fireDamage * .5f; // If fire damage is not the highest, give it a 50% bonus
         float bonusIce = (iceDamage == highestDamage) ? 0 : iceDamage * .5f; // If ice damage is not the highest, give it a 50% bonus
         float bonusLightning = (lightningDamage == highestDamage) ? 0 : lightningDamage * .5f; // If lightning damage is not the highest, give it a 50% bonus
@@ -74,6 +77,8 @@ public class Entity_Stats : MonoBehaviour
         return finalElementalDamage * scaleFactor; // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
 
     }
+
+
 
     public float GetElementalResistance(ElementType elementType)
     {
@@ -109,6 +114,40 @@ public class Entity_Stats : MonoBehaviour
         return finalResistance;
 
     }
+
+
+    public float GetElementalDamageOf(ElementType element, float scaleFactor = 1f)
+    {   
+        float bonusElementalDamage = majorStats.intelligence.GetValue(); // 1 point of intelligence gives 1 point of bonus elemental damage
+
+        float raw = 0f; //?
+        switch (element)
+        {
+            case ElementType.Fire:
+                raw = offenseStats.fireDamage.GetValue();
+                break;
+            case ElementType.Ice:
+                raw = offenseStats.iceDamage.GetValue();
+                break;
+            case ElementType.Lightning:
+                raw = offenseStats.lightningDamage.GetValue();
+                break;
+            case ElementType.Poison:
+                raw = offenseStats.lightningDamage.GetValue();
+                break;
+            case ElementType.Holy:
+                raw = offenseStats.lightningDamage.GetValue();
+                break;
+            case ElementType.Dark:
+                raw = offenseStats.lightningDamage.GetValue();
+                break;
+            default:
+                return 0f; // None or unhandled
+        }
+        // apply your intelligence bonus
+        raw += bonusElementalDamage;
+        return raw * scaleFactor;
+    }   
 
     [SerializeField] private float currentHealth;
 

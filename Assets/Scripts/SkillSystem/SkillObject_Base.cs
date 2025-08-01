@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class SkillObject_Base : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] protected LayerMask whatIsEnemy;
+    [Tooltip("Should be the gameobjects transform component.")]
     [SerializeField] protected Transform targetCheck;
-    [SerializeField] protected float checkRadius = 1;
-    protected float closestTargetCheckRadius = 10f;
+
+    [Header("Targeting Settings")]
+    [Tooltip("How far away this object will look for an enemy to home in on.")]
+    [SerializeField] private float homingRadius = 10f;
+
+    [Header("Damage Settings")]
+    [Tooltip("Radius around the impact point in which to apply damage.")]
+    [SerializeField] protected float damageRadius = 1f;
 
     protected Entity_Stats playerStats;
     protected DamageScaleData damageScaleData;
@@ -43,7 +51,7 @@ public class SkillObject_Base : MonoBehaviour
         Transform target = null;
         float closestDistance = Mathf.Infinity;
 
-        foreach (var enemy in EnemiesAround(transform, closestTargetCheckRadius))
+        foreach (var enemy in EnemiesAround(transform, homingRadius))
         {
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
 
@@ -67,7 +75,7 @@ public class SkillObject_Base : MonoBehaviour
         if (targetCheck == null)
             targetCheck = transform;
 
-        Gizmos.DrawWireSphere(targetCheck.position, checkRadius);
+        Gizmos.DrawWireSphere(targetCheck.position, damageRadius);
 
     }
 }

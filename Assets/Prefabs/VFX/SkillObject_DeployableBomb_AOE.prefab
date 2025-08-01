@@ -84,5 +84,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   targetCheck: {fileID: 5025767317127228867}
-  checkRadius: 1.25
+  homingRadius: 10
+  damageRadius: 2
   vfxPrefab: {fileID: 6003144358854223206, guid: 74462660d4c034846821d29e432556c2, type: 3}

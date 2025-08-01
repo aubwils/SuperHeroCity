@@ -16,7 +16,14 @@ public class AttackData
     public AttackData(Entity_Stats entityStats, DamageScaleData scaleData)
     {
         physicalDamage = entityStats.GetPhysicalDamage(out isCrit, scaleData.physical);
-        elementalDamage = entityStats.GetElementalDamage(out element, scaleData.elemental);
+
+        if (scaleData.forcedElement != ElementType.None)
+        {
+            element = scaleData.forcedElement;
+            elementalDamage = entityStats.GetElementalDamageOf(element, scaleData.elemental);
+        }
+        else
+            elementalDamage = entityStats.GetElementalDamage(out element, scaleData.elemental);
 
         effectData = new ElementalEffectData(entityStats, scaleData);
     }

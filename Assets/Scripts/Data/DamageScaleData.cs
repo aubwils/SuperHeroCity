@@ -8,6 +8,9 @@ public class DamageScaleData
     public float physical = 1f;
     public float elemental = 1f;
 
+    [Header("Forced Element Type (None = pick highest)")]
+    public ElementType forcedElement = ElementType.None;
+
     [Header("Chill")]
     public float chillDuration = 3f;
     public float chilledSlowMultiplier = .2f;
