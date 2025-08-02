@@ -23,5 +23,13 @@ public enum SkillUpgradeType
     Portal_TeleportAndHeal, // Teleport & Heal a %
     Portal_TeleportTimeRewindHeal, // Teleport and Heal back to what health was before teleporting
     Portal_TeleportAndAOEBehind, // teleport and do aoe damage behind
-    Portal_TeleportAndAOEArrival // teleport and do AOE damage on arrival
+    Portal_TeleportAndAOEArrival, // teleport and do AOE damage on arrival
+
+    // --------- Throw Tree ---------
+    ThrowabeObject, // Thow something (TEMP for starting we will throw a batarang type. weapon)
+    ThrowableObject_Spin, // batarang will spin at one point and damage enemies ( thinking not at one point just on movement... tbd)
+    ThrowableObject_Pierce, // Weapon will pierce X amount of targets
+    ThrowableObject_Bounce // Bounce Batarang between enemies
+
+
 }

@@ -20,7 +20,7 @@ public class Skill_Portal : Skill_Base
     
     [Header("AOE Upgrade Settings")]
     [SerializeField] private float aoeRadius = 3f;
-    [SerializeField] private float aoeDamage = 50f;
+    [SerializeField] private float aoeDamage = 50f; //not used need to look at, if aoe multiplpe if damage is based on player level and damge then maybe there is a multiplier or des skill scale damage cover this?
     [SerializeField] private GameObject aoeVFXPrefab;
 
     Player_Health playerHealth;

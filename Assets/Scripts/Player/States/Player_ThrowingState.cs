@@ -13,6 +13,9 @@ public class Player_ThrowingState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        skillManager.throwableObject.EnableDots(true);
+
         if (mainCamera != Camera.main)
             mainCamera = Camera.main;
     }
@@ -27,13 +30,15 @@ public class Player_ThrowingState : PlayerState
         // platofrmer tutorial does it like this:
         // playerbrain.HandleFlip(dirToMouse.x);
         playerBrain.HandleFacing(directionToMouse);
-
+        skillManager.throwableObject.PredictTrajectory(directionToMouse);
 
 
 
         if (playerBrain.playerInputActions.Player.Attack.WasPressedThisFrame())
         {
             playerBrain.animator.SetBool("ThrowPreformed", true);
+            skillManager.throwableObject.EnableDots(false);
+            skillManager.throwableObject.ConfirmTrajectory(directionToMouse);
             //skill manager create thrown item
         }
 
@@ -47,6 +52,8 @@ public class Player_ThrowingState : PlayerState
     {
         base.Exit();
         playerBrain.animator.SetBool("ThrowPreformed", false);
+        skillManager.throwableObject.EnableDots(false);
+
 
     }
 

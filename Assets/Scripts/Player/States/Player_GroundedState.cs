@@ -31,7 +31,7 @@ public class Player_GroundedState : PlayerState
         if (Input.GetKeyDown(KeyCode.L))
             stateMachine.ChangeState(playerBrain.transformationState);
 
-        if (playerBrain.playerInputActions.Player.RangeAttack.WasPressedThisFrame())
+        if (playerBrain.playerInputActions.Player.RangeAttack.WasPressedThisFrame()) //&& skillManager.throwing.CanUseSkill())
             stateMachine.ChangeState(playerBrain.throwingState);
         
 

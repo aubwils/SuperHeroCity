@@ -7,5 +7,6 @@ public enum SkillType
     Dash,
     Clone,
     DeployableBomb,
-    Portal
+    Portal,
+    ThrowableObject
 } 

@@ -8,6 +8,7 @@ public class Player_SkillManager : MonoBehaviour
     public Skill_Clone clone { get; private set; }
     public Skill_DeployableBomb deployableBomb { get; private set; }
     public Skill_Portal portal { get; private set; }
+    public Skill_ThrowableObject throwableObject { get; private set; }
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class Player_SkillManager : MonoBehaviour
         clone = GetComponentInChildren<Skill_Clone>();
         deployableBomb = GetComponentInChildren<Skill_DeployableBomb>();
         portal = GetComponentInChildren<Skill_Portal>();
+        throwableObject = GetComponentInChildren<Skill_ThrowableObject>();
     }
 
     public Skill_Base GetSkillByType(SkillType type)
@@ -25,6 +27,7 @@ public class Player_SkillManager : MonoBehaviour
             case SkillType.Clone: return clone;
             case SkillType.DeployableBomb: return deployableBomb; 
             case SkillType.Portal: return portal; 
+            case SkillType.ThrowableObject: return throwableObject; 
             default:
                 Debug.Log($"Skill type {type} is not implemented yet.");
                 return null;
