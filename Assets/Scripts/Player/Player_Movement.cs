@@ -61,7 +61,7 @@ public class Player_Movement : MonoBehaviour
     {
         if (playerBrain.GetKnockbackStatus()) return;
 
-        if (canMove && !playerBrain.isBusy && playerBrain.StateMachine.currentState is Player_MoveState)
+        if (canMove && !playerBrain.isBusy && playerBrain.CanMoveInCurrentState())
         {
             MovePlayer();
         }
@@ -127,6 +127,14 @@ public class Player_Movement : MonoBehaviour
         if (!(currentState is Player_MoveState || currentState is Player_IdleState)) return false; // Only allow dash if in MoveState or IdleState
 
         return true;
+    }
+
+    public void SetLastMovementDirection(Vector2 direction)
+    {
+        if (direction != Vector2.zero)
+        {
+            lastMovementDirection = direction;
+        }
     }
 
     public Vector2 GetLastMovementDirection()

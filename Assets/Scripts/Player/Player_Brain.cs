@@ -21,8 +21,9 @@ public class Player_Brain : Entity_Brain
     [SerializeField] private GameObject secretIdentityVisuals;
     [SerializeField] private GameObject heroIdentityVisuals;
 
-
     public PlayerInputActions playerInputActions;
+    public Vector2 mousePosition { get; private set; }
+
     public Player_Movement playerMovement { get; private set; }
     public Player_SkillManager skillManager { get; private set; }
     public Player_VFX vfx { get; private set; }
@@ -52,7 +53,7 @@ public class Player_Brain : Entity_Brain
     protected override void Awake()
     {
         base.Awake();
-        
+
         ui = FindAnyObjectByType<UI>(); // heavy on preformance, NEVER Do in the update. ok to do once in the awake or start.
         playerMovement = GetComponent<Player_Movement>();
         skillManager = GetComponent<Player_SkillManager>();
@@ -78,7 +79,11 @@ public class Player_Brain : Entity_Brain
     private void OnEnable()
     {
         playerInputActions.Player.Enable();
+
+        playerInputActions.Player.Mouse.performed += ctx => mousePosition = ctx.ReadValue<Vector2>();
+
         playerInputActions.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
+
         playerInputActions.Player.SkillOne.performed += ctx => skillManager.deployableBomb.TryUseSkill();
         playerInputActions.Player.SkillTwo.performed += ctx => skillManager.portal.TryUseSkill();
     }
@@ -86,7 +91,11 @@ public class Player_Brain : Entity_Brain
     private void OnDisable()
     {
         playerInputActions.Player.Disable();
+
+        //Dont need a cancel because should always have position of
+
         playerInputActions.Player.ToggleSkillTreeUI.performed -= ctx => ui.ToggleSkillTreeUI();
+
         playerInputActions.Player.SkillOne.performed -= ctx => skillManager.deployableBomb.TryUseSkill();
         playerInputActions.Player.SkillTwo.performed -= ctx => skillManager.portal.TryUseSkill();
     }
@@ -105,25 +114,6 @@ public class Player_Brain : Entity_Brain
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-    }
-
-
-    public void ToggleHeroIdentity()
-    {
-        if (isHero)
-        {
-            isHero = false;
-            secretIdentityVisuals.SetActive(true);
-            heroIdentityVisuals.SetActive(false);
-            animator = seceretAnimator;
-        }
-        else
-        {
-            isHero = true;
-            secretIdentityVisuals.SetActive(false);
-            heroIdentityVisuals.SetActive(true);
-            animator = heroAnimator;
-        }
     }
 
     public void TeleportPlayer(Vector3 position) => transform.position = position;
@@ -147,17 +137,58 @@ public class Player_Brain : Entity_Brain
         animator.speed = origionalAnimationSpeed;
     }
 
+    public void ToggleHeroIdentity()
+    {
+        if (isHero)
+        {
+            isHero = false;
+            secretIdentityVisuals.SetActive(true);
+            heroIdentityVisuals.SetActive(false);
+            animator = seceretAnimator;
+        }
+        else
+        {
+            isHero = true;
+            secretIdentityVisuals.SetActive(false);
+            heroIdentityVisuals.SetActive(true);
+            animator = heroAnimator;
+        }
+    }
+
     public bool GetPlayerIdentity()
     {
         return isHero; // Return the current identity of the player
     }
+
     public override void CallAnimationFinishTrigger()
     {
         base.CallAnimationFinishTrigger();
+    }
+
+    public void HandleFacing(Vector2 directionToAnimate)
+    {
+        if (directionToAnimate != Vector2.zero)
+        {
+            // Update animator parameters for facing direction
+            animator.SetFloat("MoveX", directionToAnimate.x);
+            animator.SetFloat("MoveY", directionToAnimate.y);
+
+            // Update the last movement direction so other systems know which way we're facing
+            playerMovement.SetLastMovementDirection(directionToAnimate);
+        }
     }
 
     public override Vector2 GetFacingDirection()
     {
         return playerMovement.GetLastMovementDirection();
     }
+    
+    public bool CanMoveInCurrentState()
+    {
+        var currentState = StateMachine.currentState;
+        return currentState is Player_MoveState ||
+            currentState is Player_ThrowingState;
+    }
+
+
 }
