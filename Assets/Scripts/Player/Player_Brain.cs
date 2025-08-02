@@ -26,6 +26,8 @@ public class Player_Brain : Entity_Brain
     public Player_Movement playerMovement { get; private set; }
     public Player_SkillManager skillManager { get; private set; }
     public Player_VFX vfx { get; private set; }
+    public Player_Health health { get; private set; }
+    public Entity_StatusHandler statusHandler { get; private set; }
 
     private UI ui;
 
@@ -42,6 +44,7 @@ public class Player_Brain : Entity_Brain
     public Player_PrimaryAttackState primaryAttackState { get; private set; }
     public Player_DeathState deathState { get; private set; }
     public Player_CounterAttackState counterAttackState { get; private set; }
+    public Player_ThrowingState throwingState { get; private set; }
     #endregion
 
 
@@ -49,10 +52,13 @@ public class Player_Brain : Entity_Brain
     protected override void Awake()
     {
         base.Awake();
+        
         ui = FindAnyObjectByType<UI>(); // heavy on preformance, NEVER Do in the update. ok to do once in the awake or start.
         playerMovement = GetComponent<Player_Movement>();
         skillManager = GetComponent<Player_SkillManager>();
         vfx = GetComponent<Player_VFX>();
+        statusHandler = GetComponent<Entity_StatusHandler>();
+        health = GetComponent<Player_Health>();
 
         playerInputActions = new PlayerInputActions();
 
@@ -63,6 +69,7 @@ public class Player_Brain : Entity_Brain
         primaryAttackState = new Player_PrimaryAttackState(this, stateMachine, "IsAttacking");
         deathState = new Player_DeathState(this, stateMachine, "IsDead");
         counterAttackState = new Player_CounterAttackState(this, stateMachine, "TryCounterAttack");
+        throwingState = new Player_ThrowingState(this, stateMachine, "IsThrowing");
 
         heroIdentityVisuals.SetActive(isHero); // Show hero visuals if isHero is true
         secretIdentityVisuals.SetActive(!isHero); // Show secret identity visuals if isHero is false

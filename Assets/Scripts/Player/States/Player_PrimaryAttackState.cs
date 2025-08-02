@@ -11,7 +11,7 @@ public class Player_PrimaryAttackState : PlayerState
 
 
      
-      public Player_PrimaryAttackState(Player_Brain playerBrain, StateMachine stateMachine,  string animBoolName) : base(playerBrain, stateMachine,  animBoolName)
+    public Player_PrimaryAttackState(Player_Brain playerBrain, StateMachine stateMachine,  string animBoolName) : base(playerBrain, stateMachine,  animBoolName)
     {
     }
 

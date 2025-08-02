@@ -120,33 +120,34 @@ public class Entity_Stats : MonoBehaviour
     {   
         float bonusElementalDamage = majorStats.intelligence.GetValue(); // 1 point of intelligence gives 1 point of bonus elemental damage
 
-        float raw = 0f; //?
+        float forcedElementalDamage = 0f; //?
         switch (element)
         {
             case ElementType.Fire:
-                raw = offenseStats.fireDamage.GetValue();
+                forcedElementalDamage = offenseStats.fireDamage.GetValue();
                 break;
             case ElementType.Ice:
-                raw = offenseStats.iceDamage.GetValue();
+                forcedElementalDamage = offenseStats.iceDamage.GetValue();
                 break;
             case ElementType.Lightning:
-                raw = offenseStats.lightningDamage.GetValue();
+                forcedElementalDamage = offenseStats.lightningDamage.GetValue();
                 break;
             case ElementType.Poison:
-                raw = offenseStats.lightningDamage.GetValue();
+                forcedElementalDamage = offenseStats.lightningDamage.GetValue();
                 break;
             case ElementType.Holy:
-                raw = offenseStats.lightningDamage.GetValue();
+                forcedElementalDamage = offenseStats.lightningDamage.GetValue();
                 break;
             case ElementType.Dark:
-                raw = offenseStats.lightningDamage.GetValue();
+                forcedElementalDamage = offenseStats.lightningDamage.GetValue();
                 break;
             default:
                 return 0f; // None or unhandled
         }
         // apply your intelligence bonus
-        raw += bonusElementalDamage;
-        return raw * scaleFactor;
+        forcedElementalDamage += bonusElementalDamage;
+        float finalForcedElementalDamage = forcedElementalDamage * scaleFactor;
+        return finalForcedElementalDamage;
     }   
 
     [SerializeField] private float currentHealth;

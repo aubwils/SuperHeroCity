@@ -153,6 +153,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RangeAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""9335edb2-2471-4b03-a416-9d99b8e03f1f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -353,6 +362,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SkillTwo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df9e0c7e-5591-434b-bbcd-5d74da200b26"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RangeAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e69f0e60-95aa-4fd9-9cde-7fee90847bcd"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard & Mouse"",
+                    ""action"": ""RangeAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -385,6 +416,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_ToggleSkillTreeUI = m_Player.FindAction("ToggleSkillTreeUI", throwIfNotFound: true);
         m_Player_SkillOne = m_Player.FindAction("SkillOne", throwIfNotFound: true);
         m_Player_SkillTwo = m_Player.FindAction("SkillTwo", throwIfNotFound: true);
+        m_Player_RangeAttack = m_Player.FindAction("RangeAttack", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -472,6 +504,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ToggleSkillTreeUI;
     private readonly InputAction m_Player_SkillOne;
     private readonly InputAction m_Player_SkillTwo;
+    private readonly InputAction m_Player_RangeAttack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -511,6 +544,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/SkillTwo".
         /// </summary>
         public InputAction @SkillTwo => m_Wrapper.m_Player_SkillTwo;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/RangeAttack".
+        /// </summary>
+        public InputAction @RangeAttack => m_Wrapper.m_Player_RangeAttack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -558,6 +595,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SkillTwo.started += instance.OnSkillTwo;
             @SkillTwo.performed += instance.OnSkillTwo;
             @SkillTwo.canceled += instance.OnSkillTwo;
+            @RangeAttack.started += instance.OnRangeAttack;
+            @RangeAttack.performed += instance.OnRangeAttack;
+            @RangeAttack.canceled += instance.OnRangeAttack;
         }
 
         /// <summary>
@@ -590,6 +630,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SkillTwo.started -= instance.OnSkillTwo;
             @SkillTwo.performed -= instance.OnSkillTwo;
             @SkillTwo.canceled -= instance.OnSkillTwo;
+            @RangeAttack.started -= instance.OnRangeAttack;
+            @RangeAttack.performed -= instance.OnRangeAttack;
+            @RangeAttack.canceled -= instance.OnRangeAttack;
         }
 
         /// <summary>
@@ -692,5 +735,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSkillTwo(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RangeAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRangeAttack(InputAction.CallbackContext context);
     }
 }
