@@ -9,38 +9,34 @@ public class Skill_ThrowableObject : Skill_Base
     [SerializeField] private GameObject throwableObjectPrefab;
 
     [Header("Throw Settings")]
-    [Range(0f, 20f)]
-    [Tooltip("How fast (units/sec) the object travels.")]
+    [Tooltip("How fast (units/sec) the object travels along the ground.")]
     [SerializeField] private float throwSpeed = 10f;
-    [Tooltip("Seconds to travel the full throwRange.")]
-    [SerializeField] private float baseFlightTime = 1f;
     [Tooltip("Max ground-distance the player can throw.")]
     [SerializeField] private float throwRange = 8f;
-    [Tooltip("Vertical lift at max range (0 = straight).")]
+    [Tooltip("Vertical lift at max range (0 = straight line).")]
     [SerializeField] private float maxArcHeight = 2f;
 
     [Header("Trajectory Preview Dots")]
-    [Tooltip("Small sprite—scale it in its own prefab.")]
+    [Tooltip("Prefab should be a small sprite; scale it in its own Inspector.")]
     [SerializeField] private GameObject predictionDotPrefab;
-    [SerializeField] private int maxDots = 20;      // cap on preview circles
-    [SerializeField] private float dotSpacing = 0.5f;    // world units between dots
+    [SerializeField] private int maxDots = 20;    // cap on dots
+    [SerializeField] private float dotSpacing = 0.5f;  // world units between dots
 
-    // runtime state
+    // runtime state for preview & throw
     private Transform[] dots;
     private Vector2 confirmedDirection;
     private float confirmedDistance;
     private float confirmedFlightTime;
 
-    // make these available for the spawned object
+    // Exposed for the projectile setup
     public float ThrowSpeed => throwSpeed;
-    public float BaseFlightTime => baseFlightTime;
     public float ThrowRange => throwRange;
     public float MaxArcHeight => maxArcHeight;
 
     protected override void Awake()
     {
         base.Awake();
-        // pool our dot instances
+        // Pre‐instantiate dot pool
         dots = new Transform[maxDots];
         for (int i = 0; i < maxDots; i++)
         {
@@ -50,34 +46,36 @@ public class Skill_ThrowableObject : Skill_Base
         }
     }
 
-    /// <summary>Show N dots evenly—no more than maxDots—clamped by throwRange.</summary>
+    /// <summary>
+    /// Call every frame while aiming to show dots.
+    /// </summary>
     public void PredictTrajectory(Vector2 direction)
     {
         Vector2 origin = (Vector2)transform.position;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(playerBrain.mousePosition);
 
-        // 1) clamp ground distance against throwRange
-        float desiredDist = Vector2.Distance(origin, mousePos);
-        float actualDist = Mathf.Min(desiredDist, throwRange);
+        // 1) clamp distance to throwRange
+        float desired = Vector2.Distance(origin, mousePos);
+        float actual = Mathf.Min(desired, throwRange);
 
-        // 2) landing spot
-        Vector2 targetPos = origin + direction.normalized * actualDist;
+        // 2) compute target position
+        Vector2 target = origin + direction.normalized * actual;
 
         // 3) how many dots?
         int dotCount = Mathf.Clamp(
-            Mathf.CeilToInt(actualDist / dotSpacing),
+            Mathf.CeilToInt(actual / dotSpacing),
             1,
             maxDots
         );
 
-        // 4) place each dot 0→1 fraction along origin→target
+        // 4) place dots evenly
         for (int i = 0; i < maxDots; i++)
         {
             if (i < dotCount)
             {
                 float tNorm = (dotCount == 1) ? 1f : (float)i / (dotCount - 1);
-                Vector2 worldPos = Vector2.Lerp(origin, targetPos, tNorm);
-                dots[i].position = worldPos;
+                Vector2 pos = Vector2.Lerp(origin, target, tNorm);
+                dots[i].position = pos;
                 dots[i].gameObject.SetActive(true);
             }
             else
@@ -88,22 +86,24 @@ public class Skill_ThrowableObject : Skill_Base
     }
 
     /// <summary>
-    /// Call on button‐release: determine final distance & flight time.
+    /// Call on release to finalize direction, distance & flight time.
     /// </summary>
     public void ConfirmTrajectory(Vector2 direction)
     {
         Vector2 origin = (Vector2)transform.position;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(playerBrain.mousePosition);
 
-        float desiredDist = Vector2.Distance(origin, mousePos);
-        confirmedDistance = Mathf.Min(desiredDist, throwRange);
+        float desired = Vector2.Distance(origin, mousePos);
+        confirmedDistance = Mathf.Min(desired, throwRange);
 
-        // shorter throws take proportionally less time
-        confirmedFlightTime = baseFlightTime * (confirmedDistance / throwRange);
+        // time = distance ÷ speed
+        confirmedFlightTime = confirmedDistance / throwSpeed;
         confirmedDirection = direction.normalized;
     }
 
-    /// <summary>Spawn the actual projectile with your computed params.</summary>
+    /// <summary>
+    /// Spawn the projectile with your computed parameters.
+    /// </summary>
     public void ThrowObject()
     {
         var obj = Instantiate(throwableObjectPrefab, transform.position, Quaternion.identity);
@@ -118,19 +118,23 @@ public class Skill_ThrowableObject : Skill_Base
         }
     }
 
-    /// <summary>Turn all preview dots on or off.</summary>
+    /// <summary>
+    /// Toggle preview dots on/off.
+    /// </summary>
     public void EnableDots(bool enable)
     {
         foreach (var d in dots)
             d.gameObject.SetActive(enable);
     }
-    
+
+    // ----------------------------------------------------------------------------
+    // Gizmo: draws a wire circle for throwRange when selected in the Editor
+    // ----------------------------------------------------------------------------
     private void OnDrawGizmosSelected()
     {
-        // only draw if we have a valid range
         if (throwRange > 0f)
         {
-            Gizmos.color = Color.cyan;  
+            Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(transform.position, throwRange);
         }
     }
