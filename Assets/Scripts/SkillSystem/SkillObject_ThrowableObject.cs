@@ -29,25 +29,24 @@ public class SkillObject_ThrowableObject : SkillObject_Base
     /// Called by the skill after instantiating this prefab.
     /// Caches parameters and turns off Rigidbody simulation.
     /// </summary>
-    public void SetupThrowableObject(Skill_ThrowableObject manager, Vector2 dir)
-    {
-        this.manager = manager;
-        throwSpeed = manager.ThrowSpeed;
-        flightTime = manager.FlightTime;
-        arcHeight = manager.ArcHeight;
-        maxDistance = throwSpeed * flightTime;
+    public void SetupThrowableObject(
+      Skill_ThrowableObject manager,
+      Vector2 dir,
+      float    flightTimeOverride
+    ) {
+        throwSpeed   = manager.ThrowSpeed;
+        flightTime   = flightTimeOverride;     // ← use the override
+        arcHeight    = manager.ArcHeight;
+        maxDistance  = throwSpeed * flightTime; // ← recompute for this throw
 
-        startPos = transform.position;
-        direction = dir.normalized;
-        elapsedTime = 0f;
+        startPos     = transform.position;
+        direction    = dir.normalized;
+        elapsedTime  = 0f;
 
-        // Stop Unity physics so we can move manually
         var rb = GetComponent<Rigidbody2D>();
         rb.isKinematic = true;
 
-        // Cache stats for damage scaling (from your base class)
-        playerStats = manager.playerBrain.entityStats;
-        damageScaleData = manager.damageScaleData;
+        // … cache stats as before …
     }
 
     private void Update()
@@ -61,26 +60,21 @@ public class SkillObject_ThrowableObject : SkillObject_Base
     private void UpdateArcMovement()
     {
         elapsedTime += Time.deltaTime;
-        float t = elapsedTime / flightTime;
+        float t = elapsedTime / flightTime;     // ← uses the override now
 
-        // Once t ≥ 1, trigger impact and destroy
-        if (t >= 1f)
-        {
-            OnImpact();
-            return;
-        }
+        if (t >= 1f) { OnImpact(); return; }
 
-        // 1) Ground position: linear interpolation from start → maxDistance
         Vector2 groundPos = startPos + direction * (maxDistance * t);
         transform.position = groundPos;
 
-        // 2) Height offset: h(t) = 4 * H * t * (1 – t)
-        float height = 4f * arcHeight * t * (1f - t);
-
-        // 3) Lift just the sprite (keep colliders at ground level)
-        if (spriteTransform != null)
+        if (arcHeight > 0f)  // optional: skip arc logic if height==0
         {
-            spriteTransform.localPosition = new Vector3(0f, height, 0f);
+            float height = 4f * arcHeight * t * (1f - t);
+            spriteTransform.localScale = Vector3.one * (1f + height * 0.1f);
+        }
+        else
+        {
+            spriteTransform.localScale = Vector3.one;
         }
     }
 

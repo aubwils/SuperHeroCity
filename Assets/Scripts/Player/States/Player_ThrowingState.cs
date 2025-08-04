@@ -25,14 +25,9 @@ public class Player_ThrowingState : PlayerState
         base.Update();
 
         Vector2 directionToMouse = DirectionToMouse();
-        // Movement is currentl locked, need to add it so you can move while aiming and then will need to figur eout how to do animation for moving while aiming and then also should be able to change aim direction while movign based on where the mouse it.
-        // turning movement... 
-        // platofrmer tutorial does it like this:
-        // playerbrain.HandleFlip(dirToMouse.x);
         playerBrain.HandleFacing(directionToMouse);
+
         skillManager.throwableObject.PredictTrajectory(directionToMouse);
-
-
 
         if (playerBrain.playerInputActions.Player.Attack.WasPressedThisFrame())
         {
@@ -60,7 +55,7 @@ public class Player_ThrowingState : PlayerState
     private Vector2 DirectionToMouse()
     {
         Vector2 playerPosition = playerBrain.transform.position;
-        Vector2 worldMousePosition = mainCamera.ScreenToWorldPoint(playerBrain.mousePosition);
+        Vector2 worldMousePosition = playerBrain.GetWorldMousePosition();
 
         Vector2 direction = worldMousePosition - playerPosition;
 

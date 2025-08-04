@@ -23,6 +23,8 @@ public class Player_Brain : Entity_Brain
 
     public PlayerInputActions playerInputActions;
     public Vector2 mousePosition { get; private set; }
+    private Vector2 worldMousePosition;
+    private Camera mainCamera;
 
     public Player_Movement playerMovement { get; private set; }
     public Player_SkillManager skillManager { get; private set; }
@@ -53,6 +55,8 @@ public class Player_Brain : Entity_Brain
     protected override void Awake()
     {
         base.Awake();
+        if (mainCamera != Camera.main)
+            mainCamera = Camera.main;
 
         ui = FindAnyObjectByType<UI>(); // heavy on preformance, NEVER Do in the update. ok to do once in the awake or start.
         playerMovement = GetComponent<Player_Movement>();
@@ -60,6 +64,7 @@ public class Player_Brain : Entity_Brain
         vfx = GetComponent<Player_VFX>();
         statusHandler = GetComponent<Entity_StatusHandler>();
         health = GetComponent<Player_Health>();
+
 
         playerInputActions = new PlayerInputActions();
 
@@ -182,7 +187,7 @@ public class Player_Brain : Entity_Brain
     {
         return playerMovement.GetLastMovementDirection();
     }
-    
+
     public bool CanMoveInCurrentState()
     {
         var currentState = StateMachine.currentState;
@@ -190,5 +195,9 @@ public class Player_Brain : Entity_Brain
             currentState is Player_ThrowingState;
     }
 
+    public Vector2 GetWorldMousePosition()
+    {
+        return worldMousePosition = mainCamera.ScreenToWorldPoint(mousePosition);
+    }
 
 }

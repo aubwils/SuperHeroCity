@@ -21,6 +21,8 @@ public class Skill_ThrowableObject : Skill_Base
     // Cached for preview + throw
     private Transform[] dots;
     private Vector2      confirmedDirection;
+    private float confirmedDistance;
+    private float confirmedFlightTime;
 
     // Expose for the thrown‐object setup
     public float ThrowSpeed => throwSpeed;
@@ -47,10 +49,13 @@ public class Skill_ThrowableObject : Skill_Base
     public void ThrowObject()
     {
         // Spawn the projectile at your player’s position
-        var obj = Instantiate(throwableObjectPrefab, dots[1].position, Quaternion.identity);
+        var obj = Instantiate(throwableObjectPrefab, transform.position, Quaternion.identity);
         if (obj.TryGetComponent<SkillObject_ThrowableObject>(out var comp))
         {
-            comp.SetupThrowableObject(this, confirmedDirection);
+            // pass the per‐throw time instead of manager.FlightTime
+            comp.SetupThrowableObject(this,
+                                     confirmedDirection,
+                                     confirmedFlightTime);
         }
     }
 
@@ -59,28 +64,57 @@ public class Skill_ThrowableObject : Skill_Base
     /// </summary>
     public void PredictTrajectory(Vector2 direction)
     {
+        Vector2 origin   = (Vector2)transform.position;
+        float   maxDist  = throwSpeed * baseFlightTime;
+
+        // previewDistance matches the clamp logic above
+        float previewDist = Mathf.Min(
+            Vector2.Distance(origin, Camera.main.ScreenToWorldPoint(playerBrain.mousePosition)),
+            maxDist
+        );
+
+        // previewTime is based on that distance
+        float previewTime = previewDist / throwSpeed;
+
         for (int i = 0; i < numberOfDots; i++)
         {
-            float t = timeBetweenDots * i;
-            // Clamp so t never exceeds your flight time
-            t = Mathf.Min(t, baseFlightTime);
+            // EVENLY space tNorm from 0→1
+            float tNorm = (float)i / (numberOfDots - 1);
 
-            // Ground‐only position: start + dir * (speed * t)
-            Vector2 pos = (Vector2)transform.position
-                        + direction.normalized * (throwSpeed * t);
+            // ground position at this fraction of the throw
+            Vector2 groundPos = origin + direction.normalized * (previewDist * tNorm);
 
-            dots[i].position = pos;
+            // same arc formula (will collapse to 0 if arcHeight==0)
+            float height   = 4f * arcHeight * tNorm * (1f - tNorm);
+            float scale    = 1f + height * 0.1f;
+
+            dots[i].position   = groundPos;
+            dots[i].localScale = Vector3.one * scale;
             dots[i].gameObject.SetActive(true);
         }
     }
 
     /// <summary>
-    /// Store the final direction to pass into ThrowObject().
+    /// Store the final direction & flightTime so the throw lands exactly where the mouse is,
+    /// but no farther than max range.
     /// </summary>
-    public void ConfirmTrajectory(Vector2 direction)
+    public void ConfirmTrajectory(Vector2 dir)
     {
-        confirmedDirection = direction.normalized;
+        Vector2 origin = (Vector2)transform.position;
+        Vector2 mouseWorld = Camera.main.ScreenToWorldPoint(playerBrain.mousePosition);
+        float maxDist = throwSpeed * baseFlightTime;
+        float distToMouse = Vector2.Distance(origin, mouseWorld);
+
+        // 1) clamp distance (so you don’t exceed max range)
+        confirmedDistance = Mathf.Min(distToMouse, maxDist);
+
+        // 2) compute the exact flight time you need
+        confirmedFlightTime = confirmedDistance / throwSpeed;
+
+        // 3) store direction as usual
+        confirmedDirection = dir.normalized;
     }
+
 
     /// <summary>
     /// Toggle all your preview dots on/off.
