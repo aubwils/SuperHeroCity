@@ -47,7 +47,7 @@ public class Skill_ThrowableObject : Skill_Base
     public void ThrowObject()
     {
         // Spawn the projectile at your player’s position
-        var obj = Instantiate(throwableObjectPrefab, transform.position, Quaternion.identity);
+        var obj = Instantiate(throwableObjectPrefab, dots[1].position, Quaternion.identity);
         if (obj.TryGetComponent<SkillObject_ThrowableObject>(out var comp))
         {
             comp.SetupThrowableObject(this, confirmedDirection);
