@@ -36,6 +36,7 @@ public class Skill_ThrowableObject : Skill_Base
     protected override void Awake()
     {
         base.Awake();
+
         // Pre‐instantiate dot pool
         dots = new Transform[maxDots];
         for (int i = 0; i < maxDots; i++)
@@ -46,29 +47,28 @@ public class Skill_ThrowableObject : Skill_Base
         }
     }
 
-    /// <summary>
+
     /// Call every frame while aiming to show dots.
-    /// </summary>
     public void PredictTrajectory(Vector2 direction)
     {
         Vector2 origin = (Vector2)transform.position;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(playerBrain.mousePosition);
 
-        // 1) clamp distance to throwRange
+        // clamp distance to throwRange
         float desired = Vector2.Distance(origin, mousePos);
         float actual = Mathf.Min(desired, throwRange);
 
-        // 2) compute target position
+        // target position
         Vector2 target = origin + direction.normalized * actual;
 
-        // 3) how many dots?
+        // how many dots?
         int dotCount = Mathf.Clamp(
             Mathf.CeilToInt(actual / dotSpacing),
             1,
             maxDots
         );
 
-        // 4) place dots evenly
+        // place dots evenly
         for (int i = 0; i < maxDots; i++)
         {
             if (i < dotCount)
@@ -85,9 +85,7 @@ public class Skill_ThrowableObject : Skill_Base
         }
     }
 
-    /// <summary>
     /// Call on release to finalize direction, distance & flight time.
-    /// </summary>
     public void ConfirmTrajectory(Vector2 direction)
     {
         Vector2 origin = (Vector2)transform.position;
@@ -101,15 +99,12 @@ public class Skill_ThrowableObject : Skill_Base
         confirmedDirection = direction.normalized;
     }
 
-    /// <summary>
-    /// Spawn the projectile with your computed parameters.
-    /// </summary>
     public void ThrowObject()
     {
-        var obj = Instantiate(throwableObjectPrefab, transform.position, Quaternion.identity);
-        if (obj.TryGetComponent<SkillObject_ThrowableObject>(out var comp))
+        var thrownObject = Instantiate(throwableObjectPrefab, dots[1].position, Quaternion.identity);
+        if (thrownObject.TryGetComponent<SkillObject_ThrowableObject>(out var throwableObject))
         {
-            comp.SetupThrowableObject(
+            throwableObject.SetupThrowableObject(
                 this,
                 confirmedDirection,
                 confirmedFlightTime,
@@ -118,18 +113,12 @@ public class Skill_ThrowableObject : Skill_Base
         }
     }
 
-    /// <summary>
-    /// Toggle preview dots on/off.
-    /// </summary>
     public void EnableDots(bool enable)
     {
         foreach (var d in dots)
             d.gameObject.SetActive(enable);
     }
 
-    // ----------------------------------------------------------------------------
-    // Gizmo: draws a wire circle for throwRange when selected in the Editor
-    // ----------------------------------------------------------------------------
     private void OnDrawGizmosSelected()
     {
         if (throwRange > 0f)

@@ -17,8 +17,10 @@ public class SkillObject_ThrowableObject : SkillObject_Base
     private Vector2 direction;
     private float   elapsedTime;
 
-    [Tooltip("Child Transform containing your sprite or shadow.")]
+    [Tooltip("Child Transform containing your sprite")]
     [SerializeField] private Transform spriteTransform;
+    [Tooltip("If you had to rotate the sprite to get it straight, add the same Rotation offset (in degrees) to correct sprite alignment")]
+    [SerializeField] private float rotationOffset = 0f;
 
     /// <summary>
     /// manager:  the Skill_ThrowableObject component  
@@ -26,31 +28,30 @@ public class SkillObject_ThrowableObject : SkillObject_Base
     /// time:     seconds the object remains in flight  
     /// dist:     ground distance to travel  
     /// </summary>
-    public void SetupThrowableObject(
-        Skill_ThrowableObject manager,
-        Vector2                  dir,
-        float                     time,
-        float                     dist
-    )
+    public void SetupThrowableObject(Skill_ThrowableObject manager, Vector2 dir, float time, float dist)
     {
         // cache values
-        throwSpeed   = manager.ThrowSpeed;
-        flightTime   = time;
-        maxDistance  = dist;
+        throwSpeed = manager.ThrowSpeed;
+        flightTime = time;
+        maxDistance = dist;
 
         // scale arc height by normalized distance (0 at point-blank → 1 at full range)
-        arcHeight    = manager.MaxArcHeight * Mathf.Clamp01(dist / manager.ThrowRange);
+        arcHeight = manager.MaxArcHeight * Mathf.Clamp01(dist / manager.ThrowRange);
 
-        startPos     = transform.position;
-        direction    = dir;
-        elapsedTime  = 0f;
+        startPos = transform.position;
+        direction = dir;
+        elapsedTime = 0f;
 
         // disable built-in physics
-        if (TryGetComponent<Rigidbody2D>(out var rb))
-            rb.isKinematic = true;
+        // if (TryGetComponent<Rigidbody2D>(out var rb))
+        //     rb.isKinematic = true;
+
+        // Rotate sprite to match direction + offset
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        spriteTransform.rotation = Quaternion.Euler(0f, 0f, angle + rotationOffset);
 
         // cache for damage logic
-        playerStats     = manager.playerBrain.entityStats;
+        playerStats = manager.playerBrain.entityStats;
         damageScaleData = manager.damageScaleData;
     }
 
