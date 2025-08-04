@@ -7,83 +7,85 @@ using UnityEngine;
 /// </summary>
 public class SkillObject_ThrowableObject : SkillObject_Base
 {
-    //–– Configuration passed in from the skill
-    private float throwSpeed;    // horizontal units/sec
-    private float flightTime;    // total seconds in air
-    private float arcHeight;     // max “lift” in world units
-    private float maxDistance;   // throwSpeed * flightTime
+    private float throwSpeed;
+    private float flightTime;
+    private float arcHeight;
+    private float maxDistance;
 
-    //–– Runtime tracking
-    private Vector2 startPos;    // ground‐plane origin
-    private Vector2 direction;   // normalized throw direction
-    private float elapsedTime;   // how long we’ve been flying
+    private Vector2 startPos;
+    private Vector2 direction;
+    private float   elapsedTime;
 
-    //–– Sprite child to lift up/down, so physics/colliders stay at ground level
-    [Tooltip("Assign the child transform containing your character sprite or shadow.")]
+    [Tooltip("Child transform containing your sprite or shadow.")]
     [SerializeField] private Transform spriteTransform;
 
-    //–– Reference back to the manager for stats/damage scaling
-    private Skill_ThrowableObject manager;
-
     /// <summary>
-    /// Called by the skill after instantiating this prefab.
-    /// Caches parameters and turns off Rigidbody simulation.
+    /// manager:   the Skill_ThrowableObject that spawned this  
+    /// dir:       normalized direction of the throw  
+    /// time:      how long (seconds) it should stay aloft  
+    /// dist:      how far it travels along the ground  
     /// </summary>
     public void SetupThrowableObject(
-      Skill_ThrowableObject manager,
-      Vector2 dir,
-      float    flightTimeOverride
-    ) {
+        Skill_ThrowableObject manager,
+        Vector2                  dir,
+        float                     time,
+        float                     dist
+    )
+    {
         throwSpeed   = manager.ThrowSpeed;
-        flightTime   = flightTimeOverride;     // ← use the override
-        arcHeight    = manager.ArcHeight;
-        maxDistance  = throwSpeed * flightTime; // ← recompute for this throw
+        flightTime   = time;
+        maxDistance  = dist;
+
+        // scale arc height by distance ratio (0→1)
+        float fullRange   = manager.ThrowSpeed * manager.BaseFlightTime;
+        float ratio       = Mathf.Clamp01(dist / fullRange);
+        arcHeight        = manager.MaxArcHeight * ratio;
 
         startPos     = transform.position;
-        direction    = dir.normalized;
+        direction    = dir;
         elapsedTime  = 0f;
 
-        var rb = GetComponent<Rigidbody2D>();
-        rb.isKinematic = true;
+        // disable physics bodies
+        if (TryGetComponent<Rigidbody2D>(out var rb))
+            rb.isKinematic = true;
 
-        // … cache stats as before …
+        // cache for damage
+        playerStats     = manager.playerBrain.entityStats;
+        damageScaleData = manager.damageScaleData;
     }
 
     private void Update()
     {
-        UpdateArcMovement();
-    }
-
-    /// <summary>
-    /// Moves the object along a parabola until it “lands.”
-    /// </summary>
-    private void UpdateArcMovement()
-    {
         elapsedTime += Time.deltaTime;
-        float t = elapsedTime / flightTime;     // ← uses the override now
+        float t = elapsedTime / flightTime;
 
-        if (t >= 1f) { OnImpact(); return; }
-
-        Vector2 groundPos = startPos + direction * (maxDistance * t);
-        transform.position = groundPos;
-
-        if (arcHeight > 0f)  // optional: skip arc logic if height==0
+        if (t >= 1f)
         {
-            float height = 4f * arcHeight * t * (1f - t);
-            spriteTransform.localScale = Vector3.one * (1f + height * 0.1f);
+            // snap to final ground pos
+            transform.position = startPos + direction * maxDistance;
+            OnImpact();
+            return;
+        }
+
+        // ground move
+        Vector2 ground = startPos + direction * (maxDistance * t);
+        transform.position = ground;
+
+        // vertical arc lift
+        if (arcHeight > 0f)
+        {
+            float h = 4f * arcHeight * t * (1f - t);
+            spriteTransform.localPosition = new Vector3(0f, h, 0f);
         }
         else
         {
-            spriteTransform.localScale = Vector3.one;
+            spriteTransform.localPosition = Vector3.zero;
         }
     }
 
-    /// <summary>
-    /// Cleanup / impact logic here (explosion, damage, VFX, etc.).
-    /// </summary>
     private void OnImpact()
     {
-        // TODO: Deal damage or spawn effects via your manager or VFX system
+        DamageEnemiesInRadius(transform, damageRadius);
         Destroy(gameObject);
     }
 
