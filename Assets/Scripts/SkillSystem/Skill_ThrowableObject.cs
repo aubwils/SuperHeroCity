@@ -127,4 +127,10 @@ public class Skill_ThrowableObject : Skill_Base
             Gizmos.DrawWireSphere(transform.position, throwRange);
         }
     }
+    // if item is a sharp sword or somethgin similar it should stick into objects or enemies if it hits it and then player can retreive it form them
+    //woudl move with enemy if enemy moves.
+    // if its blunt it would hit it and stop and not stay stuc on theat.
+    // need to ensure weapon cant be stuck ina location we cant get it from again. or maybe a skill to auto retreive weapon.
+    
+    // aim should only happen if have. athrowable object in our "hand"/ selected/equipped.. 
 }
