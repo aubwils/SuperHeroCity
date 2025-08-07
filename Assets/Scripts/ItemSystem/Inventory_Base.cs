@@ -29,13 +29,27 @@ public class Inventory_Base : MonoBehaviour
         return false;
     }
 
+    public Inventory_Item StackableItem(Inventory_Item itemToAdd)
+    {
+        List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
+
+        foreach (var stackableItem in stackableItems)
+        {
+            if (stackableItem.CanAddStack())
+                return stackableItem;
+        }
+        return null;
+    }
+
     public void AddItemToInventory(Inventory_Item itemtoAdd)
     {
 
         Inventory_Item itemInInventory = FindItemInInventory(itemtoAdd.itemData);
+        // look for an existing stack of *this* item
+        var existingStackable = StackableItem(itemtoAdd);
 
-        if (itemInInventory != null && itemInInventory.CanAddStack())
-            itemInInventory.AddStack();
+        if (existingStackable != null)
+            existingStackable.AddStack();
         else
             itemList.Add(itemtoAdd);
 

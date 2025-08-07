@@ -47,21 +47,30 @@ public class Inventory_Player : Inventory_Base
         RemoveItemFromInventory(itemToEquip);
     }
 
-    public void UnEquipItem(Inventory_Item itemToUnEquip)
+    public void UnEquipItem(Inventory_Item )
     {
-        if (CanAddItem() == false)
+        if (!CanAddItem())
         {
-            Debug.Log("No Space in Inventory!");
+            Debug.Log("No space to unequip!");
             return;
         }
 
-        foreach (var slot in playerEquipmentList)
+        // 1) Find the one slot that has this item
+        var slot = playerEquipmentList.Find(s => s.equipedItem == itemToUnEquip);
+
+        if (slot == null)
         {
-            slot.equipedItem = null;
-            break;
+            Debug.LogWarning("Tried to unequip an item not in any slot!");
+            return;
         }
 
+        // 2) Remove its stat modifiers
         itemToUnEquip.RemoveModifiers(playerStats);
+
+        // 3) Clear only that slot
+        slot.equipedItem = null;
+
+        // 4) Return the item to your bag
         AddItemToInventory(itemToUnEquip);
     }
 
