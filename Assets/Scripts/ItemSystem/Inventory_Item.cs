@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Inventory_Item
 {
+    private string itemId;
     public ItemDataSO itemData;
     public int stackSize = 1; // default stack size when creating it is one by default
 
@@ -17,6 +18,9 @@ public class Inventory_Item
         this.itemData = itemData;
 
         modifiers = EquipmentData()?.modifiers;
+
+        itemId = itemData.itemName + " - " + Guid.NewGuid(); // whats guid.newguid()?
+
     }
 
     public void AddModifiers(Entity_Stats playerstats)
@@ -24,7 +28,7 @@ public class Inventory_Item
         foreach (var mod in modifiers)
         {
             Stat statToModify = playerstats.GetStatByType(mod.statType);
-            statToModify.AddModifier(mod.value, itemData.itemName); // will need to change this cant just use item name because dont want to be bale to use same item with the same name. for now ok
+            statToModify.AddModifier(mod.value, itemId); 
         }
     }
 
@@ -33,7 +37,7 @@ public class Inventory_Item
         foreach (var mod in modifiers)
         {
             Stat statToModify = playerstats.GetStatByType(mod.statType);
-            statToModify.RemoveModifier(itemData.itemName); 
+            statToModify.RemoveModifier(itemId); 
 
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Inventory_Base : MonoBehaviour
@@ -10,14 +11,30 @@ public class Inventory_Base : MonoBehaviour
     public int maxInventorySize = 10;
     public List<Inventory_Item> itemList = new List<Inventory_Item>();
 
-    public bool CanAddItem() => itemList.Count < maxInventorySize;
+    protected virtual void Awake()
+    {
+        
+    }
 
-    public void AddItem(Inventory_Item itemtoAdd)
+    public bool CanAddItem() => itemList.Count < maxInventorySize;
+    public bool CanAddToStack(Inventory_Item itemToAdd)
+    {
+        List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
+        foreach (var stack in stackableItems)
+        {
+            if (stack.CanAddStack())
+                return true;
+        }
+
+        return false;
+    }
+
+    public void AddItemToInventory(Inventory_Item itemtoAdd)
     {
 
-        Inventory_Item itemInInventory = FindItem(itemtoAdd.itemData);
+        Inventory_Item itemInInventory = FindItemInInventory(itemtoAdd.itemData);
 
-        if (itemInInventory != null)
+        if (itemInInventory != null && itemInInventory.CanAddStack())
             itemInInventory.AddStack();
         else
             itemList.Add(itemtoAdd);
@@ -25,9 +42,14 @@ public class Inventory_Base : MonoBehaviour
         OnInventoryChange?.Invoke();
     }
 
-    public Inventory_Item FindItem(ItemDataSO itemData)
+    public void RemoveItemFromInventory(Inventory_Item itemToRemove)
     {
-        return itemList.Find(item => item.itemData == itemData && item.CanAddStack());
-        // find all elements with the item dat we pass through and at the same time should be can add stack true
+        itemList.Remove(FindItemInInventory(itemToRemove.itemData));
+        OnInventoryChange?.Invoke();
+    }
+
+    public Inventory_Item FindItemInInventory(ItemDataSO itemData)
+    {
+        return itemList.Find(item => item.itemData == itemData);
     }
 }
