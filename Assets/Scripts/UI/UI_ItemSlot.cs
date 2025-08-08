@@ -31,8 +31,9 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         playerInventory.TryEquipItem(itemInSlot);
 
-        if(itemInSlot == null)
+        if (itemInSlot == null)
             ui.itemToolTip.ShowToolTip(false, null);
+            //Still need to fix if you equip somehtign an dinventory changes and your mouse is on another item it still shows old tool tip.
 
     }
 

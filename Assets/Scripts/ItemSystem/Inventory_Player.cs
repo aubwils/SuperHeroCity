@@ -64,12 +64,12 @@ public class Inventory_Player : Inventory_Base
             return;
         }
 
-        // 2) Remove its stat modifiers
-        itemToUnEquip.RemoveModifiers(playerStats);
 
         // 3) Clear only that slot
         slot.equipedItem = null;
 
+        // 2) Remove its stat modifiers
+        itemToUnEquip.RemoveModifiers(playerStats);
         // 4) Return the item to your bag
         AddItemToInventory(itemToUnEquip);
     }

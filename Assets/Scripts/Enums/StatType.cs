@@ -38,5 +38,7 @@ public enum StatType
     ManaRegen,
 
     MaxStamina,
-    StaminaRegen
+    StaminaRegen,
+
+    ElementalDamage
 }

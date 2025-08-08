@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Entity_Stats : MonoBehaviour
 {
@@ -167,35 +168,33 @@ public class Entity_Stats : MonoBehaviour
 
     public float GetPhysicalDamage(out bool isCrit, float scaleFactor = 1f) //Craeteinga variable only used in this method and out is saying you can get information OUT of this method when you call it.
     {
-        float baseDamage = offenseStats.damage.GetValue();
-        float bonusDamage = majorStats.strength.GetValue();
-        float totalBaseDamage = baseDamage + bonusDamage;
+        float baseDamage = GetBaseDamage();
+        float baseCritChance = GetCritChance();
+        float baseCritPower = GetCritPower() / 100f; //// Convert to a multiplier (e.g 150/100 = 1.5f - multiplier)
 
-        float baseCritChance = offenseStats.critChance.GetValue();
-        float bonusCritChance = majorStats.dexterity.GetValue() * 0.3f; // +0.3% Crit Chance per point of dexterity 
-        float totalCritChance = baseCritChance + bonusCritChance;
-
-        float baseCritPower = offenseStats.critPower.GetValue();
-        float bonusCritPower = majorStats.strength.GetValue() * 0.5f; // +0.5% Crit Damage per point of strength
-        float totalCritPower = (baseCritPower + bonusCritPower) / 100f; // Convert to a multiplier
-
-        isCrit = Random.Range(0, 100) < totalCritChance; //bool variable is being decalred at the top.
-        float finalDamage = isCrit ? totalBaseDamage * totalCritPower : totalBaseDamage;
+        isCrit = Random.Range(0, 100) < baseCritChance; //bool variable is being decalred at the top.
+        float finalDamage = isCrit ? baseDamage * baseCritPower : baseDamage;
 
         return finalDamage * scaleFactor; // Scale factor can be used to adjust the final damage output, e.g. for balancing purposes
     }
+    
+    // Bonus Damage from Strength: +1 per STR
+    public float GetBaseDamage() => offenseStats.damage.GetValue() + majorStats.strength.GetValue();
+    // Bonus Crit Change from dexterity: +1 per DEX
+    public float GetCritChance() => offenseStats.critChance.GetValue() + (majorStats.dexterity.GetValue() * 0.3f);
+    // Bonus Crit Power from Strength: +0.5% per STR
+    public float GetCritPower() => offenseStats.critPower.GetValue() + (majorStats.strength.GetValue() * 0.5f);
+
 
     public float GetArmorMitigation(float armorReduction)
     {
-        float baseArmor = defenseStats.armor.GetValue();
-        float bonusArmor = majorStats.constitution.GetValue(); // Bonus armor from constentoution: +1 per con
-        float totalArmor = baseArmor + bonusArmor;
+        float baseArmor = GetBaseArmor();
 
         //take armor reduction and calculate how much armor should be used
         float reductionMultiplier = Mathf.Clamp(1 - armorReduction, 0, 1); // if you pass 1-.4 = .6f .6 is the percentage of armor that will be used to defend on attack.
         // float reductionMultiplier = Mathf.Clamp01(1 - armorReduction); another way to say the above
 
-        float effectiveArmor = totalArmor * reductionMultiplier; // Apply armor reduction to total armor
+        float effectiveArmor = baseArmor * reductionMultiplier; // Apply armor reduction to total armor
 
         float mitigation = effectiveArmor / (effectiveArmor + 100f); // Armor mitigation formula: Armor / (Armor + 100)
         float mitigationCap = 85f; // Max mitigation will be capped at 85%
@@ -204,6 +203,10 @@ public class Entity_Stats : MonoBehaviour
 
         return finalMitigation;
     }
+
+    // Bonus Armor from Constitution: +1 per CON
+    public float GetBaseArmor() => defenseStats.armor.GetValue() + majorStats.constitution.GetValue();
+
 
     public float GetArmorReduction()
     {

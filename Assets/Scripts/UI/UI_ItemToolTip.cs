@@ -40,6 +40,7 @@ public class UI_ItemToolTip : UI_ToolTip
         return stringBuilder.ToString();
     }
 
+    // THESE TWO FUNCTIONS ARE DUPLICATED IN UI_STAT SLOT... maybe make a class they can inherit from or pull from ??
     private string GetStatNameByType(StatType statType)
     {
         switch (statType)
