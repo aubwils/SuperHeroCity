@@ -26,6 +26,9 @@ public class UI_ItemToolTip : UI_ToolTip
         if (item.itemData.itemType == ItemType.Material)
             return "Use for craafting.";
 
+        if (item.itemData.itemType == ItemType.Consumable)
+            return item.itemData.itemEffect.effectDescription;
+
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.AppendLine("");

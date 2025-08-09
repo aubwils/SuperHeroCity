@@ -11,6 +11,7 @@ public class Inventory_Item
     public int stackSize = 1; // default stack size when creating it is one by default
 
     public ItemModifier[] modifiers { get; private set; }
+    public ItemEffect_DataSO itemEffect;
 
     //need constructor so can create item and add to inventory
     public Inventory_Item(ItemDataSO itemData)
@@ -18,6 +19,7 @@ public class Inventory_Item
         this.itemData = itemData;
 
         modifiers = EquipmentData()?.modifiers;
+        itemEffect = itemData.itemEffect;
 
         itemId = itemData.itemName + " - " + Guid.NewGuid(); // whats guid.newguid()?
 

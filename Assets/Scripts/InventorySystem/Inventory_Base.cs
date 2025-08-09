@@ -15,8 +15,25 @@ public class Inventory_Base : MonoBehaviour
     {
         
     }
+    public void TryUseItem(Inventory_Item itemToUse)
+    {
+        Inventory_Item consumable = itemList.Find(item => item == itemToUse);
+
+        if (consumable == null)
+            return;
+
+        consumable.itemEffect.ExecuteEffect();
+
+        if (consumable.stackSize > 1)
+            consumable.RemoveStack();
+        else
+            RemoveItemFromInventory(consumable);
+
+        OnInventoryChange?.Invoke();
+    }
 
     public bool CanAddItem() => itemList.Count < maxInventorySize;
+    
     public bool CanAddToStack(Inventory_Item itemToAdd)
     {
         List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
