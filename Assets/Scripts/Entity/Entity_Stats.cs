@@ -12,6 +12,11 @@ public class Entity_Stats : MonoBehaviour
     public DefenseStats defenseStats;
     public MajorStats majorStats;
 
+    protected virtual void Awake()
+    {
+    
+    }
+
     public AttackData GetAttackData(DamageScaleData scaleData)
     {
         return new AttackData(this, scaleData);

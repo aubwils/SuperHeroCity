@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Inventory_Player : Inventory_Base
 {
-    private Player_Stats playerStats;
+    private Player_Brain playerBrain;
     public List<Inventory_EquipmentSlot> playerEquipmentList;
 
     protected override void Awake()
     {
         base.Awake();
-        playerStats = GetComponent<Player_Stats>();
+        playerBrain = GetComponent<Player_Brain>();
     }
 
     public void TryEquipItem(Inventory_Item item)
@@ -41,10 +41,15 @@ public class Inventory_Player : Inventory_Base
 
     private void EquipItem(Inventory_Item itemToEquip, Inventory_EquipmentSlot slot)
     {
+        float savedHealthPercent = playerBrain.health.GetHealthPercent();
         slot.equipedItem = itemToEquip;
-        slot.equipedItem.AddModifiers(playerStats);
+        slot.equipedItem.AddModifiers(playerBrain.entityStats);
 
+        playerBrain.health.SetHealthToPercent(savedHealthPercent);
         RemoveItemFromInventory(itemToEquip);
+        Debug.Log($"Max Health after equip: {playerBrain.entityStats.GetMaxHealth()}");
+        Debug.Log($"Current Health after equip: {playerBrain.health.currentHealth}");
+
     }
 
     public void UnEquipItem(Inventory_Item itemToUnEquip)
@@ -55,23 +60,21 @@ public class Inventory_Player : Inventory_Base
             return;
         }
 
+        float savedHealthPercent = playerBrain.health.GetHealthPercent();
         // 1) Find the one slot that has this item
-        var slot = playerEquipmentList.Find(s => s.equipedItem == itemToUnEquip);
+        var slotYoUnEquip = playerEquipmentList.Find(s => s.equipedItem == itemToUnEquip);
 
-        if (slot == null)
-        {
-            Debug.LogWarning("Tried to unequip an item not in any slot!");
-            return;
-        }
-
-
-        // 3) Clear only that slot
-        slot.equipedItem = null;
+        if (slotYoUnEquip != null)
+            slotYoUnEquip.equipedItem = null;
 
         // 2) Remove its stat modifiers
-        itemToUnEquip.RemoveModifiers(playerStats);
+        itemToUnEquip.RemoveModifiers(playerBrain.entityStats);
+
+        playerBrain.health.SetHealthToPercent(savedHealthPercent);
         // 4) Return the item to your bag
         AddItemToInventory(itemToUnEquip);
+             Debug.Log($"Max Health after unequip: {playerBrain.entityStats.GetMaxHealth()}");
+        Debug.Log($"Current Health after unequip: {playerBrain.health.currentHealth}");
     }
 
 }

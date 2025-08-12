@@ -138,6 +138,14 @@ public class Entity_Health : MonoBehaviour, IDamageable
         Debug.Log("Entity has died.");
     }
 
+    public float GetHealthPercent() => currentHealth / entityStats.GetMaxHealth();
+
+    public void SetHealthToPercent(float percent)
+    {
+        currentHealth = entityStats.GetMaxHealth() * Mathf.Clamp01(percent);
+        UpdateHealthBar();
+    }
+
     private void UpdateHealthBar()
     {
         //to implement later when doing on screen UI. Player Will have a healthbar in the UI but not above their head. 
@@ -147,7 +155,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
         // unlock with a skill or item?
         if (healthBar == null)
             return;
-        
+
         healthBar.value = currentHealth / entityStats.GetMaxHealth();
     }
 

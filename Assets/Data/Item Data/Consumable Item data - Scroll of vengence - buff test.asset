@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc22761726c3d47f1bb7d8e94690f24f, type: 3}
+  m_Name: Consumable Item data - Scroll of vengence - buff test
+  m_EditorClassIdentifier: 
+  itemName: scroll of vengence
+  itemIcon: {fileID: 2044500129, guid: cf87c40f4370b4b99afce78c5d501fc1, type: 3}
+  itemType: 4
+  maxStackSize: 1
+  itemEffect: {fileID: 11400000, guid: d6ea096aaf3274028aca2941bbe6a7a3, type: 2}

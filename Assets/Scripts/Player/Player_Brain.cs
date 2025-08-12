@@ -85,9 +85,10 @@ public class Player_Brain : Entity_Brain
     {
         playerInputActions.Player.Enable();
 
-        playerInputActions.Player.Mouse.performed += ctx => mousePosition = ctx.ReadValue<Vector2>();
+        playerInputActions.Player.Mouse.performed += ctx => mousePosition = ctx.ReadValue<Vector2>();  //Dont need a cancel because should always have position of mouse
 
         playerInputActions.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
+        playerInputActions.Player.ToggleInventoryUI.performed += ctx => ui.ToggleInventoryUI();
 
         playerInputActions.Player.SkillOne.performed += ctx => skillManager.deployableBomb.TryUseSkill();
         playerInputActions.Player.SkillTwo.performed += ctx => skillManager.portal.TryUseSkill();
@@ -97,9 +98,10 @@ public class Player_Brain : Entity_Brain
     {
         playerInputActions.Player.Disable();
 
-        //Dont need a cancel because should always have position of
 
         playerInputActions.Player.ToggleSkillTreeUI.performed -= ctx => ui.ToggleSkillTreeUI();
+        playerInputActions.Player.ToggleInventoryUI.performed -= ctx => ui.ToggleInventoryUI();
+
 
         playerInputActions.Player.SkillOne.performed -= ctx => skillManager.deployableBomb.TryUseSkill();
         playerInputActions.Player.SkillTwo.performed -= ctx => skillManager.portal.TryUseSkill();

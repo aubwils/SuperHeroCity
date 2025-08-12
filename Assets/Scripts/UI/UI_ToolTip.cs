@@ -17,9 +17,6 @@ public class UI_ToolTip : MonoBehaviour
             return;
         }
         UpdatePosition(targetRect);
-        Debug.Log($"TargetRect world pos: {targetRect.position}, local pos: {targetRect.localPosition}");
-        Debug.Log($"Tooltip current pos: {rectTransform.position}");
-
     }
     private void UpdatePosition(RectTransform targetRect)
     {

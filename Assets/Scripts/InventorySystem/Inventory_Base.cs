@@ -13,7 +13,7 @@ public class Inventory_Base : MonoBehaviour
 
     protected virtual void Awake()
     {
-        
+
     }
     public void TryUseItem(Inventory_Item itemToUse)
     {
@@ -33,7 +33,7 @@ public class Inventory_Base : MonoBehaviour
     }
 
     public bool CanAddItem() => itemList.Count < maxInventorySize;
-    
+
     public bool CanAddToStack(Inventory_Item itemToAdd)
     {
         List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
@@ -75,7 +75,7 @@ public class Inventory_Base : MonoBehaviour
 
     public void RemoveItemFromInventory(Inventory_Item itemToRemove)
     {
-        itemList.Remove(FindItemInInventory(itemToRemove.itemData));
+        itemList.Remove(itemToRemove);
         OnInventoryChange?.Invoke();
     }
 
@@ -83,4 +83,6 @@ public class Inventory_Base : MonoBehaviour
     {
         return itemList.Find(item => item.itemData == itemData);
     }
+
+    public void TriggerUpdateUI() => OnInventoryChange?.Invoke();
 }

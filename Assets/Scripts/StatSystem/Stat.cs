@@ -35,6 +35,7 @@ public class Stat
     public void RemoveModifier(string source)
     {
         modifiers.RemoveAll(modifier => modifier.source == source);
+        wasModifiedNeedstoBeRecalculated = true;
         // this is similar to a for each loop that checks each modifier
         // we are saying the list of modifiers remove all modifiers where the source matches the source we want to remove
         // using a name to get access to the modifier elemtents can be named anything and then use +> expression to get access to the element and we will get the source of it
@@ -50,7 +51,11 @@ public class Stat
         }
         return finalValue;
     }
-    public void SetBaseValue(float value) => baseValue = value;
+    public void SetBaseValue(float value)
+    {
+        baseValue = value;
+        wasModifiedNeedstoBeRecalculated = true;
+    }
 }
 
 [Serializable]
