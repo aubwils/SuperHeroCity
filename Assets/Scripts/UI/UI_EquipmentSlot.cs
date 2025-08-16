@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class UI_EquipmentSlot : UI_ItemSlot
 {
-    public ItemType slotType;
+    public ItemCategory slotType;
 
     private void OnValidate()
     {

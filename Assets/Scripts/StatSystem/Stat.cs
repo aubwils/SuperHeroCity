@@ -56,6 +56,11 @@ public class Stat
         baseValue = value;
         wasModifiedNeedstoBeRecalculated = true;
     }
+    public void AddToBaseValue(float delta)
+    {
+        baseValue += delta;
+        wasModifiedNeedstoBeRecalculated = true;
+    }
 }
 
 [Serializable]

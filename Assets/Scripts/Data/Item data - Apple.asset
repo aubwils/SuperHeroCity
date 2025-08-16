@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efba3be4e88bd4dceb9a85d93501b090, type: 3}
+  m_Name: Item data - Apple
+  m_EditorClassIdentifier: 
+  itemName: Apple
+  itemIcon: {fileID: -453199861, guid: cf87c40f4370b4b99afce78c5d501fc1, type: 3}
+  itemCategory: 2
+  maxStackSize: 5
+  shortDescription: Yummy Apple
+  isGiftable: 1
+  equipment:
+    allowedSlots: 
+    modifiers: []
+    unlockableSkills: 
+  throwable:
+    projectilePrefab: {fileID: 0}
+    rotationOffset: 0
+    canSpin: 0
+    requiresPickup: 0
+    throwSpeed: 10
+    throwRange: 8
+  consumable:
+    effects:
+    - stat: 24
+      value: 50
+      durationSeconds: 0
+    - stat: 15
+      value: 50
+      durationSeconds: 10

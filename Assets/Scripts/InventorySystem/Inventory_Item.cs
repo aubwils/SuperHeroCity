@@ -6,55 +6,45 @@ using UnityEngine;
 [Serializable]
 public class Inventory_Item
 {
-    private string itemId;
+    private readonly string itemId;
     public ItemDataSO itemData;
-    public int stackSize = 1; // default stack size when creating it is one by default
+    public int stackSize = 1;
 
-    public ItemModifier[] modifiers { get; private set; }
-    public ItemEffect_DataSO itemEffect;
-
-    //need constructor so can create item and add to inventory
     public Inventory_Item(ItemDataSO itemData)
     {
         this.itemData = itemData;
-
-        modifiers = EquipmentData()?.modifiers;
-        itemEffect = itemData.itemEffect;
-
-        itemId = itemData.itemName + " - " + Guid.NewGuid(); // whats guid.newguid()?
-
+        itemId = itemData.itemName + " - " + Guid.NewGuid();
     }
 
-    public void AddModifiers(Entity_Stats playerstats)
+    public void AddModifiers(Entity_Stats stats)
     {
-        foreach (var mod in modifiers)
-        {
-            Stat statToModify = playerstats.GetStatByType(mod.statType);
-            statToModify.AddModifier(mod.value, itemId); 
-        }
+        var eq = itemData.equipment;
+        if (eq?.modifiers == null) return;
+
+        foreach (var mod in eq.modifiers)
+            stats.GetStatByType(mod.statType).AddModifier(mod.value, itemId);
     }
 
-    public void RemoveModifiers(Entity_Stats playerstats)
+    public void RemoveModifiers(Entity_Stats stats)
     {
-        foreach (var mod in modifiers)
-        {
-            Stat statToModify = playerstats.GetStatByType(mod.statType);
-            statToModify.RemoveModifier(itemId); 
+        var eq = itemData.equipment;
+        if (eq?.modifiers == null) return;
 
-        }
-    }
-
-    private EquipmentDataSO EquipmentData()
-    {
-        if (itemData is EquipmentDataSO equipment)
-            return equipment;
-
-        return null;
+        foreach (var mod in eq.modifiers)
+            stats.GetStatByType(mod.statType).RemoveModifier(itemId);
     }
 
     public bool CanAddStack() => stackSize < itemData.maxStackSize;
-
     public void AddStack() => stackSize++;
-
     public void RemoveStack() => stackSize--;
+
+    // Helper for consumables (used by Inventory_Base)
+    public bool HasConsumableEffects() =>
+        itemData != null &&
+        itemData.itemCategory == ItemCategory.Consumable &&
+        itemData.consumable != null &&
+        itemData.consumable.effects != null &&
+        itemData.consumable.effects.Count > 0;
+
+    public string InstanceId => itemId; // expose for effect sources if you like
 }

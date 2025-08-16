@@ -17,30 +17,58 @@ public class UI_ItemToolTip : UI_ToolTip
         base.ShowToolTip(show, targetRect);
 
         itemName.text = itemToShow.itemData.itemName;
-        itemType.text = itemToShow.itemData.itemType.ToString();
+        itemType.text = itemToShow.itemData.itemCategory.ToString();
         itemInfo.text = GetItemInfo(itemToShow);
     }
 
     public string GetItemInfo(Inventory_Item item)
     {
-        if (item.itemData.itemType == ItemType.Material)
-            return "Use for craafting.";
+        var data = item.itemData;
+        var sb = new System.Text.StringBuilder();
 
-        if (item.itemData.itemType == ItemType.Consumable)
-            return item.itemData.itemEffect.effectDescription;
+        if (!string.IsNullOrEmpty(data.shortDescription))
+            sb.AppendLine(data.shortDescription);
 
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.AppendLine("");
-
-        foreach (var modifier in item.modifiers)
+        // Equipment modifiers
+        var eq = data.equipment;
+        if (eq?.modifiers != null && eq.modifiers.Length > 0)
         {
-            string modifierType = GetStatNameByType(modifier.statType);
-            string modifierValue = IsPercentageStat(modifier.statType) ? modifier.value.ToString() + "%" : modifier.value.ToString();
-            stringBuilder.AppendLine("+ " + modifierValue + " " + modifierType);
+            sb.AppendLine();
+            foreach (var m in eq.modifiers)
+            {
+                string name = GetStatNameByType(m.statType);
+                string val  = IsPercentageStat(m.statType) ? $"{m.value}%" : m.value.ToString();
+                sb.AppendLine($"+ {val} {name}");
+            }
         }
 
-        return stringBuilder.ToString();
+        // Consumable effects
+        var con = data.consumable;
+        if (con?.effects != null && con.effects.Count > 0)
+        {
+            sb.AppendLine();
+            foreach (var e in con.effects)
+            {
+                string name = GetStatNameByType(e.stat);
+                string val  = IsPercentageStat(e.stat) ? $"{e.value}%" : e.value.ToString();
+                if (e.durationSeconds > 0)
+                    sb.AppendLine($"+ {val} {name} for {e.durationSeconds:0.#}s");
+                else
+                    sb.AppendLine($"+ {val} {name} (permanent)");
+            }
+        }
+
+        // Throwable (summary)
+        var th = data.throwable;
+        if (th != null)
+        {
+            sb.AppendLine();
+            sb.Append($"Throwable: range {th.throwRange}, speed {th.throwSpeed}");
+            if (th.canSpin) sb.Append(", spins");
+            if (th.requiresPickup) sb.Append(", requires pickup");
+        }
+
+        return sb.ToString();
     }
 
     // THESE TWO FUNCTIONS ARE DUPLICATED IN UI_STAT SLOT... maybe make a class they can inherit from or pull from ??

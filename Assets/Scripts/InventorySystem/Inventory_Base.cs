@@ -17,43 +17,89 @@ public class Inventory_Base : MonoBehaviour
     }
     public void TryUseItem(Inventory_Item itemToUse)
     {
-        Inventory_Item consumable = itemList.Find(item => item == itemToUse);
+       // Only consumables are "used"
+    if (itemToUse == null || !itemToUse.HasConsumableEffects())
+        return;
 
-        if (consumable == null)
-            return;
+    var stats = GetComponentInParent<Entity_Stats>();
+    if (stats == null)
+    {
+        Debug.LogWarning("No Entity_Stats found for consumable use.");
+        return;
+    }
 
-        consumable.itemEffect.ExecuteEffect();
+    // Apply all effects (run timed ones as coroutines)
+    foreach (var effect in itemToUse.itemData.consumable.effects)
+        StartCoroutine(ApplyConsumableEffect(stats, itemToUse, effect));
 
-        if (consumable.stackSize > 1)
-            consumable.RemoveStack();
-        else
-            RemoveItemFromInventory(consumable);
+    // Decrement stack immediately
+    if (itemToUse.stackSize > 1) itemToUse.RemoveStack();
+    else RemoveItemFromInventory(itemToUse);
 
-        OnInventoryChange?.Invoke();
+    OnInventoryChange?.Invoke();
+    }
+
+    private System.Collections.IEnumerator ApplyConsumableEffect(Entity_Stats stats, Inventory_Item item, StatEffect e)
+    {
+        var s = stats.GetStatByType(e.stat);
+
+        if (e.durationSeconds <= 0f)
+        {
+            // Permanent: bump base value
+            s.AddToBaseValue(e.value);
+            yield break;
+        }
+
+        // Temporary: add/remove modifier by unique source
+        string source = item.InstanceId + "_consumable_" + Guid.NewGuid().ToString("N");
+        s.AddModifier(e.value, source);
+        yield return new WaitForSeconds(e.durationSeconds);
+        s.RemoveModifier(source);
     }
 
     public bool CanAddItem() => itemList.Count < maxInventorySize;
 
+    // public bool CanAddToStack(Inventory_Item itemToAdd)
+    // {
+    //     List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
+    //     foreach (var stack in stackableItems)
+    //     {
+    //         if (stack.CanAddStack())
+    //             return true;
+    //     }
+
+    //     return false;
+    // }
+
+    // public Inventory_Item StackableItem(Inventory_Item itemToAdd)
+    // {
+    //     List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
+
+    //     foreach (var stackableItem in stackableItems)
+    //     {
+    //         if (stackableItem.CanAddStack())
+    //             return stackableItem;
+    //     }
+    //     return null;
+    // }
     public bool CanAddToStack(Inventory_Item itemToAdd)
     {
-        List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
-        foreach (var stack in stackableItems)
+        var data = itemToAdd.itemData;
+        for (int i = 0; i < itemList.Count; i++)
         {
-            if (stack.CanAddStack())
-                return true;
+            var it = itemList[i];
+            if (it.itemData == data && it.CanAddStack()) return true;
         }
-
         return false;
     }
 
     public Inventory_Item StackableItem(Inventory_Item itemToAdd)
     {
-        List<Inventory_Item> stackableItems = itemList.FindAll(item => item.itemData == itemToAdd.itemData);
-
-        foreach (var stackableItem in stackableItems)
+        var data = itemToAdd.itemData;
+        for (int i = 0; i < itemList.Count; i++)
         {
-            if (stackableItem.CanAddStack())
-                return stackableItem;
+            var it = itemList[i];
+            if (it.itemData == data && it.CanAddStack()) return it;
         }
         return null;
     }

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efba3be4e88bd4dceb9a85d93501b090, type: 3}
+  m_Name: Item data - TEST ITEM Sword
+  m_EditorClassIdentifier: 
+  itemName: test item sword
+  itemIcon: {fileID: 1044898145, guid: cf87c40f4370b4b99afce78c5d501fc1, type: 3}
+  itemCategory: 1
+  maxStackSize: 1
+  shortDescription: 'Test item sword
+
+'
+  isGiftable: 1
+  equipment:
+    allowedSlots: 00000000
+    modifiers:
+    - statType: 18
+      value: 50
+    unlockableSkills: 
+  throwable:
+    projectilePrefab: {fileID: 438688655569964914, guid: 4f6f59ca461d24f8eaced8d0357bf2b9, type: 3}
+    rotationOffset: 45
+    canSpin: 1
+    requiresPickup: 0
+    throwSpeed: 10
+    throwRange: 8
+  consumable:
+    effects: []
