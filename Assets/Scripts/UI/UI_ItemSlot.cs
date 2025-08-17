@@ -26,26 +26,22 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        if (itemInSlot == null) return;
-
-        var data = itemInSlot.itemData;
-        switch (data.itemCategory)
+        if (itemInSlot == null || itemInSlot.itemData.itemType == ItemType.Material)
+            return;
+        if (itemInSlot.itemData.itemType == ItemType.Consumable)
         {
-            case ItemCategory.Consumable:
-                playerInventory.TryUseItem(itemInSlot);
-                break;
-
-            case ItemCategory.Equipment:
-                playerInventory.TryEquipItem(itemInSlot);
-                break;
-
-            default:
-                // Material/Treasure/Junk/Furniture etc. can open other flows later
-                break;
+            if (itemInSlot.itemEffect.CanBeUsed() == false)
+                return;
+                
+            playerInventory.TryUseItem(itemInSlot);
         }
+        else
+            playerInventory.TryEquipItem(itemInSlot);
 
         if (itemInSlot == null)
             ui.itemToolTip.ShowToolTip(false, null);
+            //Still need to fix if you equip somehtign an dinventory changes and your mouse is on another item it still shows old tool tip.
+
     }
 
     public void UpdateSlot(Inventory_Item item)

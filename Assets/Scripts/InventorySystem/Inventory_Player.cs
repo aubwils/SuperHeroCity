@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,27 +14,29 @@ public class Inventory_Player : Inventory_Base
     }
 
     public void TryEquipItem(Inventory_Item item)
-    {   var eq = item.itemData.equipment;
-        if (eq == null) return;
+    {
+        var inventoryItem = FindItemInInventory(item.itemData);
+        var matchingSlots = playerEquipmentList.FindAll(slot => slot.slotType == item.itemData.itemType);
 
-        var matchingSlots = playerEquipmentList.FindAll(s =>
-            Array.Exists(eq.allowedSlots, allowed => allowed == s.slotType));
-
+        //step 1 try to find empty slot and equip
         foreach (var slot in matchingSlots)
         {
-            if (!slot.HasItem())
+            if (slot.HasItem() == false)
             {
-                EquipItem(item, slot);
+                EquipItem(inventoryItem, slot);
                 return;
             }
         }
 
-        // Controller-friendly fallback: replace first matching
+        // step 2 no empty slots? replace first one 
+        // I DO NOT WANT THIS... Want to have to do a drag and drop thing.
+        //BUT may need to have it this way for console versions of game.. maybe I have this  Plus the drag and swap option? but if i have two ring slots and i want to change the 2nd one not the first one withthe new ring would this do that?
+        //Is there a better way to solve this for console systems in the future?
         var slotToReplace = matchingSlots[0];
         var itemToUnEquip = slotToReplace.equipedItem;
 
-        UnEquipItem(itemToUnEquip, replacingItem: true);
-        EquipItem(item, slotToReplace);
+        UnEquipItem(itemToUnEquip, slotToReplace != null);
+        EquipItem(inventoryItem, slotToReplace);
     }
 
     private void EquipItem(Inventory_Item itemToEquip, Inventory_EquipmentSlot slot)
