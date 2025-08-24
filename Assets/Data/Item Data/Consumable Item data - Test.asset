@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efba3be4e88bd4dceb9a85d93501b090, type: 3}
-  m_Name: Item data - Leather
+  m_Script: {fileID: 11500000, guid: fc22761726c3d47f1bb7d8e94690f24f, type: 3}
+  m_Name: Consumable Item data - Test
   m_EditorClassIdentifier: 
-  itemName: Animal Leather
-  itemIcon: {fileID: -1218830125, guid: 649757c49eb53402e83b108a87a04cd5, type: 3}
+  itemName: 
+  itemIcon: {fileID: 0}
   itemType: 0
-  maxStackSize: 2
+  maxStackSize: 1
   itemEffect: {fileID: 0}
